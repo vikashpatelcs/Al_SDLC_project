@@ -24,7 +24,7 @@ check:
 	@echo "Checkpoint: Phase 0 guardrails verified. System is ready."
 
 test:
-	@python -c "print('No tests registered yet for Phase 0.')"
+	@python -m pytest backend/tests/ -v
 
 lint:
 	@python -c "print('Linting check passed.')"

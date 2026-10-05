@@ -1,0 +1,370 @@
+openapi: 3.1.0
+info:
+  title: FinReq AI — Requirement Engineering & SDLC API
+  version: 1.0.0
+  description: Multi-agent financial requirements elicitation, analysis, compliance mapping, and SDLC engine.
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Local Development Server
+
+paths:
+  /chats:
+    get:
+      summary: List user chats
+      operationId: listChats
+      responses:
+        '200':
+          description: List of active chat sessions for the current anonymous session token.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChatSummary'
+    post:
+      summary: Create new chat session
+      operationId: createChat
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  default: "New Financial Project"
+      responses:
+        '201':
+          description: Chat session created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatSession'
+
+  /chats/{chat_id}:
+    parameters:
+      - name: chat_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: Get chat details
+      operationId: getChat
+      responses:
+        '200':
+          description: Chat details and state machine position.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatSession'
+    patch:
+      summary: Update chat metadata
+      operationId: updateChat
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+      responses:
+        '200':
+          description: Updated chat.
+    delete:
+      summary: Soft-delete chat
+      operationId: deleteChat
+      responses:
+        '204':
+          description: Chat deleted.
+
+  /chats/{chat_id}/messages:
+    parameters:
+      - name: chat_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: Get chat message history
+      operationId: getMessages
+      responses:
+        '200':
+          description: Ordered list of messages with rendered action cards.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AgentMessage'
+    post:
+      summary: Send message to orchestrator
+      operationId: sendMessage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                  type: string
+                acting_role:
+                  type: string
+                  default: "Product Owner"
+      responses:
+        '200':
+          description: Server-Sent Events (SSE) stream of assistant tokens and state transitions.
+          content:
+            text/event-stream:
+              schema:
+                type: string
+
+  /chats/{chat_id}/approvals:
+    parameters:
+      - name: chat_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: List pending approval gates
+      operationId: listApprovals
+      responses:
+        '200':
+          description: Current approval gate if blocked.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApprovalRequest'
+    post:
+      summary: Submit decision for approval gate
+      operationId: submitApproval
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApprovalDecision'
+      responses:
+        '200':
+          description: Gate decision recorded, state graph resumes.
+
+  /chats/{chat_id}/requirements:
+    parameters:
+      - name: chat_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: List project requirements
+      operationId: listRequirements
+      responses:
+        '200':
+          description: Current requirement baseline.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Requirement'
+
+  /chats/{chat_id}/sdlc:
+    parameters:
+      - name: chat_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: Get SDLC recommendation and factor breakdown
+      operationId: getSDLCRecommendation
+      responses:
+        '200':
+          description: Ranked models and scoring factors.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SDLCRecommendation'
+
+  /chats/{chat_id}/documents/export:
+    parameters:
+      - name: chat_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: Download IEEE 29148 SRS PDF
+      operationId: exportSRSPDF
+      responses:
+        '200':
+          description: Binary PDF document.
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+
+components:
+  schemas:
+    ChatSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        state:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+    ChatSession:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        state:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    AgentMessage:
+      type: object
+      properties:
+        id:
+          type: string
+        chat_id:
+          type: string
+        role:
+          type: string
+          enum: [user, assistant, system]
+        sender_agent:
+          type: string
+        content:
+          type: string
+        action_cards:
+          type: array
+          items:
+            type: object
+        created_at:
+          type: string
+          format: date-time
+
+    Requirement:
+      type: object
+      required:
+        - id
+        - statement
+        - category
+        - priority
+        - version
+        - status
+      properties:
+        id:
+          type: string
+        statement:
+          type: string
+        category:
+          type: string
+        priority:
+          type: string
+          enum: [High, Medium, Low]
+        version:
+          type: integer
+        status:
+          type: string
+        source_statement_id:
+          type: string
+        evidence_ids:
+          type: array
+          items:
+            type: string
+        acceptance_criteria:
+          type: array
+          items:
+            type: string
+        kb_version:
+          type: string
+        model_version:
+          type: string
+
+    ApprovalRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        chat_id:
+          type: string
+        gate_type:
+          type: string
+        subject_id:
+          type: string
+        description:
+          type: string
+        acting_role_required:
+          type: string
+
+    ApprovalDecision:
+      type: object
+      required:
+        - approval_id
+        - action
+        - acting_role
+      properties:
+        approval_id:
+          type: string
+        action:
+          type: string
+          enum: [accept, reject, edit, regenerate, explain]
+        acting_role:
+          type: string
+        comment:
+          type: string
+        modified_content:
+          type: string
+
+    SDLCRecommendation:
+      type: object
+      properties:
+        selected_model:
+          type: string
+        rankings:
+          type: array
+          items:
+            type: object
+            properties:
+              model:
+                type: string
+              score_percent:
+                type: number
+              rank:
+                type: integer
+        factor_scores:
+          type: object
+        explanation:
+          type: string
