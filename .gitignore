@@ -1,0 +1,53 @@
+# Environments and Secrets
+.env
+.env.local
+venv/
+.venv/
+env/
+
+# Python cache & artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Node & Frontend
+node_modules/
+dist/
+.vite/
+
+# Databases and Local Storage
+*.db
+*.sqlite
+*.sqlite3
+storage/uploads/*
+!storage/uploads/.gitkeep
+storage/generated/*
+!storage/generated/.gitkeep
+
+# Knowledge Base raw files and Chroma index
+kb/raw/*
+!kb/raw/.gitkeep
+kb/processed/*
+!kb/processed/.gitkeep
+
+# Models, Weights and Large Binary Files
+*.gguf
+*.bin
+*.pt
+*.safetensors
+models/
+ml/models/*
+!ml/models/.gitkeep
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
