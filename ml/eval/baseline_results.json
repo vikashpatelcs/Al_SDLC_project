@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-10-05T19:30:53Z",
+  "model_version": "qwen2.5:3b",
+  "cases_evaluated": 3,
+  "case_results": [
+    {
+      "case_id": "GOLD-CASE-001",
+      "domain": "Customer Onboarding & KYC",
+      "gold_requirements_count": 5,
+      "extracted_requirements_count": 2,
+      "json_valid": true,
+      "latency_ms": 36037.78,
+      "tokens_masked": 0,
+      "status": "PASS",
+      "error": null
+    },
+    {
+      "case_id": "GOLD-CASE-002",
+      "domain": "Loan Origination & Credit Assessment",
+      "gold_requirements_count": 4,
+      "extracted_requirements_count": 4,
+      "json_valid": true,
+      "latency_ms": 60458.8,
+      "tokens_masked": 0,
+      "status": "PASS",
+      "error": "Ollama local inference failed at http://127.0.0.1:11434/v1/chat/completions: timed out"
+    },
+    {
+      "case_id": "GOLD-CASE-003",
+      "domain": "Payment Systems & Transaction Limits",
+      "gold_requirements_count": 4,
+      "extracted_requirements_count": 4,
+      "json_valid": true,
+      "latency_ms": 60768.43,
+      "tokens_masked": 0,
+      "status": "PASS",
+      "error": "Ollama local inference failed at http://127.0.0.1:11434/v1/chat/completions: timed out"
+    }
+  ],
+  "overall_metrics": {
+    "json_validity_rate": 1.0,
+    "average_latency_ms": 52421.67,
+    "total_gold_requirements": 13
+  }
+}

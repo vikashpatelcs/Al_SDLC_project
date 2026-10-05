@@ -1,0 +1,50 @@
+{
+  "case_id": "GOLD-CASE-001",
+  "domain": "Customer Onboarding & KYC",
+  "title": "Digital Customer Onboarding with Video KYC and Aadhaar Verification",
+  "narrative": "A digital-first bank requires a frictionless onboarding process for savings accounts. Customers initiate onboarding via a mobile application. The system must verify their identity using UIDAI Aadhaar offline XML verification with OTP consent and cross-reference their PAN with the Income Tax NSDL database. In cases where biometrics fail or high-risk thresholds apply, an agent-assisted Video-based Customer Identification Process (V-CIP) must be conducted. The entire onboarding record including audio-visual recordings, photo geotags, and KYC documents must be securely stored for a minimum statutory period of 5 years in compliance with PMLA 2002 and RBI KYC Master Direction Section 24.",
+  "seeded_defects": [
+    {
+      "type": "ambiguity",
+      "text": "verify identity quickly",
+      "expected_flag": "non_measurable"
+    },
+    {
+      "type": "conflict",
+      "text": "Store video recording on cloud without encryption vs enforce local HSM encryption",
+      "expected_flag": "conflict"
+    }
+  ],
+  "gold_requirements": [
+    {
+      "id": "FR-ONB-001",
+      "category": "Compliance",
+      "statement": "The system shall verify customer identity using UIDAI Aadhaar offline XML verification with explicit OTP consent.",
+      "priority": "High"
+    },
+    {
+      "id": "FR-ONB-002",
+      "category": "Compliance",
+      "statement": "The system shall validate customer PAN validity against the NSDL database prior to account activation.",
+      "priority": "High"
+    },
+    {
+      "id": "SR-ONB-001",
+      "category": "Security",
+      "statement": "The system shall encrypt all customer KYC documents and biometric tokens at rest using AES-256 field-level encryption.",
+      "priority": "High"
+    },
+    {
+      "id": "NFR-PERF-001",
+      "category": "Performance",
+      "statement": "The system shall complete UIDAI XML identity verification within 3 seconds under 95th percentile load.",
+      "priority": "Medium"
+    },
+    {
+      "id": "NFR-DATA-001",
+      "category": "Data",
+      "statement": "The system shall retain all customer identification records and V-CIP recordings for at least five years from date of account closure in accordance with PMLA 2002.",
+      "priority": "High"
+    }
+  ]
+}

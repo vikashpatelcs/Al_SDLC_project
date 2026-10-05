@@ -1,0 +1,39 @@
+{
+  "case_id": "GOLD-CASE-003",
+  "domain": "Payment Systems & Transaction Limits",
+  "title": "Unified Payments Interface (UPI) P2P and P2M Payment Processing Engine",
+  "narrative": "A fintech app is building a UPI payment module for peer-to-peer and merchant payments. Users link bank accounts using mobile device binding and NPCI common library for UPI PIN entry. Standard transactions are capped at Rs 100,000 per 24-hour cycle per NPCI guidelines, with capital market and IPO limits set to Rs 500,000. Real-time fraud monitoring must evaluate transaction velocity, geolocation anomalies, and known mule accounts, requiring step-up authentication or temporary hold when anomalies exceed risk thresholds. All transactions must produce immutable cryptographic audit logs with unique transaction reference (UTR) numbers.",
+  "seeded_defects": [
+    {
+      "type": "ambiguity",
+      "text": "detect fraud ultra fast",
+      "expected_flag": "non_measurable"
+    }
+  ],
+  "gold_requirements": [
+    {
+      "id": "FR-UPI-001",
+      "category": "Functional",
+      "statement": "The system shall enforce cryptographic SIM device binding before allowing UPI account linkage.",
+      "priority": "High"
+    },
+    {
+      "id": "FR-UPI-002",
+      "category": "Compliance",
+      "statement": "The system shall enforce a cumulative transaction limit of Rs 100,000 per user across any rolling 24-hour window per NPCI mandates.",
+      "priority": "High"
+    },
+    {
+      "id": "SR-FRAUD-001",
+      "category": "Security",
+      "statement": "The system shall compute real-time risk scores on all transactions and trigger step-up multi-factor authentication if anomaly score exceeds 75.",
+      "priority": "High"
+    },
+    {
+      "id": "NFR-AUDIT-001",
+      "category": "Auditability",
+      "statement": "The system shall record an append-only SHA-256 hash-chained audit log containing UTR and timestamp for every payment attempt.",
+      "priority": "High"
+    }
+  ]
+}

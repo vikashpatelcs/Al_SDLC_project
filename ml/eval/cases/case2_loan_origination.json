@@ -1,0 +1,39 @@
+{
+  "case_id": "GOLD-CASE-002",
+  "domain": "Loan Origination & Credit Assessment",
+  "title": "Automated Retail Personal Loan Origination System",
+  "narrative": "A non-banking financial company (NBFC) seeks an automated personal loan processing platform. Retail applicants input desired loan amounts up to Rs 500,000 and select repayment tenures between 6 and 36 months. The system connects to CIBIL / Experian credit bureaus to pull credit history. Applications with credit scores above 750 and debt-to-income ratio below 40% are automatically approved. Loans above Rs 200,000 or with scores between 650 and 749 require manual underwriting sign-off by a credit officer. Sanction letters must be generated with transparent Key Fact Statements (KFS) detailing Annual Percentage Rate (APR) in compliance with RBI Digital Lending Directions 2022.",
+  "seeded_defects": [
+    {
+      "type": "ambiguity",
+      "text": "process credit score seamlessly",
+      "expected_flag": "non_measurable"
+    }
+  ],
+  "gold_requirements": [
+    {
+      "id": "FR-LOAN-001",
+      "category": "Functional",
+      "statement": "The system shall automatically fetch credit bureau reports from CIBIL and Experian upon applicant loan submission.",
+      "priority": "High"
+    },
+    {
+      "id": "FR-LOAN-002",
+      "category": "Functional",
+      "statement": "The system shall automatically approve loan applications when the applicant credit score exceeds 750 and debt-to-income ratio is under 40%.",
+      "priority": "High"
+    },
+    {
+      "id": "FR-LOAN-003",
+      "category": "Functional",
+      "statement": "The system shall route loan applications exceeding Rs 200,000 to a credit officer for manual underwriting review.",
+      "priority": "High"
+    },
+    {
+      "id": "FR-COMP-001",
+      "category": "Compliance",
+      "statement": "The system shall generate a Key Fact Statement (KFS) stating all-inclusive APR prior to loan agreement execution per RBI Digital Lending Guidelines.",
+      "priority": "High"
+    }
+  ]
+}
