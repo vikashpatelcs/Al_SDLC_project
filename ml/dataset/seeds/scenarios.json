@@ -1,0 +1,1942 @@
+[
+  {
+    "scenario_id": "SCN-ONB-01",
+    "subdomain": "onboarding_kyc",
+    "is_held_out": false,
+    "title": "Instant Mobile Savings Account Onboarding with Aadhaar XML",
+    "narrative": "A neo-bank requires a paperless customer onboarding journey for millennial savings accounts. Applicants input basic details on mobile and perform UIDAI Aadhaar offline XML verification with OTP consent. PAN is verified against the NSDL database. In case of verification mismatch, an automated fallback route queues the application for manual branch review.",
+    "target_users": [
+      "Retail Customer",
+      "KYC Operations Officer",
+      "Branch Manager"
+    ],
+    "key_entities": [
+      "Aadhaar XML",
+      "PAN",
+      "OTP",
+      "Savings Account"
+    ],
+    "regulatory_context": "RBI KYC Master Direction Section 16, PMLA 2002",
+    "sample_requirements": [
+      {
+        "id": "FR-ONB-001",
+        "category": "Compliance",
+        "statement": "The system shall verify customer Aadhaar identity via UIDAI offline XML verification.",
+        "priority": "High"
+      },
+      {
+        "id": "FR-ONB-002",
+        "category": "Compliance",
+        "statement": "The system shall validate customer PAN status with NSDL database prior to account creation.",
+        "priority": "High"
+      },
+      {
+        "id": "SR-ONB-001",
+        "category": "Security",
+        "statement": "The system shall encrypt customer biometric tokens and Aadhaar reference keys using AES-256 at rest.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "verify customer identity quickly",
+        "improved": "complete UIDAI XML identity verification within 3 seconds under 95th percentile load"
+      },
+      {
+        "vague": "ensure high security for customer data",
+        "improved": "enforce AES-256 field-level encryption and TLS 1.3 in transit for all PII"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "The system shall complete all account openings entirely through automated straight-through processing without human review.",
+      "statement_b": "The system shall require branch manager manual approval for all new account originations."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 4,
+      "security_exposure": 5,
+      "recommended_model": "Agile + V-Model Hybrid"
+    }
+  },
+  {
+    "scenario_id": "SCN-ONB-02",
+    "subdomain": "onboarding_kyc",
+    "is_held_out": false,
+    "title": "Video-based Customer Identification Process (V-CIP) for Non-Resident Indians",
+    "narrative": "A commercial bank requires an overseas NRI account opening platform utilizing agent-assisted Video KYC (V-CIP). The platform captures live geotagged video, detects facial liveliness, cross-references passport and overseas address proof, and records audio interactions for audit.",
+    "target_users": [
+      "NRI Applicant",
+      "V-CIP Agent",
+      "Compliance Officer"
+    ],
+    "key_entities": [
+      "Passport",
+      "V-CIP Video Recording",
+      "Geolocation Tag",
+      "Facial Liveliness Score"
+    ],
+    "regulatory_context": "RBI Master Direction on V-CIP Procedure",
+    "sample_requirements": [
+      {
+        "id": "FR-VCIP-001",
+        "category": "Compliance",
+        "statement": "The system shall capture high-resolution audio-visual recordings with tamper-evident timestamping.",
+        "priority": "High"
+      },
+      {
+        "id": "NFR-DATA-001",
+        "category": "Data",
+        "statement": "The system shall archive V-CIP recordings for at least 5 years post account closure.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "stream video smoothly without lag",
+        "improved": "maintain video stream latency below 300 milliseconds at 720p 30fps"
+      },
+      {
+        "vague": "store recordings securely",
+        "improved": "store video recordings in WORM (Write Once Read Many) compliant encrypted cloud storage"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow offline unattended customer video selfie submissions without live officer participation.",
+      "statement_b": "Enforce concurrent live presence of designated banking official during V-CIP recording per RBI mandate."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 4,
+      "security_exposure": 5,
+      "recommended_model": "V-Model"
+    }
+  },
+  {
+    "scenario_id": "SCN-ONB-03",
+    "subdomain": "onboarding_kyc",
+    "is_held_out": false,
+    "title": "Central KYC Registry (CKYC) Auto-Search and Fetch Engine",
+    "narrative": "A wealth management portal integrates with CERSAI CKYC registry. When a client enters their PAN or Date of Birth, the system queries the CKYCR database using SFTP/API to retrieve existing CKYC records, downloading verified identity and address documents to eliminate repetitive KYC.",
+    "target_users": [
+      "Retail Investor",
+      "Backoffice Ops",
+      "CERSAI Nodal Officer"
+    ],
+    "key_entities": [
+      "CKYC Identifier",
+      "CERSAI API",
+      "Verified KYC Documents"
+    ],
+    "regulatory_context": "PMLA (Maintenance of Records) Rules 2005",
+    "sample_requirements": [
+      {
+        "id": "FR-CKYC-001",
+        "category": "Interface",
+        "statement": "The system shall query CERSAI CKYCR API using encrypted digital signature certificates.",
+        "priority": "High"
+      },
+      {
+        "id": "FR-CKYC-002",
+        "category": "Functional",
+        "statement": "The system shall auto-populate onboarding forms from verified CKYC records when status is active.",
+        "priority": "Medium"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "fetch CKYC records in a timely manner",
+        "improved": "fetch and decode CKYC records from CERSAI within 4 seconds of request submission"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Always overwrite customer-entered contact details with stale CKYC records.",
+      "statement_b": "Prioritize customer updated address and trigger CKYC update notification to registry."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 4,
+      "requirement_stability": 4,
+      "security_exposure": 4,
+      "recommended_model": "DevSecOps"
+    }
+  },
+  {
+    "scenario_id": "SCN-LOAN-01",
+    "subdomain": "retail_loans",
+    "is_held_out": false,
+    "title": "End-to-End Instant Unsecured Personal Loan Origination",
+    "narrative": "A digital consumer lender provides automated personal loans up to Rs 500,000. Applicants submit salary bank statements via Account Aggregator. The underwriting engine computes debt-to-income ratio and credit score to execute instant loan sanction letters with Key Fact Statements.",
+    "target_users": [
+      "Borrower",
+      "Credit Risk Underwriter",
+      "Collections Manager"
+    ],
+    "key_entities": [
+      "Account Aggregator Consent",
+      "Credit Score",
+      "Key Fact Statement (KFS)",
+      "Sanction Letter"
+    ],
+    "regulatory_context": "RBI Digital Lending Directions 2022",
+    "sample_requirements": [
+      {
+        "id": "FR-LOAN-001",
+        "category": "Functional",
+        "statement": "The system shall calculate debt-to-income ratio from financial data retrieved via Account Aggregator.",
+        "priority": "High"
+      },
+      {
+        "id": "FR-COMP-001",
+        "category": "Compliance",
+        "statement": "The system shall provide Key Fact Statement (KFS) stating all-inclusive APR prior to loan execution.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "approve loans with minimal delay",
+        "improved": "render automated underwriting decision within 60 seconds of statement fetch"
+      },
+      {
+        "vague": "support reasonable loan amounts",
+        "improved": "permit loan amounts ranging from Rs 25,000 to Rs 500,000 in multiples of Rs 5,000"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Disburse sanctioned loan funds directly into third-party payment wallets.",
+      "statement_b": "Disburse loan proceeds exclusively into borrower verified primary bank account per digital lending regulations."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 4,
+      "security_exposure": 4,
+      "recommended_model": "Agile + V-Model Hybrid"
+    }
+  },
+  {
+    "scenario_id": "SCN-LOAN-02",
+    "subdomain": "retail_loans",
+    "is_held_out": false,
+    "title": "Two-Wheeler & Auto Loan Financing Portal",
+    "narrative": "An auto financing platform connects automotive dealerships with commercial lenders. Dealership executives capture customer Aadhaar, income documents, and vehicle hypothecation details to secure on-the-spot financing approvals for vehicle delivery.",
+    "target_users": [
+      "Auto Dealer Executive",
+      "Retail Buyer",
+      "Lender Credit Analyst"
+    ],
+    "key_entities": [
+      "Vehicle Chassis Number",
+      "Hypothecation Deed",
+      "Down Payment",
+      "Loan Sanction"
+    ],
+    "regulatory_context": "Motor Vehicles Act Hypothecation Provisions, RBI Guidelines on NBFC Auto Loans",
+    "sample_requirements": [
+      {
+        "id": "FR-AUTO-001",
+        "category": "Functional",
+        "statement": "The system shall verify vehicle chassis number with VAHAN database prior to loan disbursement.",
+        "priority": "High"
+      },
+      {
+        "id": "FR-AUTO-002",
+        "category": "Interface",
+        "statement": "The system shall execute e-Sign on hypothecation agreement via Aadhaar e-Sign gateway.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "fast loan turnaround at dealership",
+        "improved": "provide in-principle auto-loan sanction within 5 minutes of document upload"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow delivery of vehicle before hypothecation endorsement is verified on VAHAN.",
+      "statement_b": "Prohibit disbursement and delivery until hypothecation endorsement confirmation is received from regional transport authority."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 4,
+      "requirement_stability": 3,
+      "security_exposure": 3,
+      "recommended_model": "Agile"
+    }
+  },
+  {
+    "scenario_id": "SCN-LOAN-03",
+    "subdomain": "retail_loans",
+    "is_held_out": false,
+    "title": "Home Loan Balance Transfer and Top-Up Portal",
+    "narrative": "A housing finance company offers existing home loan borrowers balance transfers with lower interest rates and top-up equity loans. The system ingests property title deeds, valuation reports, and existing loan foreclosure letters to recalculate Loan-to-Value (LTV) ratios.",
+    "target_users": [
+      "Homeowner Applicant",
+      "Technical Valuation Engineer",
+      "Legal Underwriter"
+    ],
+    "key_entities": [
+      "Property Valuation",
+      "Title Deed",
+      "Foreclosure Letter",
+      "LTV Ratio"
+    ],
+    "regulatory_context": "National Housing Bank (NHB) Directions, RBI Guidelines on Housing Loans",
+    "sample_requirements": [
+      {
+        "id": "FR-HOME-001",
+        "category": "Functional",
+        "statement": "The system shall compute Loan-to-Value ratio and enforce maximum 75% cap on loans exceeding Rs 75 lakhs.",
+        "priority": "High"
+      },
+      {
+        "id": "FR-HOME-002",
+        "category": "Compliance",
+        "statement": "The system shall mandate dual technical valuation reports for commercial and residential properties above Rs 1 crore.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "perform accurate property appraisal",
+        "improved": "validate property appraisal against independent municipal rate databases within 2 business days"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow top-up loan disbursement before original title deeds are transferred from previous lender.",
+      "statement_b": "Enforce complete deposit of title deeds in company safe custody prior to releasing balance transfer check."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 5,
+      "security_exposure": 4,
+      "recommended_model": "V-Model"
+    }
+  },
+  {
+    "scenario_id": "SCN-SME-01",
+    "subdomain": "sme_lending",
+    "is_held_out": false,
+    "title": "GST & Invoice-Based MSME Working Capital Financing",
+    "narrative": "A fintech platform extends working capital credit lines to MSMEs based on Goods and Services Tax (GST) returns and e-Invoices. The system pulls GSTR-1 and GSTR-3B filings, evaluates supplier concentration, and facilitates TReDS trade receivables discounting.",
+    "target_users": [
+      "MSME Promoter",
+      "Corporate Buyer",
+      "Credit Risk Officer"
+    ],
+    "key_entities": [
+      "GSTIN",
+      "GSTR-1 Filing",
+      "e-Way Bill",
+      "TReDS Factoring Unit"
+    ],
+    "regulatory_context": "MSMED Act 2006, RBI Guidelines on TReDS Platform",
+    "sample_requirements": [
+      {
+        "id": "FR-SME-001",
+        "category": "Functional",
+        "statement": "The system shall authenticate with GSTN portal via GSP to fetch 12-month sales return filings.",
+        "priority": "High"
+      },
+      {
+        "id": "FR-SME-002",
+        "category": "Functional",
+        "statement": "The system shall flag any borrower where top single customer accounts for more than 40% of gross invoice turnover.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "handle high volumes of invoices easily",
+        "improved": "process batches of up to 10,000 invoices per minute without dropping requests"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Finance invoices without buyer acceptance confirmation on the factoring exchange.",
+      "statement_b": "Disburse working capital only after explicit buyer digital acceptance of invoice liabilities."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 4,
+      "requirement_stability": 4,
+      "security_exposure": 4,
+      "recommended_model": "Agile + DevSecOps Hybrid"
+    }
+  },
+  {
+    "scenario_id": "SCN-SME-02",
+    "subdomain": "sme_lending",
+    "is_held_out": false,
+    "title": "Supply Chain Reverse Factoring Platform",
+    "narrative": "An anchor-led supply chain finance solution enables tier-1 corporate anchors to provide dynamic discounting to their component suppliers. Early payments are disbursed against verified delivery receipts with automatic ERP integration.",
+    "target_users": [
+      "Corporate Anchor",
+      "Tier-1 Vendor",
+      "Funding Bank"
+    ],
+    "key_entities": [
+      "Purchase Order",
+      "Goods Receipt Note (GRN)",
+      "Early Payment Discount Rate"
+    ],
+    "regulatory_context": "Factoring Regulation Act 2011",
+    "sample_requirements": [
+      {
+        "id": "FR-FACT-001",
+        "category": "Interface",
+        "statement": "The system shall ingest ERP Goods Receipt Notes via webhook with HMAC-SHA256 signature verification.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "calculate discounts dynamically and accurately",
+        "improved": "compute daily discounting yield using annualized APR formula with 4 decimal place precision"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow supplier invoice discounting prior to anchor inspection sign-off.",
+      "statement_b": "Block supplier discounting until anchor issues clean Goods Receipt Note."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 4,
+      "requirement_stability": 4,
+      "security_exposure": 4,
+      "recommended_model": "Agile"
+    }
+  },
+  {
+    "scenario_id": "SCN-SME-03",
+    "subdomain": "sme_lending",
+    "is_held_out": false,
+    "title": "Syndicated Commercial Real Estate Debt Platform",
+    "narrative": "A platform for structuring multi-bank syndicated loan facilities for commercial development projects. The system manages debt tranches, collateral escrow, interest accruals, and covenant monitoring across lead arrangers and participant banks.",
+    "target_users": [
+      "Lead Arranger Bank",
+      "Participant Bank",
+      "Real Estate Developer",
+      "Escrow Agent"
+    ],
+    "key_entities": [
+      "Syndication Facility",
+      "Debt Tranche",
+      "DSCR Financial Covenant",
+      "Escrow Account"
+    ],
+    "regulatory_context": "RBI Prudential Framework for Resolution of Stressed Assets",
+    "sample_requirements": [
+      {
+        "id": "FR-SYND-001",
+        "category": "Functional",
+        "statement": "The system shall compute Debt Service Coverage Ratio (DSCR) quarterly and alert syndicate members if ratio drops below 1.25.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "generate complex syndication reports quickly",
+        "improved": "generate multi-bank facility ledger reports within 10 seconds of quarter-end batch close"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow lead arranger to modify covenant thresholds unilaterally.",
+      "statement_b": "Enforce majority lender consent (>= 66% voting rights) for any material covenant amendment."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 5,
+      "security_exposure": 4,
+      "recommended_model": "Waterfall"
+    }
+  },
+  {
+    "scenario_id": "SCN-UPI-01",
+    "subdomain": "upi_payments",
+    "is_held_out": false,
+    "title": "High-Throughput UPI Switch and Settlement Engine",
+    "narrative": "A major payment aggregator deploys an in-house UPI switch routing transactions directly to NPCI. The switch manages Virtual Payment Address (VPA) resolution, bank account debit/credit, settlement reconciliation, and refunds for failed transactions.",
+    "target_users": [
+      "Consumer App User",
+      "Merchant Cashier",
+      "Payment Operations Analyst"
+    ],
+    "key_entities": [
+      "Virtual Payment Address (VPA)",
+      "Transaction Reference (UTR)",
+      "NPCI Switch",
+      "Chargeback"
+    ],
+    "regulatory_context": "NPCI UPI Operating Regulations, RBI Guidelines on Harmonisation of Turn Around Time (TAT) for Failed Transactions",
+    "sample_requirements": [
+      {
+        "id": "FR-UPI-001",
+        "category": "Functional",
+        "statement": "The system shall execute UPI transaction switching within 1500 milliseconds end-to-end latency.",
+        "priority": "High"
+      },
+      {
+        "id": "FR-COMP-002",
+        "category": "Compliance",
+        "statement": "The system shall auto-reversal and refund failed debit transactions within T+1 day in compliance with RBI TAT mandates.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "handle massive peak transaction spikes",
+        "improved": "sustain throughput of 25,000 transactions per second at sub-200ms processing time"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow offline credit processing when NPCI acknowledgment is missing.",
+      "statement_b": "Never credit merchant account without synchronous cryptographic confirmation from NPCI switch."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 4,
+      "security_exposure": 5,
+      "recommended_model": "Agile + DevSecOps Hybrid"
+    }
+  },
+  {
+    "scenario_id": "SCN-UPI-02",
+    "subdomain": "upi_payments",
+    "is_held_out": false,
+    "title": "UPI AutoPay Recurring Mandate Subscriptions",
+    "narrative": "A recurring billing platform enables OTT subscriptions, mutual fund SIPs, and utility bills via UPI AutoPay. Users set up recurring mandates up to Rs 15,000 with one-time UPI PIN authentication, receiving pre-debit notifications 24 hours prior to automated debit.",
+    "target_users": [
+      "Subscriber",
+      "Digital Merchant",
+      "Mandate Operations Team"
+    ],
+    "key_entities": [
+      "Mandate Reference Number (UMN)",
+      "Pre-Debit Notification",
+      "Frequency Cycle",
+      "Debit Execution"
+    ],
+    "regulatory_context": "RBI Framework on Processing of e-Mandates for Recurring Transactions",
+    "sample_requirements": [
+      {
+        "id": "FR-MAND-001",
+        "category": "Compliance",
+        "statement": "The system shall dispatch pre-debit notification to user registered mobile and email at least 24 hours before mandate execution.",
+        "priority": "High"
+      },
+      {
+        "id": "FR-MAND-002",
+        "category": "Functional",
+        "statement": "The system shall allow users to pause, modify, or revoke active mandates through the application interface with immediate effect.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "notify customers before debiting account",
+        "improved": "send SMS and push pre-debit notification exactly 24 to 48 hours prior to debit attempt"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Execute recurring debit even if pre-debit notification fails to deliver.",
+      "statement_b": "Abort automated debit execution if pre-debit notification delivery cannot be verified per RBI directive."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 4,
+      "security_exposure": 4,
+      "recommended_model": "DevSecOps"
+    }
+  },
+  {
+    "scenario_id": "SCN-UPI-03",
+    "subdomain": "upi_payments",
+    "is_held_out": false,
+    "title": "Cross-Border UPI Remittance and Inward Payment Gateway",
+    "narrative": "A cross-border payments bridge enables tourists and non-residents to make UPI QR payments in international destinations. The engine handles foreign currency conversion, real-time FX markups, and statutory Liberalised Remittance Scheme (LRS) reporting.",
+    "target_users": [
+      "International Traveler",
+      "Foreign Merchant",
+      "Forex Desk Officer"
+    ],
+    "key_entities": [
+      "Cross-Border VPA",
+      "FX Conversion Rate",
+      "LRS Quota",
+      "Inward Remittance Certificate"
+    ],
+    "regulatory_context": "FEMA 1999, RBI Regulations on Cross-Border Payment Linkages",
+    "sample_requirements": [
+      {
+        "id": "FR-XB-001",
+        "category": "Functional",
+        "statement": "The system shall lock foreign exchange rate for 120 seconds upon QR scan for user confirmation.",
+        "priority": "High"
+      },
+      {
+        "id": "FR-XB-002",
+        "category": "Compliance",
+        "statement": "The system shall track annual remittances against LRS threshold of USD 250,000 per financial year.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "provide competitive foreign exchange rates",
+        "improved": "calculate foreign exchange rates with fixed 1.5% spread over mid-market interbank rate"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Permit cross-border payments without capturing purpose code to speed up checkout.",
+      "statement_b": "Mandate selection of valid RBI outward remittance purpose code on every cross-border transaction."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 4,
+      "security_exposure": 5,
+      "recommended_model": "V-Model"
+    }
+  },
+  {
+    "scenario_id": "SCN-CARD-01",
+    "subdomain": "cards_pos",
+    "is_held_out": false,
+    "title": "Virtual Card Issuance and Dynamic CVV Engine",
+    "narrative": "A fintech launches single-use and subscription virtual credit cards with dynamic 3-digit CVVs refreshing every 5 minutes. The platform supports spend controls, category merchant blocking, and instant card freezing via mobile app.",
+    "target_users": [
+      "Cardholder",
+      "Card Operations Specialist",
+      "Fraud Monitoring Agent"
+    ],
+    "key_entities": [
+      "Virtual PAN",
+      "Dynamic CVV",
+      "Merchant Category Code (MCC)",
+      "Card Limit"
+    ],
+    "regulatory_context": "PCI-DSS Requirement 3, RBI Master Direction on Credit and Debit Card Issuance",
+    "sample_requirements": [
+      {
+        "id": "SR-CARD-001",
+        "category": "Security",
+        "statement": "The system shall never store raw card CVV/CVC codes on persistent disk after authorization.",
+        "priority": "High"
+      },
+      {
+        "id": "FR-CARD-001",
+        "category": "Functional",
+        "statement": "The system shall regenerate dynamic CVV every 300 seconds and invalidate previous tokens.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "freeze cards immediately when requested",
+        "improved": "block all incoming card authorizations within 100ms of user tap on freeze button"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Store complete Primary Account Numbers (PAN) in server log files for debugging.",
+      "statement_b": "Enforce strict truncation/masking of PAN displaying only last 4 digits in all logs and interfaces."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 4,
+      "security_exposure": 5,
+      "recommended_model": "DevSecOps"
+    }
+  },
+  {
+    "scenario_id": "SCN-CARD-02",
+    "subdomain": "cards_pos",
+    "is_held_out": false,
+    "title": "Android Smart POS Terminal Acquiring Engine",
+    "narrative": "A merchant acquiring service deploys smart Android POS devices with NFC contactless tap-to-pay, EMV chip reader, and soundbox voice confirmations. The engine integrates with Visa/Mastercard/RuPay gateways and enforces dual-currency settlement.",
+    "target_users": [
+      "Store Cashier",
+      "Retail Shopper",
+      "Merchant Settlement Team"
+    ],
+    "key_entities": [
+      "EMV Chip Cryptogram",
+      "NFC Tap Token",
+      "Terminal Master Key",
+      "Batch Settlement"
+    ],
+    "regulatory_context": "EMVCo Contactless Specifications, PCI-PTS Security Requirements",
+    "sample_requirements": [
+      {
+        "id": "FR-POS-001",
+        "category": "Functional",
+        "statement": "The system shall support NFC contactless transactions without PIN entry for transactions up to Rs 5,000.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "ensure fast POS checkout at counter",
+        "improved": "complete contactless tap-to-pay transaction authorization in under 1200ms"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Permit contactless transactions above Rs 5,000 without requiring PIN entry.",
+      "statement_b": "Enforce mandatory PIN entry for all contactless transactions exceeding Rs 5,000 threshold."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 4,
+      "security_exposure": 5,
+      "recommended_model": "Agile + V-Model Hybrid"
+    }
+  },
+  {
+    "scenario_id": "SCN-CARD-03",
+    "subdomain": "cards_pos",
+    "is_held_out": false,
+    "title": "Card-on-File Tokenization (CoFT) Vault",
+    "narrative": "An e-commerce payment gateway implements RBI-mandated Card-on-File Tokenization. The vault replaces stored card numbers with unique merchant-specific tokens issued by card networks, ensuring merchants do not retain original card credentials.",
+    "target_users": [
+      "Online Shopper",
+      "Payment Gateway Admin",
+      "Token Service Provider (TSP)"
+    ],
+    "key_entities": [
+      "Network Token",
+      "Token Cryptogram",
+      "Token Requestor ID",
+      "Card PAN"
+    ],
+    "regulatory_context": "RBI Directives on Tokenisation - Card Transactions",
+    "sample_requirements": [
+      {
+        "id": "SR-TOKEN-001",
+        "category": "Security",
+        "statement": "The system shall store primary card numbers exclusively inside a certified PCI-DSS Hardware Security Module (HSM).",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "generate tokens rapidly during checkout",
+        "improved": "return tokenized card representation within 800 milliseconds from card network TSP"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow merchants to cache unmasked PAN numbers on their local database for recurring billing.",
+      "statement_b": "Strictly prohibit merchant storage of raw card PAN numbers; require network tokens for all card-on-file transactions."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 5,
+      "security_exposure": 5,
+      "recommended_model": "V-Model"
+    }
+  },
+  {
+    "scenario_id": "SCN-WLTH-01",
+    "subdomain": "wealth_management",
+    "is_held_out": false,
+    "title": "Goal-Based Automated Mutual Fund Portfolio Rebalancing",
+    "narrative": "A digital wealth advisory platform tracks investor goals (retirement, child education). When market shifts trigger asset allocation drift of more than 5% from target risk profile, the robo-engine computes tax-efficient rebalancing buy/sell orders.",
+    "target_users": [
+      "Retail Investor",
+      "Certified Financial Planner",
+      "Portfolio Ops"
+    ],
+    "key_entities": [
+      "Risk Assessment Questionnaire",
+      "Asset Allocation Target",
+      "Portfolio Drift",
+      "Tax Harvest Order"
+    ],
+    "regulatory_context": "SEBI (Investment Advisers) Regulations 2013",
+    "sample_requirements": [
+      {
+        "id": "FR-WLTH-001",
+        "category": "Functional",
+        "statement": "The system shall trigger rebalancing alert when asset class allocation drifts more than 5 percentage points from target risk baseline.",
+        "priority": "High"
+      },
+      {
+        "id": "FR-COMP-003",
+        "category": "Compliance",
+        "statement": "The system shall enforce mandatory annual risk profile questionnaire recertification before executing new advisory orders.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "recommend high return portfolios",
+        "improved": "generate portfolios with Sharpe ratio optimized asset allocations aligned with investor verified risk tolerance score"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Execute automated portfolio rebalancing trades without obtaining explicit investor confirmation.",
+      "statement_b": "Require explicit investor approval for all rebalancing order batches before routing to exchange."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 4,
+      "requirement_stability": 4,
+      "security_exposure": 4,
+      "recommended_model": "Agile + DevSecOps Hybrid"
+    }
+  },
+  {
+    "scenario_id": "SCN-WLTH-02",
+    "subdomain": "wealth_management",
+    "is_held_out": false,
+    "title": "Direct Mutual Fund Systematic Investment Plan (SIP) Engine",
+    "narrative": "An investment app enables zero-commission direct mutual fund SIPs routing orders via BSE StAR MF and NSE NMF II platforms. The system executes daily and monthly SIPs, validates Net Asset Value (NAV) cut-off timings, and reconciles unit allotments.",
+    "target_users": [
+      "SIP Investor",
+      "Fund Operations Executive"
+    ],
+    "key_entities": [
+      "Folio Number",
+      "Scheme Code",
+      "Cut-off Timing",
+      "NAV Allotment"
+    ],
+    "regulatory_context": "SEBI Mutual Fund Regulations on NAV Allotment Cut-offs",
+    "sample_requirements": [
+      {
+        "id": "FR-SIP-001",
+        "category": "Functional",
+        "statement": "The system shall route purchase orders prior to 14:30 IST cut-off to guarantee same-day NAV allotment.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "process SIP orders accurately",
+        "improved": "reconcile units allotted with AMC registrar files within 24 hours with zero monetary discrepancy"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allot same-day NAV based on order placement time regardless of when funds realize at exchange.",
+      "statement_b": "Allot NAV strictly based on time of realization of funds in AMC bank account per SEBI circular."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 4,
+      "requirement_stability": 4,
+      "security_exposure": 4,
+      "recommended_model": "Agile"
+    }
+  },
+  {
+    "scenario_id": "SCN-WLTH-03",
+    "subdomain": "wealth_management",
+    "is_held_out": false,
+    "title": "Fixed Deposit and Sovereign Gold Bond (SGB) Aggregator",
+    "narrative": "A wealth platform aggregates corporate and small-finance bank Fixed Deposits with Reserve Bank of India Sovereign Gold Bond issuances. The platform allows instant paperless booking with DIGILOCKER-backed KYC and automated maturity interest payout instructions.",
+    "target_users": [
+      "Fixed Income Saver",
+      "Treasury Ops Manager"
+    ],
+    "key_entities": [
+      "FD Tenor",
+      "Compounding Frequency",
+      "TDS Deduction",
+      "SGB RBI Tranche"
+    ],
+    "regulatory_context": "RBI Directions on Deposit Acceptance, Income Tax Section 194A (TDS)",
+    "sample_requirements": [
+      {
+        "id": "FR-FD-001",
+        "category": "Functional",
+        "statement": "The system shall compute TDS deduction at 10% on interest income exceeding Rs 40,000 per financial year for non-senior citizens.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "provide flexible deposit tenures",
+        "improved": "support deposit tenures ranging from 7 days to 10 years in 1-day increments"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow non-residents to purchase Sovereign Gold Bonds under domestic investor quota.",
+      "statement_b": "Enforce residency filter restricting Sovereign Gold Bond subscription exclusively to Indian resident individuals and trusts."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 4,
+      "requirement_stability": 4,
+      "security_exposure": 3,
+      "recommended_model": "Waterfall"
+    }
+  },
+  {
+    "scenario_id": "SCN-FRD-01",
+    "subdomain": "fraud_aml",
+    "is_held_out": false,
+    "title": "Real-Time Payment Fraud Anomaly Detection Engine",
+    "narrative": "A core payment gateway deploys a real-time behavioral fraud detection engine. The system scores every credit card and UPI transaction across 50 risk dimensions (velocity, IP geodistance, device fingerprint, behavioral biometrics, and mule account lists) in sub-50 milliseconds.",
+    "target_users": [
+      "Fraud Risk Analyst",
+      "Security Officer",
+      "Customer Support"
+    ],
+    "key_entities": [
+      "Risk Score",
+      "Device Fingerprint",
+      "Velocity Threshold",
+      "Mule Account Registry"
+    ],
+    "regulatory_context": "RBI Master Directions on Cyber Security Framework in Banks",
+    "sample_requirements": [
+      {
+        "id": "SR-FRD-001",
+        "category": "Security",
+        "statement": "The system shall score transaction risk in under 45 milliseconds without causing gateway timeouts.",
+        "priority": "High"
+      },
+      {
+        "id": "SR-FRD-002",
+        "category": "Security",
+        "statement": "The system shall challenge transactions with risk score between 60 and 85 with step-up out-of-band biometric authentication.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "detect fraudulent transactions with high accuracy",
+        "improved": "maintain fraud detection true-positive rate above 94% with false-positive rate under 0.8%"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Automatically decline all transactions originating from roaming IP addresses without notification.",
+      "statement_b": "Route suspicious roaming transactions to step-up authentication instead of silent cancellation."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 3,
+      "security_exposure": 5,
+      "recommended_model": "DevSecOps"
+    }
+  },
+  {
+    "scenario_id": "SCN-FRD-02",
+    "subdomain": "fraud_aml",
+    "is_held_out": false,
+    "title": "Suspicious Transaction Reporting (STR) & AML Monitoring System",
+    "narrative": "A bank-wide AML surveillance suite ingests transactions across RTGS, NEFT, cash deposits, and wire transfers. It flags structuring (smurfing), sudden turnover spikes, and high-risk sanctions matches to compile Suspicious Transaction Reports (STRs) for Financial Intelligence Unit (FIU-IND).",
+    "target_users": [
+      "Principal Officer (AML)",
+      "AML Investigator",
+      "Regulatory Auditor"
+    ],
+    "key_entities": [
+      "Suspicious Transaction Report (STR)",
+      "FIU-IND XML Schema",
+      "PEP Sanctions List",
+      "Structuring Alert"
+    ],
+    "regulatory_context": "PMLA 2002 Section 12, FIU-IND Reporting Guidelines",
+    "sample_requirements": [
+      {
+        "id": "FR-AML-001",
+        "category": "Compliance",
+        "statement": "The system shall generate XML formatted Suspicious Transaction Reports (STR) conforming to FIU-IND schema v2.0.",
+        "priority": "High"
+      },
+      {
+        "id": "FR-AML-002",
+        "category": "Compliance",
+        "statement": "The system shall file STR with FIU-IND within seven business days of Principal Officer determination of suspicion.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "identify suspicious money laundering patterns",
+        "improved": "flag cash deposit clusters totaling > Rs 10 lakhs in 30 days split into increments under Rs 50,000"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Notify account holders whenever an STR alert is generated on their profile.",
+      "statement_b": "Strictly enforce anti-tipping-off provisions; under no circumstances alert customer about STR investigation per PMLA \u00a712."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 5,
+      "security_exposure": 5,
+      "recommended_model": "V-Model"
+    }
+  },
+  {
+    "scenario_id": "SCN-FRD-03",
+    "subdomain": "fraud_aml",
+    "is_held_out": false,
+    "title": "PEP (Politically Exposed Persons) and Global Sanctions Screening Engine",
+    "narrative": "An onboarding sanctions screening engine matches individuals and beneficial owners against OFAC, UN Security Council, and domestic MHA UAPA terrorist lists. The engine applies fuzzy phonetic matching (Double Metaphone, Levenshtein distance) to identify transliteration variants.",
+    "target_users": [
+      "Compliance Analyst",
+      "Sanctions Officer"
+    ],
+    "key_entities": [
+      "UN Sanctions List",
+      "OFAC SDN List",
+      "PEP Registry",
+      "Fuzzy Match Confidence"
+    ],
+    "regulatory_context": "Unlawful Activities (Prevention) Act (UAPA), FATF Recommendation 6 & 7",
+    "sample_requirements": [
+      {
+        "id": "FR-SANC-001",
+        "category": "Compliance",
+        "statement": "The system shall execute fuzzy name matching against daily-updated UN and OFAC sanctions lists with match threshold set to 85%.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "update sanctions lists regularly",
+        "improved": "synchronize and re-index official UN and OFAC sanctions XML feeds within 60 minutes of publication"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow account opening to proceed when an exact match against UAPA terrorist list is detected.",
+      "statement_b": "Immediately freeze assets and block onboarding on confirmed UAPA match, alerting nodal officer within 24 hours."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 5,
+      "security_exposure": 5,
+      "recommended_model": "Waterfall"
+    }
+  },
+  {
+    "scenario_id": "SCN-TRS-01",
+    "subdomain": "treasury_fx",
+    "is_held_out": false,
+    "title": "Corporate FX Forward Booking and Hedging Portal",
+    "narrative": "A treasury portal enables corporate export-import clients to book forward contracts and currency options to hedge foreign currency exposures. The platform streams live interbank spot rates, calculates forward premia based on interest rate parity, and verifies underlying trade contracts.",
+    "target_users": [
+      "Corporate Treasurer",
+      "FX Trader",
+      "Risk Controller"
+    ],
+    "key_entities": [
+      "Forward Contract",
+      "Underlying Commercial Invoice",
+      "Spot Rate",
+      "Forward Premium"
+    ],
+    "regulatory_context": "RBI Directions on Hedging of Foreign Exchange Risk",
+    "sample_requirements": [
+      {
+        "id": "FR-TRS-001",
+        "category": "Functional",
+        "statement": "The system shall compute forward premia using interest rate parity curve for tenors up to 365 days.",
+        "priority": "High"
+      },
+      {
+        "id": "FR-COMP-004",
+        "category": "Compliance",
+        "statement": "The system shall mandate documentary proof of underlying contracted trade exposure prior to booking non-deliverable forwards.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "refresh market rates frequently",
+        "improved": "stream real-time interbank FX quotes with price updates every 250 milliseconds during market hours"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow corporate entities to book speculative FX contracts without documented underlying commercial exposure.",
+      "statement_b": "Enforce strict prohibition against speculative trades, verifying underlying export-import contracts for every forward booking."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 4,
+      "security_exposure": 4,
+      "recommended_model": "Agile + V-Model Hybrid"
+    }
+  },
+  {
+    "scenario_id": "SCN-TRS-02",
+    "subdomain": "treasury_fx",
+    "is_held_out": false,
+    "title": "Liquidity Coverage Ratio (LCR) & Net Stable Funding (NSFR) Engine",
+    "narrative": "An asset-liability management (ALM) engine tracks high-quality liquid assets (HQLA) and projected cash outflows across 30-day stressed liquidity horizons. It generates regulatory Basel III Liquidity Coverage Ratio reports and alerts treasury managers of buffer deficits.",
+    "target_users": [
+      "ALM Desk Head",
+      "Chief Risk Officer",
+      "Treasury Ops"
+    ],
+    "key_entities": [
+      "High-Quality Liquid Assets (HQLA)",
+      "Net Cash Outflow",
+      "LCR Percentage",
+      "NSFR Ratio"
+    ],
+    "regulatory_context": "RBI Master Circular on Basel III - Liquidity Coverage Ratio",
+    "sample_requirements": [
+      {
+        "id": "FR-ALM-001",
+        "category": "Compliance",
+        "statement": "The system shall compute daily Liquidity Coverage Ratio and enforce mandatory minimum buffer of 100%.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "monitor bank cash reserves effectively",
+        "improved": "compute weighted cash inflow and outflow projections across all operational currencies daily by 18:00 IST"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Include uncommitted non-operational corporate credit lines as Level 1 High Quality Liquid Assets.",
+      "statement_b": "Exclude non-operational corporate credit lines from HQLA calculation per Basel III asset classification rules."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 5,
+      "security_exposure": 4,
+      "recommended_model": "V-Model"
+    }
+  },
+  {
+    "scenario_id": "SCN-TRS-03",
+    "subdomain": "treasury_fx",
+    "is_held_out": false,
+    "title": "Interbank Money Market and Call/Notice Borrowing Platform",
+    "narrative": "A primary dealer and scheduled bank money-market trading terminal handles overnight call money, notice money, and repo transactions on the Clearing Corporation of India (CCIL) platform. It calculates accrued interest, tracks collateral pledges, and settles via RBI RTGS.",
+    "target_users": [
+      "Money Market Dealer",
+      "Collateral Manager",
+      "Settlement Officer"
+    ],
+    "key_entities": [
+      "Call Money Deal",
+      "Notice Money Tenor",
+      "Collateral G-Sec Bond",
+      "CCIL Settlement"
+    ],
+    "regulatory_context": "RBI Directions on Money Market Instruments",
+    "sample_requirements": [
+      {
+        "id": "FR-MM-001",
+        "category": "Functional",
+        "statement": "The system shall execute straight-through processing to CCIL NDS-CALL platform with digital deal ticket confirmation.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "settle money market deals on time",
+        "improved": "transmit RTGS settlement instructions for matched deals within 15 minutes of trade execution"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow overnight borrowing deals to exceed the prudential internal limit set by ALCO without board approval.",
+      "statement_b": "Enforce strict hard-stop validation rejecting deal entry if borrowing volume breaches ALCO prudential ceiling."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 5,
+      "security_exposure": 4,
+      "recommended_model": "Waterfall"
+    }
+  },
+  {
+    "scenario_id": "SCN-TRD-01",
+    "subdomain": "trade_finance",
+    "is_held_out": false,
+    "title": "Digital Documentary Letter of Credit (LC) Issuance & Presentation",
+    "narrative": "A trade finance portal facilitates issuance, amendment, and presentation of documentary Letters of Credit under ICC UCP 600 rules. The platform ingests electronic Bills of Lading, Commercial Invoices, and Inspection Certificates, utilizing OCR and NLP to detect documentary discrepancies.",
+    "target_users": [
+      "Corporate Importer",
+      "Beneficiary Exporter",
+      "Advising Bank Officer",
+      "LC Document Examiner"
+    ],
+    "key_entities": [
+      "Letter of Credit",
+      "Bill of Lading",
+      "Commercial Invoice",
+      "Discrepancy Notice"
+    ],
+    "regulatory_context": "ICC UCP 600, FEMA 1999 Regulations on Trade Credit",
+    "sample_requirements": [
+      {
+        "id": "FR-TRD-001",
+        "category": "Functional",
+        "statement": "The system shall validate presented commercial invoice value does not exceed LC drawing limit.",
+        "priority": "High"
+      },
+      {
+        "id": "FR-COMP-005",
+        "category": "Compliance",
+        "statement": "The system shall issue SWIFT MT700 / MX messaging formatted under ISO 20022 standards.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "examine trade documents quickly",
+        "improved": "highlight discrepancies between shipping documents and LC terms within 2 hours of document upload"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Authorize LC payment despite unaccepted discrepant bill of lading presentation.",
+      "statement_b": "Refuse honor and issue notice of discrepancy within 5 banking days if shipping documents do not strictly comply with UCP 600."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 5,
+      "security_exposure": 4,
+      "recommended_model": "V-Model"
+    }
+  },
+  {
+    "scenario_id": "SCN-TRD-02",
+    "subdomain": "trade_finance",
+    "is_held_out": false,
+    "title": "Bank Guarantee (BG) Issuance & National e-Governance (NeSL) e-BG Platform",
+    "narrative": "A corporate banking platform provides instant electronic Bank Guarantees (e-BG) in partnership with National E-Governance Services Ltd (NeSL). The system automates digital stamping, Aadhaar e-Sign execution, and electronic transmission to public sector beneficiaries.",
+    "target_users": [
+      "EPC Contractor Applicant",
+      "Government Beneficiary",
+      "Bank Guarantee Desk"
+    ],
+    "key_entities": [
+      "Bank Guarantee Number",
+      "NeSL e-BG Identifier",
+      "Digital Stamp Duty",
+      "Expiry Date"
+    ],
+    "regulatory_context": "Indian Stamp Act, NeSL Electronic Bank Guarantee Operating Guidelines",
+    "sample_requirements": [
+      {
+        "id": "FR-EBG-001",
+        "category": "Interface",
+        "statement": "The system shall integrate with NeSL e-BG portal via REST API to procure digital stamp duty and register guarantee.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "issue bank guarantees fast",
+        "improved": "complete e-BG registration and beneficiary notification within 30 minutes of collateral earmarking"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow e-BG issuance with unverified or uncollected state stamp duty amounts.",
+      "statement_b": "Enforce mandatory real-time electronic stamp duty receipt verification before releasing e-BG certificate."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 4,
+      "security_exposure": 4,
+      "recommended_model": "Agile + V-Model Hybrid"
+    }
+  },
+  {
+    "scenario_id": "SCN-TRD-03",
+    "subdomain": "trade_finance",
+    "is_held_out": false,
+    "title": "Export Data Processing and Monitoring System (EDPMS) Reconciliation",
+    "narrative": "An automated trade compliance utility reconciles outward bank remittances against shipping bills recorded in the Reserve Bank of India EDPMS database. It tracks unclosed shipping bills, flags regulatory overdue export proceeds, and compiles Caution-listing alerts.",
+    "target_users": [
+      "Trade Operations Officer",
+      "Exporter Compliance Head"
+    ],
+    "key_entities": [
+      "Shipping Bill Number",
+      "Foreign Inward Remittance (FIRC)",
+      "EDPMS Batch",
+      "Overdue Export Alert"
+    ],
+    "regulatory_context": "RBI Master Direction on Export of Goods and Services",
+    "sample_requirements": [
+      {
+        "id": "FR-EDPMS-001",
+        "category": "Compliance",
+        "statement": "The system shall match export proceeds received with open shipping bills within 9 months of export shipment.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "reconcile export bills periodically",
+        "improved": "reconcile inward foreign remittance certificates with EDPMS shipping bill files daily at 23:00 IST"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow manual deletion of unresolved overdue shipping bills from regulatory audit logs.",
+      "statement_b": "Maintain immutable audit trail of all open shipping bills, reporting entries overdue beyond 9 months directly in RBI EDPMS upload."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 5,
+      "security_exposure": 4,
+      "recommended_model": "Waterfall"
+    }
+  },
+  {
+    "scenario_id": "SCN-CORE-01",
+    "subdomain": "core_banking",
+    "is_held_out": false,
+    "title": "Multi-Currency Corporate Current Account Ledger",
+    "narrative": "A core banking subsystem maintains real-time double-entry ledgers for corporate current accounts across INR, USD, EUR, and GBP. It computes daily sweep balances, overdraft limits, interest accruals, and enforces segregation of customer client funds.",
+    "target_users": [
+      "Corporate Account Holder",
+      "Bank Operations Officer",
+      "Internal Auditor"
+    ],
+    "key_entities": [
+      "General Ledger Account",
+      "Sub-Ledger Balance",
+      "Overdraft Facility",
+      "Currency Code"
+    ],
+    "regulatory_context": "RBI Guidelines on Opening of Current Accounts by Banks",
+    "sample_requirements": [
+      {
+        "id": "FR-CORE-001",
+        "category": "Functional",
+        "statement": "The system shall post all financial transactions using strict balanced double-entry accounting (Debits == Credits).",
+        "priority": "High"
+      },
+      {
+        "id": "SR-CORE-001",
+        "category": "Security",
+        "statement": "The system shall prevent overdraft drawings exceeding sanctioned credit limit without authorized supervisor override.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "ensure high ledger accuracy",
+        "improved": "maintain zero cent/paisa rounding discrepancy across all multi-currency balance rollups"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow accounts with unauthorized negative balances to continue processing outgoing wire payments.",
+      "statement_b": "Automatically freeze outgoing payments when ledger balance falls below zero in the absence of an active overdraft agreement."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 5,
+      "security_exposure": 5,
+      "recommended_model": "Waterfall"
+    }
+  },
+  {
+    "scenario_id": "SCN-CORE-02",
+    "subdomain": "core_banking",
+    "is_held_out": false,
+    "title": "Inoperative Account & Unclaimed Deposit (DEAF) Transfer Engine",
+    "narrative": "A statutory compliance engine tracks accounts with zero customer-induced transactions over 24 months, automatically transitioning them to inoperative status. Accounts remaining unclaimed for 10 years are transferred to the RBI Depositor Education and Awareness Fund (DEAF).",
+    "target_users": [
+      "Branch Operations Officer",
+      "Nodal DEAF Officer"
+    ],
+    "key_entities": [
+      "Inoperative Account Flag",
+      "Last Transaction Date",
+      "DEAF Ledger",
+      "Re-activation Request"
+    ],
+    "regulatory_context": "The Depositor Education and Awareness Fund Scheme 2014, RBI Directions on Inoperative Accounts",
+    "sample_requirements": [
+      {
+        "id": "FR-DEAF-001",
+        "category": "Compliance",
+        "statement": "The system shall transfer unclaimed deposit balances older than 10 years to RBI DEAF account on the last working day of each month.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "flag inactive accounts in good time",
+        "improved": "classify accounts as inoperative exactly when 730 consecutive days elapse without customer-induced transactions"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow debit transactions on inoperative accounts without fresh customer KYC verification.",
+      "statement_b": "Block all debit transactions on inoperative accounts until fresh KYC documents are verified by branch manager."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 5,
+      "security_exposure": 4,
+      "recommended_model": "Waterfall"
+    }
+  },
+  {
+    "scenario_id": "SCN-CORE-03",
+    "subdomain": "core_banking",
+    "is_held_out": false,
+    "title": "Positive Pay System (PPS) for High-Value Cheque Clearance",
+    "narrative": "A cheque clearance subsystem enforces the Positive Pay System for CTS cheque clearing. Issuers re-confirm key cheque details (cheque number, date, payee name, amount) for cheques above Rs 50,000, cross-matching details during clearing to prevent altered cheque fraud.",
+    "target_users": [
+      "Cheque Issuer",
+      "Cheque Clearing Officer"
+    ],
+    "key_entities": [
+      "Cheque Number",
+      "Payee Name",
+      "Cheque Amount",
+      "CTS Clearing Image"
+    ],
+    "regulatory_context": "RBI Positive Pay System for Cheque Truncation System (CTS)",
+    "sample_requirements": [
+      {
+        "id": "FR-PPS-001",
+        "category": "Compliance",
+        "statement": "The system shall cross-reference CTS clearing presentation against customer-submitted Positive Pay records for all cheques >= Rs 50,000.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "clear cheques without customer friction",
+        "improved": "complete CTS image and Positive Pay record verification within 2 hours of inward clearing file ingestion"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Clear high-value cheques above Rs 500,000 even when Positive Pay confirmation is missing.",
+      "statement_b": "Return unpaid any cheque above Rs 500,000 where issuer has not submitted Positive Pay confirmation per bank policy."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 4,
+      "requirement_stability": 4,
+      "security_exposure": 4,
+      "recommended_model": "V-Model"
+    }
+  },
+  {
+    "scenario_id": "SCN-DOC-01",
+    "subdomain": "digilocker_verification",
+    "is_held_out": false,
+    "title": "DigiLocker Integration Gateway for Statutory Document Fetch",
+    "narrative": "A financial verification gateway connects to National DigiLocker. Borrowers and investors provide Aadhaar-based consent to retrieve authentic issuer-signed PDF documents including driving licenses, vehicle RC, LPG receipts, and educational degrees directly from government issuing authorities.",
+    "target_users": [
+      "Loan Applicant",
+      "Verification Specialist"
+    ],
+    "key_entities": [
+      "DigiLocker Consent Artifact",
+      "XML URI",
+      "Issuer PKI Signature"
+    ],
+    "regulatory_context": "Information Technology (Preservation and Retention of Information by Intermediaries) Rules, DPDP Act 2023",
+    "sample_requirements": [
+      {
+        "id": "FR-DIGI-001",
+        "category": "Interface",
+        "statement": "The system shall verify SHA-256 PKI digital signatures on issuer documents retrieved from DigiLocker API.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "fetch documents smoothly",
+        "improved": "retrieve and validate digitally signed documents from DigiLocker in under 3.5 seconds"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Accept unverified manually uploaded PDFs as equivalent to cryptographically signed DigiLocker documents.",
+      "statement_b": "Require verified digital signature from authentic issuing authority before marking verification as complete."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 4,
+      "requirement_stability": 4,
+      "security_exposure": 4,
+      "recommended_model": "DevSecOps"
+    }
+  },
+  {
+    "scenario_id": "SCN-DOC-02",
+    "subdomain": "digilocker_verification",
+    "is_held_out": false,
+    "title": "Account Aggregator Financial Information User (FIU) Gateway",
+    "narrative": "A lending portal implements the RBI Account Aggregator (AA) framework as a Financial Information User. The engine requests electronic, granular, revocable consent to ingest structured bank statement data from Financial Information Providers (FIPs).",
+    "target_users": [
+      "Borrower",
+      "Credit Risk Engine",
+      "AA Consent Manager"
+    ],
+    "key_entities": [
+      "Consent Handle",
+      "FIU Key Pair",
+      "Encrypted Financial Data (FIP)",
+      "Data Session"
+    ],
+    "regulatory_context": "RBI Master Direction on Non-Banking Financial Company - Account Aggregator Directions 2016",
+    "sample_requirements": [
+      {
+        "id": "FR-AA-001",
+        "category": "Compliance",
+        "statement": "The system shall request electronic customer consent specifying exact purpose, data types, and expiry duration.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "ensure consent management is transparent",
+        "improved": "display exact date range, account numbers, and access duration on consent screen before user PIN confirmation"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Retain decrypted bank transaction data indefinitely after credit decision is made.",
+      "statement_b": "Purge all detailed financial statements from application memory after credit decisioning per consent terms."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 4,
+      "security_exposure": 5,
+      "recommended_model": "V-Model"
+    }
+  },
+  {
+    "scenario_id": "SCN-DOC-03",
+    "subdomain": "digilocker_verification",
+    "is_held_out": false,
+    "title": "e-Sign 3.0 Biometric and OTP Digital Agreement Execution",
+    "narrative": "A legal contract workflow service integrates with licensed Certifying Authorities (C-DAC, NSDL) to enable Aadhaar e-Sign 3.0 on loan agreements, guarantees, and mandates, producing legally admissible PDF contracts under Section 5 of the Information Technology Act 2000.",
+    "target_users": [
+      "Signer",
+      "Legal Operations Officer"
+    ],
+    "key_entities": [
+      "Contract PDF",
+      "Aadhaar e-Sign Request",
+      "ESP Signature",
+      "Audit Trail Certificate"
+    ],
+    "regulatory_context": "Information Technology Act 2000 Section 5, Electronic Signature Service Provider (ESP) Guidelines",
+    "sample_requirements": [
+      {
+        "id": "FR-ESIGN-001",
+        "category": "Interface",
+        "statement": "The system shall embed X.509 PKI digital signature certificate directly into agreement PDF.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "execute e-signatures quickly",
+        "improved": "complete e-Sign roundtrip with eMudhra/CDAC within 4 seconds of OTP submission"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow agreement signing when customer Aadhaar OTP verification fails.",
+      "statement_b": "Strictly block document execution and refuse stamp application if Aadhaar OTP fails or expires."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 5,
+      "security_exposure": 5,
+      "recommended_model": "V-Model"
+    }
+  },
+  {
+    "scenario_id": "SCN-MFI-01",
+    "subdomain": "microfinance",
+    "is_held_out": false,
+    "title": "Joint Liability Group (JLG) Microfinance Origination & Center Meeting App",
+    "narrative": "A microfinance institution deploys an offline-first Android tablet app for rural loan officers conducting weekly center meetings. Officers verify 5-member Joint Liability Groups (JLG), capture group biometric consent, log loan repayments, and synchronize collections with core banking upon network restoration.",
+    "target_users": [
+      "Loan Officer",
+      "JLG Member Borrower",
+      "Branch Cashier"
+    ],
+    "key_entities": [
+      "JLG Group ID",
+      "Center Meeting Schedule",
+      "Offline Repayment Ledger",
+      "Household Income Cap"
+    ],
+    "regulatory_context": "RBI Regulatory Framework for Microfinance Loans 2022",
+    "sample_requirements": [
+      {
+        "id": "FR-MFI-001",
+        "category": "Functional",
+        "statement": "The system shall operate in offline mode, storing encrypted repayment transactions locally on tablet.",
+        "priority": "High"
+      },
+      {
+        "id": "FR-COMP-006",
+        "category": "Compliance",
+        "statement": "The system shall verify that borrower annual household income does not exceed Rs 300,000 per RBI microfinance criteria.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "sync data when internet becomes available",
+        "improved": "synchronize local repayment records with core server within 60 seconds of network connectivity detection"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow total monthly debt repayments to exceed 50% of verified monthly household income.",
+      "statement_b": "Enforce strict limit capping total household debt obligations to maximum 50% of monthly household income per RBI guidelines."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 4,
+      "security_exposure": 4,
+      "recommended_model": "Agile + V-Model Hybrid"
+    }
+  },
+  {
+    "scenario_id": "SCN-MFI-02",
+    "subdomain": "microfinance",
+    "is_held_out": false,
+    "title": "Kisan Credit Card (KCC) Crop Loan Digital Disbursement Engine",
+    "narrative": "A regional rural bank digitizes Kisan Credit Card disbursements for small and marginal farmers. The platform links state land revenue land parcel records (Bhoomi/AnyRoR) to compute scale of finance based on crop type, disbursing fertilizer sub-limits and cash credit directly to farmer accounts.",
+    "target_users": [
+      "Farmer",
+      "Village Revenue Officer",
+      "Agriculture Credit Officer"
+    ],
+    "key_entities": [
+      "Land Parcel (Khasra No)",
+      "Scale of Finance",
+      "Crop Sowing Certificate",
+      "KCC Sub-Limit"
+    ],
+    "regulatory_context": "RBI Guidelines on Kisan Credit Card (KCC) Scheme, Priority Sector Lending (PSL) Norms",
+    "sample_requirements": [
+      {
+        "id": "FR-KCC-001",
+        "category": "Functional",
+        "statement": "The system shall calculate loan eligibility using district Scale of Finance multiplied by verified land acreage.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "determine farmer eligibility based on reasonable land size",
+        "improved": "verify digitized land ownership records against state land registry for parcels between 0.5 and 10 acres"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow KCC crop loan disbursement without verifying crop sowing status or land title ownership.",
+      "statement_b": "Mandate verification of digitized land record and crop season certificate prior to releasing KCC funds."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 4,
+      "requirement_stability": 4,
+      "security_exposure": 3,
+      "recommended_model": "Agile"
+    }
+  },
+  {
+    "scenario_id": "SCN-MFI-03",
+    "subdomain": "microfinance",
+    "is_held_out": false,
+    "title": "Priority Sector Lending (PSL) Certificate Trading & Compliance Tracker",
+    "narrative": "A commercial bank ALM utility tracks loans qualifying for Priority Sector Lending (agriculture, MSME, education, renewable energy). Deficit banks purchase Priority Sector Lending Certificates (PSLCs) from surplus banks via the RBI e-Kuber portal to meet mandatory 40% Adjusted Net Bank Credit (ANBC) targets.",
+    "target_users": [
+      "PSL Nodal Officer",
+      "Treasury e-Kuber Dealer"
+    ],
+    "key_entities": [
+      "Adjusted Net Bank Credit (ANBC)",
+      "PSLC Agriculture",
+      "PSLC Micro Enterprises",
+      "Quarterly Deficit"
+    ],
+    "regulatory_context": "RBI Master Directions - Priority Sector Lending (PSL) - Targets and Classification",
+    "sample_requirements": [
+      {
+        "id": "FR-PSL-001",
+        "category": "Compliance",
+        "statement": "The system shall compute quarterly PSL achievement against 40% ANBC statutory target across all categories.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "track priority sector performance accurately",
+        "improved": "calculate category-wise PSL achievements with daily reconciliation against core banking loans ledger"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Classify loans to luxury automotive businesses as eligible MSME Priority Sector Lending.",
+      "statement_b": "Strictly validate MSME Udyam registration category against RBI eligible PSL activity codes before tag assignment."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 5,
+      "security_exposure": 4,
+      "recommended_model": "Waterfall"
+    }
+  },
+  {
+    "scenario_id": "SCN-INS-01",
+    "subdomain": "insurance",
+    "is_held_out": true,
+    "title": "Direct-to-Consumer Term Life Insurance Underwriting Engine",
+    "narrative": "An insurtech platform offers direct-to-consumer term life insurance coverage up to Rs 2 crore. The system collects medical history, smoking status, and family history, executing instant financial underwriting via ITR/Form 26AS verification and scheduling tele-medical examinations for high sum-assured cases.",
+    "target_users": [
+      "Life Insurance Policyholder",
+      "Medical Underwriter",
+      "Actuary"
+    ],
+    "key_entities": [
+      "Sum Assured",
+      "Medical Underwriting Grid",
+      "Tele-MER Examination",
+      "Annual Premium"
+    ],
+    "regulatory_context": "IRDAI (Protection of Policyholders' Interests) Regulations 2017",
+    "sample_requirements": [
+      {
+        "id": "FR-INS-001",
+        "category": "Functional",
+        "statement": "The system shall mandate tele-medical examination for any applicant aged over 45 or requesting sum assured > Rs 1 crore.",
+        "priority": "High"
+      },
+      {
+        "id": "FR-COMP-007",
+        "category": "Compliance",
+        "statement": "The system shall enforce mandatory 30-day free-look cancellation period with full premium refund per IRDAI rules.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "issue policy document promptly",
+        "improved": "generate and dispatch digitally signed policy schedule PDF within 24 hours of underwriting acceptance"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Deduct cancellation penalty charges during the statutory 30-day free-look period.",
+      "statement_b": "Provide 100% refund of premium less proportional risk premium and medical fees during free-look period per IRDAI."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 4,
+      "security_exposure": 4,
+      "recommended_model": "Agile + V-Model Hybrid"
+    }
+  },
+  {
+    "scenario_id": "SCN-INS-02",
+    "subdomain": "insurance",
+    "is_held_out": true,
+    "title": "Cashless Health Insurance Hospital Claims Settlement Engine",
+    "narrative": "A third-party administrator (TPA) health insurance system processes cashless hospitalization pre-authorization requests from network hospitals. The AI engine ingests admission notes, diagnosis ICD-10 codes, and estimate bills, issuing initial pre-auth approval letters within 60 minutes.",
+    "target_users": [
+      "Hospital TPA Desk",
+      "Insured Patient",
+      "Medical Claim Adjudicator"
+    ],
+    "key_entities": [
+      "ICD-10 Diagnosis",
+      "Pre-Auth Request",
+      "Room Rent Capping",
+      "Co-Pay Percentage"
+    ],
+    "regulatory_context": "IRDAI Health Insurance Regulations 2016",
+    "sample_requirements": [
+      {
+        "id": "FR-HLTH-001",
+        "category": "Functional",
+        "statement": "The system shall issue initial cashless pre-authorization decision within 60 minutes of complete hospital upload.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "handle claims without long patient waiting",
+        "improved": "adjudicate final discharge settlement authorization within 2 hours of final hospital bill receipt"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Deny emergency hospital admission pre-auth for non-network hospitals.",
+      "statement_b": "Approve emergency stabilization pre-authorization regardless of hospital network status per IRDAI emergency care mandates."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 4,
+      "security_exposure": 4,
+      "recommended_model": "V-Model"
+    }
+  },
+  {
+    "scenario_id": "SCN-INS-03",
+    "subdomain": "insurance",
+    "is_held_out": true,
+    "title": "Motor Vehicle Instant Photo Damage Inspection & Claims App",
+    "narrative": "A general insurance mobile app allows auto policyholders to file minor accident claims by uploading 360-degree vehicle photos. An edge-AI damage assessment engine identifies dent and scratch severity on panels, estimating repair costs and offering instant spot claim settlements up to Rs 25,000.",
+    "target_users": [
+      "Vehicle Owner",
+      "Automobile Surveyor",
+      "Claims Manager"
+    ],
+    "key_entities": [
+      "Damage Photo",
+      "Part Replacement Cost",
+      "Depreciation Slab",
+      "Spot Settlement Offer"
+    ],
+    "regulatory_context": "IRDAI Guidelines on Motor Insurance Claims Settlement and Surveyors",
+    "sample_requirements": [
+      {
+        "id": "FR-MTR-001",
+        "category": "Functional",
+        "statement": "The system shall apply standard IRDAI depreciation schedule based on vehicle age (0% for glass, 50% for rubber/plastic).",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "assess car damage fast",
+        "improved": "compute AI damage estimate and generate settlement offer within 15 minutes of photo upload"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow spot settlement of total loss fire claims without physical licensed surveyor report.",
+      "statement_b": "Require mandatory physical inspection by licensed IRDAI surveyor for all claims exceeding Rs 50,000 or involving total loss."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 4,
+      "requirement_stability": 3,
+      "security_exposure": 3,
+      "recommended_model": "Agile"
+    }
+  },
+  {
+    "scenario_id": "SCN-REG-01",
+    "subdomain": "regulatory_reporting",
+    "is_held_out": true,
+    "title": "Automated RBI CIMS & XBRL Supervisory Reporting Platform",
+    "narrative": "An enterprise bank reporting data warehouse ingests daily balance sheet and loan asset ledgers to generate statutory Reserve Bank of India returns (Form A for CRR, Form VIII for SLR, ALM returns) submitted directly to the RBI Centralised Information Management System (CIMS) using XBRL standards.",
+    "target_users": [
+      "Supervisory Reporting Head",
+      "Financial Controller",
+      "RBI Inspection Officer"
+    ],
+    "key_entities": [
+      "Cash Reserve Ratio (CRR)",
+      "Statutory Liquidity Ratio (SLR)",
+      "XBRL Taxonomy",
+      "CIMS Filing Ticket"
+    ],
+    "regulatory_context": "Banking Regulation Act 1949 Section 24, RBI CIMS Operating Guidelines",
+    "sample_requirements": [
+      {
+        "id": "FR-CIMS-001",
+        "category": "Compliance",
+        "statement": "The system shall validate XBRL filing instances against RBI master taxonomy schemas with 100% schema conformity.",
+        "priority": "High"
+      },
+      {
+        "id": "FR-CIMS-002",
+        "category": "Compliance",
+        "statement": "The system shall compute fortnightly average CRR maintenance and flag days falling below 90% statutory floor.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "submit regulatory returns without delay",
+        "improved": "generate and validate XBRL Form A return by 17:00 IST every alternate Friday without manual intervention"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Allow manual override of balance sheet numbers in XBRL output file without system audit trace.",
+      "statement_b": "Enforce strict cryptographic reconciliation; any manual adjustment requires documented justification and dual CFO sign-off."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 5,
+      "security_exposure": 5,
+      "recommended_model": "V-Model"
+    }
+  },
+  {
+    "scenario_id": "SCN-REG-02",
+    "subdomain": "regulatory_reporting",
+    "is_held_out": true,
+    "title": "Central Repository of Information on Large Credits (CRILC) Reporting",
+    "narrative": "A credit data consolidation engine reports all corporate exposures exceeding Rs 5 crore to the RBI CRILC repository weekly and monthly. It tracks Special Mention Account (SMA-0, SMA-1, SMA-2) default stages and flags overdue payments within 48 hours.",
+    "target_users": [
+      "Chief Risk Officer",
+      "Credit Monitoring Desk",
+      "RBI Large Exposure Analyst"
+    ],
+    "key_entities": [
+      "Large Credit Exposure (> Rs 5 Cr)",
+      "SMA-0/1/2 Classification",
+      "Days Past Due (DPD)",
+      "CRILC Submission"
+    ],
+    "regulatory_context": "RBI Framework on Early Recognition of Financial Distress - CRILC",
+    "sample_requirements": [
+      {
+        "id": "FR-CRILC-001",
+        "category": "Compliance",
+        "statement": "The system shall report any credit exposure >= Rs 5 crore displaying overdue interest > 30 days as SMA-1 to CRILC weekly.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "monitor corporate loan defaults closely",
+        "improved": "calculate borrower Days Past Due (DPD) daily across all group companies and subsidiaries"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Classify a defaulting borrower as regular Standard account if restructuring negotiations are informal.",
+      "statement_b": "Enforce mandatory downgrade to SMA classification strictly based on DPD count regardless of ongoing restructuring."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 5,
+      "security_exposure": 4,
+      "recommended_model": "Waterfall"
+    }
+  },
+  {
+    "scenario_id": "SCN-REG-03",
+    "subdomain": "regulatory_reporting",
+    "is_held_out": true,
+    "title": "Digital Personal Data Protection (DPDP) Act Compliance & Consent Audit Suite",
+    "narrative": "An enterprise-wide data governance suite tracks personal data processing activities, consent artifact lifecycles, and Data Principal rights (access, correction, erasure) under the Digital Personal Data Protection Act 2023. The platform prepares statutory compliance records for the Data Protection Board of India.",
+    "target_users": [
+      "Data Protection Officer (DPO)",
+      "Data Principal (Customer)",
+      "DPBI Auditor"
+    ],
+    "key_entities": [
+      "Consent Artifact",
+      "Notice in 22 Schedule Languages",
+      "Data Principal Request",
+      "Breach Notification"
+    ],
+    "regulatory_context": "Digital Personal Data Protection Act 2023, Information Technology Act 2000",
+    "sample_requirements": [
+      {
+        "id": "FR-DPDP-001",
+        "category": "Privacy",
+        "statement": "The system shall present data collection notices in clear plain language with option for all 22 Eighth Schedule official languages.",
+        "priority": "High"
+      },
+      {
+        "id": "FR-DPDP-002",
+        "category": "Compliance",
+        "statement": "The system shall dispatch notification to Data Protection Board of India within 6 sts hours of confirming personal data breach.",
+        "priority": "High"
+      }
+    ],
+    "sample_vague_phrases": [
+      {
+        "vague": "handle user data deletion requests appropriately",
+        "improved": "complete personal data erasure across active databases within 72 hours of validated Data Principal withdrawal of consent"
+      }
+    ],
+    "sample_conflicts": {
+      "statement_a": "Erase all transaction records immediately upon customer DPDP erasure request even if anti-money laundering laws require retention.",
+      "statement_b": "Retain statutory audit and AML records for mandatory 5-year period under PMLA exception to DPDP erasure requests."
+    },
+    "sdlc_profile": {
+      "regulatory_criticality": 5,
+      "requirement_stability": 4,
+      "security_exposure": 5,
+      "recommended_model": "V-Model"
+    }
+  }
+]

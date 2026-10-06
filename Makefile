@@ -24,7 +24,7 @@ check:
 	@echo "Checkpoint: Phase 0 guardrails verified. System is ready."
 
 test:
-	@python -m pytest backend/tests/ -v
+	@python -m pytest backend/tests/ ml/dataset/tests/ -v
 
 lint:
 	@python -c "print('Linting check passed.')"
