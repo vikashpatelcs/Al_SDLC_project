@@ -138,5 +138,17 @@ class Assumption(Base):
     category = Column(String(64), nullable=True)
     status = Column(String(64), nullable=False, default="unverified")
     created_at = Column(DateTime, default=utcnow, nullable=False)
-
     project = relationship("Project", back_populates="assumptions")
+
+
+class KnowledgeBaseVersion(Base):
+    __tablename__ = "knowledge_base_versions"
+
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    version_tag = Column(String(64), nullable=False)
+    manifest_hash = Column(String(64), nullable=False)
+    documents_count = Column(Integer, nullable=False)
+    total_chunks = Column(Integer, nullable=False)
+    collection_name = Column(String(128), nullable=False, default="financial_kb_authoritative")
+    created_at = Column(DateTime, default=utcnow, nullable=False)
+

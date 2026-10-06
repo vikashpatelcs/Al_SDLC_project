@@ -1,0 +1,37 @@
+MINISTRY OF LAW AND JUSTICE
+(Legislative Department)
+NEW DELHI, THE 11TH AUGUST, 2023
+
+THE DIGITAL PERSONAL DATA PROTECTION ACT, 2023
+NO. 22 OF 2023
+
+CHAPTER I: PRELIMINARY
+Section 1: Short Title and Commencement
+(1) This Act may be called the Digital Personal Data Protection Act, 2023.
+(2) It shall apply to the processing of digital personal data within the territory of India where the personal data is collected in digital form or in non-digital form and digitized subsequently.
+
+Section 2: Definitions
+(h) "Data Principal" means the individual to whom the personal data relates.
+(i) "Data Fiduciary" means any person who alone or in conjunction with other persons determines the purpose and means of processing of personal data.
+(j) "Data Processor" means any person who processes personal data on behalf of a Data Fiduciary.
+(t) "Personal Data" means any data about an individual who is identifiable by or in relation to such data.
+
+CHAPTER II: OBLIGATIONS OF DATA FIDUCIARY
+Section 6: Notice and Consent Requirements
+(1) The Data Fiduciary shall give to the Data Principal an itemized notice accompanying or preceding any request for consent, specifying the personal data sought to be collected and the explicit purpose for which it will be processed.
+(2) The notice must present the option to access the notice and consent form in English or any of the 22 languages specified in the Eighth Schedule to the Constitution of India.
+(3) Consent shall be free, specific, informed, unconditional, and unambiguous with a clear affirmative action.
+(4) The Data Principal shall have the right to withdraw her consent at any time with the same ease with which consent was given.
+
+Section 8: General Obligations of Data Fiduciary
+(1) A Data Fiduciary shall implement appropriate technical and organizational measures to ensure effective adherence to the provisions of this Act.
+(2) A Data Fiduciary shall protect personal data in its possession or under its control by taking reasonable security safeguards to prevent personal data breach, including cryptographic encryption and role-based access control.
+(3) In the event of a personal data breach, the Data Fiduciary shall give the Data Protection Board of India and each affected Data Principal intimation of such breach in such form and manner as may be prescribed.
+(4) A Data Fiduciary shall erase personal data upon the Data Principal withdrawing consent or as soon as it is reasonable to assume that the specified purpose is no longer being served, unless retention is mandated by law.
+
+CHAPTER III: RIGHTS AND DUTIES OF DATA PRINCIPAL
+Section 11: Right to Access Information About Personal Data
+The Data Principal shall have the right to obtain from the Data Fiduciary confirmation whether personal data is being processed, a summary of personal data processed, and the identities of all other Data Fiduciaries and Data Processors with whom the personal data has been shared.
+
+Section 12: Right to Correction and Erasure of Personal Data
+A Data Principal shall have the right to the correction, completion, updating, and erasure of her personal data in accordance with statutory requirements.

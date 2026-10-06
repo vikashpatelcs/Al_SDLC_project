@@ -1,0 +1,41 @@
+RESERVE BANK OF INDIA
+DEPARTMENT OF BANKING REGULATION
+CENTRAL OFFICE, MUMBAI
+
+Master Direction - Know Your Customer (KYC) Direction, 2016
+Circular Ref: RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16
+Updated as of May 04, 2023
+
+CHAPTER I: PRELIMINARY
+Section 1: Short Title and Commencement
+(a) These Directions shall be called the Reserve Bank of India (Know Your Customer (KYC)) Directions, 2016.
+(b) These Directions shall come into force on the day they are placed on the official website of the Reserve Bank of India.
+
+Section 2: Applicability
+(a) The provisions of these Directions shall apply to every Regulated Entity (RE) licensed under the Banking Regulation Act, 1949 and Reserve Bank of India Act, 1934.
+
+CHAPTER II: GENERAL REQUIREMENTS
+Section 10: Customer Acceptance Policy
+Regulated entities shall formulate a Customer Acceptance Policy laying down criteria for opening accounts, ensuring that no account is opened in anonymous or fictitious/benami names, and customers are categorized into low, medium, and high risk tiers based on profile and geographical exposure.
+
+CHAPTER III: CUSTOMER DUE DILIGENCE (CDD) PROCEDURE
+Section 16: Customer Identification Procedure for Individuals
+(a) For undertaking Customer Due Diligence (CDD), the RE shall obtain the Officially Valid Document (OVD) containing details of identity and address, one recent photograph, and the Permanent Account Number (PAN) or Form 60.
+(b) The RE may verify customer identity using Aadhaar offline verification via XML with explicit customer OTP consent or biometric match through an authorized Authentication User Agency (AUA) framework.
+(c) Where offline Aadhaar XML is utilized, the RE shall ensure that the Aadhaar number is masked such that only the last four digits are visible to operating personnel.
+(d) Verification of PAN validity shall be conducted against the database of the issuing authority (NSDL/Income Tax Department) prior to account activation.
+
+Section 18: Video-based Customer Identification Process (V-CIP)
+(a) Regulated entities may undertake customer identification through an agent-assisted Video-based Customer Identification Process (V-CIP) as an alternate method of establishing customer identity for account opening.
+(b) V-CIP shall be conducted only by trained bank officials and shall not be outsourced to third-party vendors.
+(c) The process must capture live geotagged audio-visual interaction, liveness detection, and facial matching against the customer photograph on the OVD or Aadhaar XML file.
+(d) Audio-visual recordings of the entire V-CIP session, along with system-generated timestamps, GPS coordinates, and verification logs, must be stored securely in tamper-evident storage for a minimum statutory period of five years following account termination.
+
+Section 27: Central KYC Records Registry (CKYCR)
+(a) Regulated entities shall upload the KYC data of all individual customers onboarded to the CKYCR portal within ten days of account opening.
+(b) Once a KYC Identifier (14-digit CKYC number) is issued by CERSAI, the RE shall retrieve existing KYC records from CKYCR to prevent redundant verification during repeat onboarding across regulated entities.
+
+CHAPTER IV: ONGOING DUE DILIGENCE AND RISK CATEGORIZATION
+Section 38: Periodic Updation of KYC
+(a) Periodic updation of KYC shall be carried out at least once every two years for high-risk customers, once every eight years for medium-risk customers, and once every ten years for low-risk customers.
+(b) Digital submission of declaration and documents shall be enabled for low-risk non-face-to-face customers where there is no change in identity or address details.

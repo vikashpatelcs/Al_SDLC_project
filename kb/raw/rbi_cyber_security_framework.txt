@@ -1,0 +1,29 @@
+RESERVE BANK OF INDIA
+DEPARTMENT OF BANKING SUPERVISION
+CENTRAL OFFICE, MUMBAI
+
+Cyber Security Framework in Banks
+Circular Ref: RBI/2015-16/418 DBS.CO/CSITE/BC.11/33.01.001/2015-16
+June 02, 2016
+
+ANNEX 1: BASELINE CYBER SECURITY AND RESILIENCE REQUIREMENTS
+
+1. INVENTORY MANAGEMENT AND ACCESS CONTROL
+1.1 Privileged Access Management (PAM)
+Privileged access to operating systems, databases, and network firewalls shall be strictly restricted using multi-factor authentication (MFA) and recorded with session video logging. Dual authorization (maker-checker) must be enforced for administrative parameter updates.
+
+2. CRYPTOGRAPHIC PROTECTION AND DATA SECURITY
+2.1 Encryption Standards
+(a) All sensitive customer financial information, payment credentials, and biometric templates must be encrypted at rest using strong cryptographic algorithms (minimum AES-256 with Galois/Counter Mode - GCM).
+(b) Data in transit across public networks and between internal subnets must be protected using TLS version 1.3 or higher with cipher suites supporting forward secrecy.
+(c) Master cryptographic keys, card generation keys, and PIN blocks must be stored and processed exclusively within FIPS 140-2 Level 3 certified Hardware Security Modules (HSM).
+
+2.2 Data Masking and Tokenization
+Primary Account Numbers (PAN), Aadhaar numbers, and CVV codes must never be stored in plaintext. Presentation layers, receipts, and user interfaces must mask sensitive identifiers, revealing no more than the last four digits.
+
+3. SECURITY OPERATIONS CENTRE (SOC) AND INCIDENT REPORTING
+3.1 24x7 Security Operations Centre
+Banks must establish or subscribe to a 24x7 Security Operations Centre (SOC) for continuous monitoring of network telemetry, anomaly detection, and correlation of security events.
+
+3.2 Mandatory Incident Reporting Timelines
+Any cyber security incident involving data breach, ransom attack, unauthorized fund transfer, or service disruption must be reported to the Reserve Bank of India and CERT-In within 6 hours of detection using the prescribed cyber incident reporting template.

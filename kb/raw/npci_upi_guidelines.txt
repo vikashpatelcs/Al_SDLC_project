@@ -1,0 +1,27 @@
+NATIONAL PAYMENTS CORPORATION OF INDIA
+MUMBAI
+
+Unified Payments Interface (UPI) Procedural Guidelines & Operating Circulars
+Operating Circular Ref: NPCI/UPI/OC-87/2020-21
+Updated Guidelines on UPI Security, Architecture and Limits
+
+CHAPTER 2: PARTICIPANT ARCHITECTURE AND AUTHENTICATION RAILS
+2.1 Two-Factor Authentication (2FA) and UPI PIN
+(a) Every financial transaction initiated over the UPI rail must be authenticated by the customer using a 4-digit or 6-digit MPIN entered through the Common Library (CL) provided by NPCI.
+(b) The MPIN must never be intercepted, cached, or decrypted by Payment Service Provider (PSP) apps or merchant SDKs.
+(c) The CL securely encrypts the MPIN with the issuer bank's public key inside the device memory before network transmission.
+
+CHAPTER 4: TRANSACTION CEILINGS AND VELOCITY LIMITS
+4.1 Per-Transaction and Daily Limits
+(a) The standard per-transaction limit for peer-to-peer (P2P) and peer-to-merchant (P2M) UPI transactions is capped at 1,00,000 INR per transaction.
+(b) For verified merchants in capital markets, collections, insurance premiums, and educational institutions, the ceiling is extended up to 2,00,000 INR and 5,00,000 INR per transaction subject to risk evaluation.
+(c) Participant banks must enforce daily cumulative velocity controls and reject transactions exceeding 20 transfers per 24-hour rolling window.
+
+CHAPTER 5: OPERATIONAL RESILIENCE AND SETTLEMENT SLA
+5.1 API Response Timeout
+(a) The remitter and beneficiary banks must respond to authorization API requests from the NPCI UPI switch within a timeout ceiling of 3000 milliseconds (3 seconds).
+(b) In the event of network timeout or pending transaction status, automated query APIs (UPI Status Check) must be executed before generating customer charge slips.
+
+5.2 Real-Time Settlement and Auto-Reversal
+(a) UPI transactions operate on 24x7 immediate gross settlement across participating member banks.
+(b) In case of technical failure where customer account is debited but beneficiary is not credited, auto-reversal (T+1 turnaround) must be completed within statutory time limits, failing which participant banks shall pay customer compensation of 100 INR per day of delay under RBI circular DPSS.CO.PD.No.629/02.01.014/2019-20.

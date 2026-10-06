@@ -1,0 +1,28 @@
+THE PREVENTION OF MONEY-LAUNDERING ACT, 2002
+ACT NO. 15 OF 2003
+MINISTRY OF FINANCE, GOVERNMENT OF INDIA
+
+CHAPTER I: PRELIMINARY
+Section 1: Short Title, Extent and Commencement
+(1) This Act may be called the Prevention of Money-laundering Act, 2002.
+(2) It extends to the whole of India.
+
+CHAPTER IV: OBLIGATIONS OF BANKING COMPANIES, FINANCIAL INSTITUTIONS AND INTERMEDIARIES
+Section 12: Reporting Entity to Maintain Records
+(1) Every reporting entity shall:
+    (a) maintain a record of all transactions, including information relating to transactions referred to in clause (b) in such manner as to enable it to reconstruct individual transactions;
+    (b) furnish to the Director Financial Intelligence Unit - India (FIU-IND) information relating to suspicious transactions (STR) and cash transactions (CTR) within the prescribed time limit;
+    (c) verify the identity of its clients and the beneficial owner in such manner and subject to such conditions as may be prescribed;
+    (d) maintain record of documents evidencing identity of its clients and beneficial owners as well as account files and business correspondence relating to its clients.
+
+(2) Every information maintained, furnished or verified under sub-section (1) shall be kept confidential.
+
+Section 12(3) & 12(4): Statutory Retention Period
+(3) The records referred to in clause (a) of sub-section (1) relating to transactions shall be maintained for a period of five years from the date of transaction between a client and the reporting entity.
+(4) The records referred to in clause (e) of sub-section (1) relating to identity of clients and beneficial owners shall be maintained for a period of five years after the business relationship between a client and the reporting entity has ended or the account has been closed, whichever is later.
+
+Section 12AA: Enhanced Due Diligence
+(1) Every reporting entity shall, prior to the commencement of each specified transaction:
+    (a) verify the identity of the client undertaking such specified transaction by authentication under the Aadhaar Act or other officially valid documents;
+    (b) take additional steps to examine the background and purpose of the transaction where the transaction value is high or inconsistent with the client profile.
+(2) Where client identity does not match or transaction is suspected to involve proceeds of crime, the reporting entity shall not allow the transaction and immediately file a Suspicious Transaction Report (STR) with FIU-IND.

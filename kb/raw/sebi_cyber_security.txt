@@ -1,0 +1,28 @@
+SECURITIES AND EXCHANGE BOARD OF INDIA
+MARKET INTERMEDIARIES REGULATION AND SUPERVISION DEPARTMENT
+MUMBAI
+
+Cyber Security and Cyber Resilience Framework for Market Intermediaries
+Circular Ref: SEBI/HO/MIRSD/CIR/P/2022/65
+May 20, 2022
+
+SECTION I: ACCESS CONTROL AND CLIENT AUTHENTICATION
+1.1 Mandatory Two-Factor Authentication (2FA) for Trading
+(a) All stock brokers, depository participants, and algorithmic trading systems shall mandate Two-Factor Authentication (2FA) for login to internet-based trading applications.
+(b) The 2FA mechanism must combine knowledge factor (password/PIN) and possession factor (OTP, authenticator token) or inherence factor (biometric fingerprint/face).
+(c) Session timeouts shall automatically terminate idle trading sessions after 15 minutes of inactivity.
+
+SECTION II: NETWORK ISOLATION AND CRYPTOGRAPHIC DATA INTEGRITY
+2.1 Isolation of Trading Rails and Demat Databases
+(a) Core order matching engines, depository ledger databases, and client financial ledgers must reside within isolated demilitarized zones (DMZ) with no direct internet ingress.
+(b) Database connections must require encrypted transport and mutual TLS (mTLS) with client certificates.
+(c) Data at rest containing investor portfolios, PANs, demat account numbers, and bank mandates must be encrypted using AES-256 standards.
+
+SECTION III: VULNERABILITY ASSESSMENT AND CYBER AUDIT
+3.1 Periodic VAPT and Third-Party Audits
+(a) Regulated market intermediaries shall conduct Vulnerability Assessment and Penetration Testing (VAPT) at least once every six months through CERT-In empanelled auditing agencies.
+(b) Annual comprehensive cyber security audits must be submitted to SEBI along with board approval and remedial action plans within 60 days of fiscal year end.
+
+SECTION IV: INCIDENT REPORTING TO SEBI
+4.1 Cyber Incident Escalation Timeline
+Any cyber attack, distributed denial-of-service (DDoS) incident, unauthorized access, or loss of investor data must be reported to SEBI and CERT-In within 4 hours of detection via the prescribed portal.

@@ -1,0 +1,29 @@
+RESERVE BANK OF INDIA
+DEPARTMENT OF REGULATION
+CENTRAL OFFICE, MUMBAI
+
+Master Direction - Credit Card and Debit Card – Issuance and Conduct Directions, 2022
+Circular Ref: RBI/2022-23/92 Master Direction DOR.AUT.REC.No.27/24.01.041/2022-23
+April 21, 2022
+
+CHAPTER II: CONDUCT OF CARD OPERATIONS
+Section 7: Customer Consent and Card Activation
+(a) Explicit customer consent shall be obtained prior to activating a credit card. If a card is not activated by the customer within 30 days of issuance, the issuer shall seek an OTP-based confirmation, failing which the account shall be closed within seven working days at zero cost.
+(b) Modification of credit limits shall require explicit affirmative customer consent; automated unilateral credit limit enhancement is strictly prohibited.
+
+Section 10: Card-on-File Tokenization (CoFT) and Credential Storage
+(a) No entity in the card transaction or payment chain, other than the card issuer and the card payment network, shall store actual card details (Card Number, CVV, Expiry Date).
+(b) Merchants and payment aggregators shall exclusively store and transact using encrypted Card-on-File Tokens (CoFT) provisioned through authorized token service providers.
+(c) The CVV / CVC code must never be stored in persistent databases under any circumstances, even in encrypted form, after transaction authorization is complete.
+
+Section 14: User Control and Limits
+(a) Cardholders shall be provided 24x7 self-service facility through mobile banking and internet banking to turn on/off and set transaction velocity limits for:
+    1. Domestic transactions;
+    2. International transactions;
+    3. Contactless (NFC) tap-and-pay transactions;
+    4. Point-of-Sale (POS) and ATM withdrawals;
+    5. E-commerce online transactions.
+
+Section 22: Grievance Redressal and Disputed Transactions
+(a) Issuers shall ensure resolution of disputed transactions and customer chargebacks within a maximum period of 30 days from date of lodging the complaint.
+(b) If an issuer fails to resolve a customer complaint within 30 days, the customer may escalate the grievance to the RBI Ombudsman Scheme.

@@ -1,0 +1,151 @@
+# 30 Hand-Written Retrieval Evaluation Queries for Financial Knowledge Base (Phase 7)
+queries:
+  - id: "Q01"
+    query: "What are the rules for Aadhaar offline XML verification and masking of Aadhaar digits under RBI KYC Directions?"
+    expected_doc_id: "DOC-RBI-KYC-2016"
+    expected_section: "Section 16"
+
+  - id: "Q02"
+    query: "How long must Video-based Customer Identification Process (V-CIP) recordings be preserved?"
+    expected_doc_id: "DOC-RBI-KYC-2016"
+    expected_section: "Section 18"
+
+  - id: "Q03"
+    query: "What is the timeline for uploading individual customer KYC data to the Central KYC Records Registry (CKYCR)?"
+    expected_doc_id: "DOC-RBI-KYC-2016"
+    expected_section: "Section 27"
+
+  - id: "Q04"
+    query: "What is the periodic KYC updation frequency for high-risk versus low-risk banking customers?"
+    expected_doc_id: "DOC-RBI-KYC-2016"
+    expected_section: "Section 38"
+
+  - id: "Q05"
+    query: "What notice and language accessibility requirements apply before requesting customer consent under DPDP Act?"
+    expected_doc_id: "DOC-GOI-DPDP-2023"
+    expected_section: "Section 6"
+
+  - id: "Q06"
+    query: "What are the rights of a Data Principal to withdraw consent and obtain erasure of personal data?"
+    expected_doc_id: "DOC-GOI-DPDP-2023"
+    expected_section: "Section 6"
+
+  - id: "Q07"
+    query: "What reasonable security safeguards must a Data Fiduciary take to prevent personal data breach?"
+    expected_doc_id: "DOC-GOI-DPDP-2023"
+    expected_section: "Section 8"
+
+  - id: "Q08"
+    query: "Who must be informed in the event of a personal data breach under the Digital Personal Data Protection Act?"
+    expected_doc_id: "DOC-GOI-DPDP-2023"
+    expected_section: "Section 8"
+
+  - id: "Q09"
+    query: "How long must reporting entities maintain transactional records under Section 12 of the PMLA?"
+    expected_doc_id: "DOC-GOI-PMLA-2002"
+    expected_section: "Section 12"
+
+  - id: "Q10"
+    query: "What enhanced due diligence steps must reporting entities undertake prior to specified high value transactions under PMLA?"
+    expected_doc_id: "DOC-GOI-PMLA-2002"
+    expected_section: "Section 12AA"
+
+  - id: "Q11"
+    query: "What reports must be furnished to Financial Intelligence Unit - India (FIU-IND) regarding suspicious transactions?"
+    expected_doc_id: "DOC-GOI-PMLA-2002"
+    expected_section: "Section 12"
+
+  - id: "Q12"
+    query: "What is the retention period for client identity records after account closure under PMLA 2002?"
+    expected_doc_id: "DOC-GOI-PMLA-2002"
+    expected_section: "Section 12"
+
+  - id: "Q13"
+    query: "What are the mandated Recovery Point Objective (RPO) requirements for core financial processing systems under RBI IT framework?"
+    expected_doc_id: "DOC-RBI-ITFW-2016"
+    expected_section: "2.2"
+
+  - id: "Q14"
+    query: "What is the maximum allowed Recovery Time Objective (RTO) for mission critical core banking services?"
+    expected_doc_id: "DOC-RBI-ITFW-2016"
+    expected_section: "2.2"
+
+  - id: "Q15"
+    query: "What are the board oversight and committee responsibilities for IT strategy in regulated financial entities?"
+    expected_doc_id: "DOC-RBI-ITFW-2016"
+    expected_section: "1.1"
+
+  - id: "Q16"
+    query: "What audit log fields and retention duration are mandated on write-once-read-many (WORM) storage by RBI?"
+    expected_doc_id: "DOC-RBI-ITFW-2016"
+    expected_section: "3.2"
+
+  - id: "Q17"
+    query: "What cryptographic encryption algorithms are mandated for customer financial data at rest by RBI cyber security framework?"
+    expected_doc_id: "DOC-RBI-CSIS-2016"
+    expected_section: "2.1"
+
+  - id: "Q18"
+    query: "What TLS version and transit encryption standards must banks enforce across network channels?"
+    expected_doc_id: "DOC-RBI-CSIS-2016"
+    expected_section: "2.1"
+
+  - id: "Q19"
+    query: "What Hardware Security Module (HSM) FIPS certification level is required for key signing and PIN storage?"
+    expected_doc_id: "DOC-RBI-CSIS-2016"
+    expected_section: "2.1"
+
+  - id: "Q20"
+    query: "What is the mandatory incident reporting timeline for cyber security breaches to CERT-In and RBI?"
+    expected_doc_id: "DOC-RBI-CSIS-2016"
+    expected_section: "3.2"
+
+  - id: "Q21"
+    query: "What entities are permitted to store actual card credentials under Card-on-File Tokenization (CoFT) rules?"
+    expected_doc_id: "DOC-RBI-CARD-2022"
+    expected_section: "Section 10"
+
+  - id: "Q22"
+    query: "Are merchants or payment aggregators allowed to store CVV or CVC numbers under any circumstances?"
+    expected_doc_id: "DOC-RBI-CARD-2022"
+    expected_section: "Section 10"
+
+  - id: "Q23"
+    query: "What user controls must cardholders have to enable or disable international and contactless transactions?"
+    expected_doc_id: "DOC-RBI-CARD-2022"
+    expected_section: "Section 14"
+
+  - id: "Q24"
+    query: "What is the maximum turnaround time for card issuers to resolve customer chargebacks and disputed transactions?"
+    expected_doc_id: "DOC-RBI-CARD-2022"
+    expected_section: "Section 22"
+
+  - id: "Q25"
+    query: "What happens if a newly issued credit card is not activated by the customer within 30 days?"
+    expected_doc_id: "DOC-RBI-CARD-2022"
+    expected_section: "Section 7"
+
+  - id: "Q26"
+    query: "How must two-factor authentication and UPI PIN be captured on user mobile devices according to NPCI?"
+    expected_doc_id: "DOC-NPCI-UPI-2020"
+    expected_section: "2.1"
+
+  - id: "Q27"
+    query: "What is the standard per-transaction ceiling for peer-to-peer (P2P) transfers on UPI rails?"
+    expected_doc_id: "DOC-NPCI-UPI-2020"
+    expected_section: "4.1"
+
+  - id: "Q28"
+    query: "What is the maximum API response timeout limit for remitter and beneficiary banks on the UPI switch?"
+    expected_doc_id: "DOC-NPCI-UPI-2020"
+    expected_section: "5.1"
+
+  - id: "Q29"
+    query: "What two-factor authentication (2FA) mechanisms are mandated by SEBI for internet-based stock trading?"
+    expected_doc_id: "DOC-SEBI-CYBR-2022"
+    expected_section: "1.1"
+
+  - id: "Q30"
+    query: "What is the statutory timeline for reporting cyber security attacks to SEBI and CERT-In?"
+    expected_doc_id: "DOC-SEBI-CYBR-2022"
+    expected_section: "4.1"

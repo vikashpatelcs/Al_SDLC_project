@@ -1,0 +1,132 @@
+version: 1.0.0
+last_updated: '2026-10-06'
+documents:
+- id: DOC-RBI-KYC-2016
+  title: RBI Master Direction - Know Your Customer (KYC) Direction, 2016
+  regulator: Reserve Bank of India
+  circular_number: RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16
+  issue_date: '2016-02-25'
+  file_path: kb/raw/rbi_kyc_master_direction.txt
+  version: v2023.1
+  status: active
+  topics:
+  - onboarding
+  - kyc
+  - v-cip
+  - aadhaar
+  - pan
+  - ckyc
+  sha256: c48c6ce65637c464d690be96c4f0dad529bc4ba12b3da3650beabd1368f25cb8
+- id: DOC-GOI-DPDP-2023
+  title: Digital Personal Data Protection Act, 2023
+  regulator: Ministry of Law and Justice
+  circular_number: Act No. 22 of 2023
+  issue_date: '2023-08-11'
+  file_path: kb/raw/dpdp_act_2023.txt
+  version: v2023.0
+  status: active
+  topics:
+  - privacy
+  - consent
+  - dpdp
+  - notice
+  - erasure
+  - data_principal
+  sha256: c3835e715a71934e859b719d2b41d3f71373651ceb800daa8364fd2430f23636
+- id: DOC-GOI-PMLA-2002
+  title: Prevention of Money-Laundering Act, 2002
+  regulator: Ministry of Finance
+  circular_number: Act No. 15 of 2003
+  issue_date: '2003-01-17'
+  file_path: kb/raw/pmla_act_2002.txt
+  version: v2023.0
+  status: active
+  topics:
+  - pmla
+  - retention
+  - records
+  - fiu-ind
+  - str
+  - due_diligence
+  sha256: d3da33a5fecdd8c2079ce2d205ce35ff36308e640bc41638b3ddac8a0676179b
+- id: DOC-RBI-ITFW-2016
+  title: RBI Master Direction - Information Technology Framework for NBFCs and Banks
+  regulator: Reserve Bank of India
+  circular_number: RBI/DNBS/2016-17/45 Master Direction DNBS.PPD.01/66.15.001/2016-17
+  issue_date: '2016-11-09'
+  file_path: kb/raw/rbi_it_framework.txt
+  version: v2023.1
+  status: active
+  topics:
+  - it_governance
+  - bcp
+  - dr
+  - rpo
+  - rto
+  - audit_trail
+  sha256: e8e8a787f824529314a59e9397de438fb30de4c914e633d619d45f5f9608ba54
+- id: DOC-RBI-CSIS-2016
+  title: RBI Cyber Security Framework in Banks
+  regulator: Reserve Bank of India
+  circular_number: RBI/2015-16/418 DBS.CO/CSITE/BC.11/33.01.001/2015-16
+  issue_date: '2016-06-02'
+  file_path: kb/raw/rbi_cyber_security_framework.txt
+  version: v2016.1
+  status: active
+  topics:
+  - cyber_security
+  - aes-256
+  - tls
+  - hsm
+  - soc
+  - cert-in
+  sha256: b5e4546d10541fd4340e400b3fb7f880b77a395c5f51c9fd1258c177ed67a95d
+- id: DOC-RBI-CARD-2022
+  title: RBI Master Direction - Credit Card and Debit Card Issuance and Conduct Directions,
+    2022
+  regulator: Reserve Bank of India
+  circular_number: RBI/2022-23/92 Master Direction DOR.AUT.REC.No.27/24.01.041/2022-23
+  issue_date: '2022-04-21'
+  file_path: kb/raw/rbi_card_directions_2022.txt
+  version: v2022.1
+  status: active
+  topics:
+  - cards
+  - tokenization
+  - coft
+  - cvv
+  - limits
+  - chargeback
+  sha256: 9edbcedbb7aefdb99afb6cfcd72cde3d6ecc34e547c13a420845a16921fda86d
+- id: DOC-NPCI-UPI-2020
+  title: NPCI Unified Payments Interface (UPI) Procedural Guidelines & Operating Circulars
+  regulator: National Payments Corporation of India
+  circular_number: NPCI/UPI/OC-87/2020-21
+  issue_date: '2020-08-14'
+  file_path: kb/raw/npci_upi_guidelines.txt
+  version: v2020.1
+  status: active
+  topics:
+  - upi
+  - npci
+  - mpin
+  - limits
+  - settlement
+  - reversal
+  sha256: 989d46c46b43fba48fb50d32f6893902431510c7548dacb21fa651c8fed4854f
+- id: DOC-SEBI-CYBR-2022
+  title: SEBI Cyber Security and Cyber Resilience Framework for Market Intermediaries
+  regulator: Securities and Exchange Board of India
+  circular_number: SEBI/HO/MIRSD/CIR/P/2022/65
+  issue_date: '2022-05-20'
+  file_path: kb/raw/sebi_cyber_security.txt
+  version: v2022.1
+  status: active
+  topics:
+  - trading
+  - demat
+  - 2fa
+  - vapt
+  - audit
+  - sebi
+  sha256: 3020c13cb176ea12a1f335ace06af761088deb69e20133d1c45960061509b1cc

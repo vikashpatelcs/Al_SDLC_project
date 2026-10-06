@@ -1,0 +1,32 @@
+RESERVE BANK OF INDIA
+DEPARTMENT OF NON-BANKING SUPERVISION & BANKING SUPERVISION
+MUMBAI
+
+Master Direction - Information Technology Framework for the Financial Sector
+Circular Ref: RBI/DNBS/2016-17/45 Master Direction DNBS.PPD.01/66.15.001/2016-17
+Updated November 2023
+
+SECTION I: IT GOVERNANCE AND STRATEGY
+1.1 Board Oversight and IT Strategy Committee
+Regulated Entities shall institute an IT Strategy Committee headed by an independent director. The committee shall ensure alignment of IT investments with enterprise risk management, statutory auditability, and regulatory mandates.
+
+1.2 System Architecture and Change Management
+All financial applications shall have documented architecture diagrams, interface definitions, and strict change management policies. No production modification shall be deployed without independent testing and rollback verification.
+
+SECTION II: BUSINESS CONTINUITY AND DISASTER RECOVERY
+2.1 Business Continuity Plan (BCP)
+(a) Regulated Entities shall formulate a comprehensive Business Continuity Plan (BCP) covering critical operational services and payment transaction clearing.
+(b) BCP drills shall be conducted at least once every six months to validate failover readiness.
+
+2.2 Recovery Point Objective (RPO) and Recovery Time Objective (RTO)
+(a) For core financial and transaction processing systems, the Recovery Point Objective (RPO) shall be near-zero, ensuring zero committed transaction loss.
+(b) The Recovery Time Objective (RTO) shall not exceed two hours for mission-critical core banking and payment processing services.
+(c) The Primary Data Centre (PDC) and Disaster Recovery Site (DRS) must be geographically separated in different seismic zones.
+
+SECTION III: AUDIT TRAILS AND LOG RETENTION
+3.1 Audit Trail Immutability
+All core banking and payment applications must maintain an automated, tamper-evident audit trail for every user action, transaction record modification, and system privilege escalation.
+
+3.2 Log Fields and Storage
+(a) Audit logs must capture timestamp with millisecond precision synchronized via Network Time Protocol (NTP), unique user ID, source IP address, terminal identifier, and before/after values of modified state.
+(b) System audit logs must be written to write-once-read-many (WORM) storage or append-only secure repositories and preserved for a minimum period of 3 years.
