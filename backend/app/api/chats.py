@@ -20,6 +20,7 @@ from backend.app.core.security.masking import pii_masker
 from backend.app.core.parsers.factory import parse_and_mask_document
 from backend.app.agents.requirement_engineer import requirement_engineer_agent
 from backend.app.agents.analysis import analysis_engine
+from backend.app.agents.coordinator import coordinator_agent
 
 router = APIRouter(prefix="/chats", tags=["chats"])
 
@@ -256,29 +257,28 @@ async def send_message(
             except Exception:
                 pass
 
-    # 4. Invoke Requirement Engineer Agent
-    result = requirement_engineer_agent.process_chat_message(
+    # 4. Invoke Coordinator Agent driving the LangGraph multi-agent workflow
+    result = coordinator_agent.run_workflow(
         db=db,
         chat=chat,
-        user_message=user_msg,
-        uploaded_chunks=parsed_chunks if parsed_chunks else None
+        user_text=user_msg.content_masked,
+        uploaded_chunks=parsed_chunks if parsed_chunks else None,
+        auto_approve=True
     )
-    resp_text = result["text"]
+    resp_text = result["response_text"]
     action_cards = result["action_cards"]
-
-    # 5. Phase 8 Analysis Engine: If project requirements exist, perform quality analysis
-    project = db.query(Project).filter(Project.chat_id == chat.id).first()
-    if project and project.requirements:
-        issues = analysis_engine.analyze_project(project.id, project.requirements, db=db)
-        db.commit()
-        summary_card = analysis_engine.build_issue_summary_card(project.requirements, issues)
-        action_cards.append(summary_card.model_dump(mode="json"))
+    progress_messages = result.get("progress_messages", [])
 
     asst_msg_id = str(uuid.uuid4())
 
     async def event_generator():
         # Yield start event
         yield f"event: start\ndata: {json.dumps({'message_id': asst_msg_id})}\n\n"
+
+        # Stream real-time agent execution progress events to chat UI
+        for prog in progress_messages:
+            yield f"event: progress\ndata: {json.dumps({'message': prog})}\n\n"
+            await asyncio.sleep(0.01)
 
         # Stream tokens in words/chunks
         words = resp_text.split(" ")
@@ -295,7 +295,7 @@ async def send_message(
             id=asst_msg_id,
             chat_id=chat_id,
             role="assistant",
-            sender_agent="requirement_engineer",
+            sender_agent="coordinator",
             content_masked=resp_text,
             action_cards_json=json.dumps(action_cards),
             created_at=utcnow(),

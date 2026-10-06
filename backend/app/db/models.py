@@ -173,3 +173,20 @@ class RequirementIssueModel(Base):
     requirement = relationship("RequirementModel", back_populates="issues")
     project = relationship("Project", back_populates="issues")
 
+
+class AgentExecutionModel(Base):
+    __tablename__ = "agent_executions"
+
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    chat_id = Column(String(36), ForeignKey("chats.id", ondelete="CASCADE"), nullable=False, index=True)
+    agent_name = Column(String(64), nullable=False)
+    phase = Column(String(64), nullable=False)
+    input_payload = Column(Text, nullable=True)
+    output_payload = Column(Text, nullable=True)
+    duration_ms = Column(Integer, nullable=False, default=0)
+    status = Column(String(32), nullable=False, default="success")  # success, error
+    created_at = Column(DateTime, default=utcnow, nullable=False)
+
+    chat = relationship("Chat", backref="executions")
+
+
