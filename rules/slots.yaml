@@ -1,0 +1,68 @@
+# Financial Requirements Slots Taxonomy (Master Plan A6 / PS §2)
+# Defines domain slots and grouped questions required for financial requirement baselining.
+
+slots:
+  identity_and_kyc:
+    topic: "Workflow and Identity Verification"
+    description: "Customer onboarding, authentication, and statutory KYC verification mechanisms."
+    questions:
+      - id: "slot_kyc_method"
+        prompt: "What specific KYC verification methods (e.g., Aadhaar OTP XML, Video KYC, CKYC registry, or PAN verification API) are mandated?"
+        required: true
+        default_assumption: "Standard digital KYC using CKYC registry with Aadhaar OTP fallback will be implemented."
+      - id: "slot_user_journey"
+        prompt: "What is the exact multi-step user journey from initiation to terminal state?"
+        required: true
+        default_assumption: "Single-session synchronous user journey with progressive status tracking."
+
+  transaction_limits:
+    topic: "Limits, Velocity, and Exceptions"
+    description: "Transaction ceilings, volume thresholds, and error recovery policies."
+    questions:
+      - id: "slot_value_tiers"
+        prompt: "What are the per-transaction ceilings, daily cumulative velocity limits, and approval step-up thresholds?"
+        required: true
+        default_assumption: "Transactions above 50,000 INR mandate two-factor step-up authentication; max daily limit capped at 200,000 INR."
+      - id: "slot_exception_handling"
+        prompt: "What exception workflows govern external partner timeouts, rejected payments, or dropped connections?"
+        required: true
+        default_assumption: "Automated retry with exponential backoff up to 3 attempts, followed by dead-letter queueing and customer alert."
+
+  security_and_privacy:
+    topic: "Security and Data Protection"
+    description: "Cryptographic controls, sensitive data handling, and DPDP consent artifacts."
+    questions:
+      - id: "slot_encryption_standards"
+        prompt: "What cryptographic standards are mandated for sensitive financial data at rest and in transit?"
+        required: true
+        default_assumption: "AES-256-GCM encryption for persistent storage and TLS 1.3 with forward secrecy for all API traffic."
+      - id: "slot_consent_and_masking"
+        prompt: "How are Personally Identifiable Information (PII) elements masked, and how is explicit consent captured under the DPDP Act?"
+        required: true
+        default_assumption: "All primary financial identifiers are masked at presentation layer; granular consent tokens stored with timestamp."
+
+  audit_and_compliance:
+    topic: "Auditability and Regulatory Mandates"
+    description: "Statutory record keeping, audit log immutability, and compliance filing."
+    questions:
+      - id: "slot_audit_retention"
+        prompt: "What statutory retention duration applies to transactional logs under RBI/PMLA guidelines?"
+        required: true
+        default_assumption: "Append-only tamper-evident audit logs retained for minimum 8 years in write-once storage."
+      - id: "slot_regulatory_reporting"
+        prompt: "What periodic returns or automated event alerts must be dispatched to regulatory bodies?"
+        required: false
+        default_assumption: "Automated end-of-day reconciliation reports and real-time alerts for suspicious transaction thresholds."
+
+  resilience_and_sla:
+    topic: "Resilience, Latency, and SLAs"
+    description: "System availability, peak throughput, and disaster recovery objectives."
+    questions:
+      - id: "slot_latency_sla"
+        prompt: "What is the required P99 API response time and peak transaction per second (TPS) target?"
+        required: true
+        default_assumption: "P99 latency under 800 milliseconds at 500 peak transactions per second."
+      - id: "slot_ha_rpo_rto"
+        prompt: "What are the mandated Recovery Point Objective (RPO) and Recovery Time Objective (RTO) for business continuity?"
+        required: true
+        default_assumption: "RPO of zero (zero committed data loss) and RTO under 15 minutes with automated multi-zone failover."

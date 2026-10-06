@@ -1,0 +1,11 @@
+role: compliance_officer
+title: "Compliance Officer Interview Template"
+focus_areas:
+  - "Statutory regulatory guidelines (RBI, SEBI, DPDP, PMLA)"
+  - "KYC/AML verification and sanctions screening"
+  - "Data localization and statutory reporting"
+questions:
+  - "Which statutory regulations or Master Directions govern this product?"
+  - "What explicit identity verification, CKYC, or AML checks are mandated before onboarding?"
+  - "Are there explicit data localization requirements restricting cloud hosting regions?"
+  - "What periodic regulatory returns or incident disclosures are legally mandatory?"

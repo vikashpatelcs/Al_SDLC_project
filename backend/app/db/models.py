@@ -1,5 +1,7 @@
 """
-SQLAlchemy database models for persistence (Phase 2 minimal persistence).
+SQLAlchemy database models for persistence.
+Supports chats, messages, uploaded files, projects, stakeholders, requirements,
+immutable requirement versions, and the assumptions register per Phase 6.
 """
 import uuid
 from datetime import datetime, timezone
@@ -26,6 +28,7 @@ class Chat(Base):
 
     messages = relationship("Message", back_populates="chat", cascade="all, delete-orphan", order_by="Message.created_at")
     files = relationship("UploadedFile", back_populates="chat", cascade="all, delete-orphan")
+    project = relationship("Project", back_populates="chat", uselist=False, cascade="all, delete-orphan")
 
 
 class Message(Base):
@@ -54,3 +57,86 @@ class UploadedFile(Base):
     created_at = Column(DateTime, default=utcnow, nullable=False)
 
     chat = relationship("Chat", back_populates="files")
+
+
+class Project(Base):
+    __tablename__ = "projects"
+
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    chat_id = Column(String(36), ForeignKey("chats.id", ondelete="CASCADE"), nullable=True, index=True)
+    title = Column(String(255), nullable=False, default="Financial Project")
+    domain = Column(String(128), nullable=False, default="general_finance")
+    description = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=utcnow, nullable=False)
+    updated_at = Column(DateTime, default=utcnow, onupdate=utcnow, nullable=False)
+
+    chat = relationship("Chat", back_populates="project")
+    requirements = relationship("RequirementModel", back_populates="project", cascade="all, delete-orphan")
+    stakeholders = relationship("Stakeholder", back_populates="project", cascade="all, delete-orphan")
+    assumptions = relationship("Assumption", back_populates="project", cascade="all, delete-orphan")
+
+
+class Stakeholder(Base):
+    __tablename__ = "stakeholders"
+
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    project_id = Column(String(36), ForeignKey("projects.id", ondelete="CASCADE"), nullable=False, index=True)
+    name = Column(String(128), nullable=False)
+    role = Column(String(64), nullable=False)  # product_owner, compliance_officer, security, etc.
+    department = Column(String(128), nullable=True)
+    created_at = Column(DateTime, default=utcnow, nullable=False)
+
+    project = relationship("Project", back_populates="stakeholders")
+
+
+class RequirementModel(Base):
+    __tablename__ = "requirements"
+
+    id = Column(String(64), primary_key=True)  # e.g. "REQ-ONB-001" or "FR-001"
+    project_id = Column(String(36), ForeignKey("projects.id", ondelete="CASCADE"), nullable=False, index=True)
+    statement = Column(Text, nullable=False)
+    category = Column(String(64), nullable=False)  # 13 PS canonical categories
+    sub_category = Column(String(128), nullable=True)
+    priority = Column(String(32), nullable=False, default="Medium")
+    version = Column(Integer, nullable=False, default=1)
+    status = Column(String(64), nullable=False, default="draft")
+    source_statement_id = Column(String(128), nullable=True)
+    business_justification = Column(Text, nullable=True)
+    dependencies_json = Column(Text, nullable=True)
+    acceptance_criteria_json = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=utcnow, nullable=False)
+    updated_at = Column(DateTime, default=utcnow, onupdate=utcnow, nullable=False)
+
+    project = relationship("Project", back_populates="requirements")
+    versions = relationship("RequirementVersion", back_populates="requirement", cascade="all, delete-orphan", order_by="RequirementVersion.version")
+
+
+class RequirementVersion(Base):
+    __tablename__ = "requirement_versions"
+
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    requirement_id = Column(String(64), ForeignKey("requirements.id", ondelete="CASCADE"), nullable=False, index=True)
+    version = Column(Integer, nullable=False)
+    statement = Column(Text, nullable=False)
+    category = Column(String(64), nullable=False)
+    priority = Column(String(32), nullable=False)
+    status = Column(String(64), nullable=False)
+    changed_by = Column(String(128), nullable=True)
+    change_reason = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=utcnow, nullable=False)
+
+    requirement = relationship("RequirementModel", back_populates="versions")
+
+
+class Assumption(Base):
+    __tablename__ = "assumptions"
+
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    project_id = Column(String(36), ForeignKey("projects.id", ondelete="CASCADE"), nullable=False, index=True)
+    statement = Column(Text, nullable=False)
+    rationale = Column(Text, nullable=True)
+    category = Column(String(64), nullable=True)
+    status = Column(String(64), nullable=False, default="unverified")
+    created_at = Column(DateTime, default=utcnow, nullable=False)
+
+    project = relationship("Project", back_populates="assumptions")

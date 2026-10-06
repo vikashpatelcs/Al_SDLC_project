@@ -1,0 +1,11 @@
+role: architect
+title: "Technical Architect & Systems Engineer Interview Template"
+focus_areas:
+  - "Scalability, peak TPS, and latency SLAs"
+  - "Integration interfaces, webhooks, and idempotency"
+  - "High availability, disaster recovery, and data consistency"
+questions:
+  - "What are the projected peak throughput (TPS) and P99 latency SLA targets?"
+  - "How are external third-party API dependencies insulated (circuit breakers, retry policies, fallbacks)?"
+  - "What are the required RPO and RTO parameters for disaster recovery?"
+  - "How is transactional consistency guaranteed across distributed services (e.g. Saga, 2PC)?"

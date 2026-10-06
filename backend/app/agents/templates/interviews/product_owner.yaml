@@ -1,0 +1,11 @@
+role: product_owner
+title: "Product Owner Interview Template"
+focus_areas:
+  - "Core business workflow and user stories"
+  - "Target audience and persona segmentation"
+  - "Value proposition and release milestones"
+questions:
+  - "What is the primary business problem or opportunity this project addresses?"
+  - "Who are the primary end users and what is their expected digital journey?"
+  - "What are the key success metrics (KPIs) and business acceptance criteria?"
+  - "What features are strictly mandatory for MVP versus post-launch phases?"

@@ -1,0 +1,11 @@
+role: customer
+title: "End Customer / User Persona Interview Template"
+focus_areas:
+  - "User experience, accessibility, and friction points"
+  - "Consent transparency and notification preferences"
+  - "Grievance redressal, support, and dispute resolution"
+questions:
+  - "What multi-channel access (mobile, web, assisted branch) is expected?"
+  - "How are real-time transaction receipts, SMS alerts, and email notifications delivered?"
+  - "What is the self-service dispute raising and customer grievance redressal journey?"
+  - "What accessibility and multi-lingual requirements are necessary for inclusive adoption?"

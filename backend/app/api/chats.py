@@ -16,6 +16,9 @@ from backend.app.config import settings
 from backend.app.core.session import get_current_owner_hash
 from backend.app.db.models import Chat, Message, UploadedFile
 from backend.app.db.session import get_db
+from backend.app.core.security.masking import pii_masker
+from backend.app.core.parsers.factory import parse_and_mask_document
+from backend.app.agents.requirement_engineer import requirement_engineer_agent
 
 router = APIRouter(prefix="/chats", tags=["chats"])
 
@@ -214,8 +217,8 @@ async def send_message(
     owner_hash: str = Depends(get_current_owner_hash),
 ):
     """
-    Save user message and stream a MOCK assistant response via Server-Sent Events (SSE).
-    Phase 2 requirement: Mock streamed string demonstrating SSE and ActionCard rendering.
+    Save user message and stream assistant response via Server-Sent Events (SSE).
+    Phase 6: Uses RequirementEngineerAgent for grouped questions, requirement extraction, and assumptions.
     """
     chat = (
         db.query(Chat)
@@ -225,70 +228,67 @@ async def send_message(
     if not chat:
         raise HTTPException(status_code=404, detail="Chat session not found")
 
-    # Save user message
+    # 1. PII masking on incoming content
+    masked_content, _ = pii_masker.mask(payload.content)
+
+    # 2. Save user message
     user_msg = Message(
         id=str(uuid.uuid4()),
         chat_id=chat_id,
         role="user",
         sender_agent="stakeholder",
-        content_masked=payload.content,
+        content_masked=masked_content,
         created_at=utcnow(),
     )
     db.add(user_msg)
     chat.updated_at = utcnow()
     db.commit()
 
-    # Pre-generate assistant message ID and mock response tokens
-    asst_msg_id = str(uuid.uuid4())
-    mock_tokens = [
-        "Hello! ",
-        "I am your AI Requirement Engineer. ",
-        "I have received your financial requirement: '",
-        payload.content.strip(),
-        "'. ",
-        "In this phase, I am streaming back a mock response to verify the SSE communication channel, ",
-        "persistence layer, and inline action card rendering.",
-    ]
-    full_asst_content = "".join(mock_tokens)
+    # 3. Check for uploaded files in this chat
+    uploaded_records = db.query(UploadedFile).filter(UploadedFile.chat_id == chat_id).all()
+    parsed_chunks = []
+    for rec in uploaded_records:
+        if os.path.exists(rec.file_path):
+            try:
+                chunks = parse_and_mask_document(rec.file_path, rec.mime_type)
+                parsed_chunks.extend(chunks)
+            except Exception:
+                pass
 
-    # Mock action card payload
-    mock_cards = [
-        {
-            "id": f"card-{uuid.uuid4().hex[:8]}",
-            "card_type": "question_group",
-            "title": "Initial Requirement Clarification (Mock)",
-            "payload": {
-                "topic": "Security and Compliance",
-                "questions": [
-                    "What are the target transaction value thresholds?",
-                    "Is Aadhaar-based OTP or biometric authentication required?",
-                    "What is the required data retention window for regulatory audit?"
-                ]
-            },
-            "actions": ["Submit Answers", "Assume Regulatory Defaults"]
-        }
-    ]
+    # 4. Invoke Requirement Engineer Agent
+    result = requirement_engineer_agent.process_chat_message(
+        db=db,
+        chat=chat,
+        user_message=user_msg,
+        uploaded_chunks=parsed_chunks if parsed_chunks else None
+    )
+    resp_text = result["text"]
+    action_cards = result["action_cards"]
+
+    asst_msg_id = str(uuid.uuid4())
 
     async def event_generator():
         # Yield start event
         yield f"event: start\ndata: {json.dumps({'message_id': asst_msg_id})}\n\n"
 
-        # Stream tokens with subtle delay
-        for token in mock_tokens:
-            await asyncio.sleep(0.03)
+        # Stream tokens in words/chunks
+        words = resp_text.split(" ")
+        for i, word in enumerate(words):
+            token = word + (" " if i < len(words) - 1 else "")
+            await asyncio.sleep(0.01)
             yield f"event: token\ndata: {json.dumps({'token': token})}\n\n"
 
         # Yield action cards
-        yield f"event: action_cards\ndata: {json.dumps({'action_cards': mock_cards})}\n\n"
+        yield f"event: action_cards\ndata: {json.dumps({'action_cards': action_cards})}\n\n"
 
         # Save assistant message to DB
         asst_msg = Message(
             id=asst_msg_id,
             chat_id=chat_id,
             role="assistant",
-            sender_agent="coordinator",
-            content_masked=full_asst_content,
-            action_cards_json=json.dumps(mock_cards),
+            sender_agent="requirement_engineer",
+            content_masked=resp_text,
+            action_cards_json=json.dumps(action_cards),
             created_at=utcnow(),
         )
         db.add(asst_msg)

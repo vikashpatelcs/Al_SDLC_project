@@ -1,0 +1,11 @@
+role: risk
+title: "Risk Management Specialist Interview Template"
+focus_areas:
+  - "Credit, market, operational, and fraud risk"
+  - "Transaction exposure ceilings and velocity limits"
+  - "Fraud monitoring and anomaly detection rules"
+questions:
+  - "What are the maximum exposure limits per transaction, customer, and aggregate portfolio?"
+  - "What automated fraud detection and anomaly screening rules must run in-line?"
+  - "What threshold triggers an automated transaction freeze or secondary manual review?"
+  - "What collateral, margin, or risk buffers must be validated prior to execution?"

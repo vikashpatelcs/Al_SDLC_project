@@ -1,0 +1,11 @@
+role: operations
+title: "Operations & Settlement Specialist Interview Template"
+focus_areas:
+  - "End-of-day batch processing and ledger reconciliation"
+  - "Manual exception handling, chargebacks, and reversals"
+  - "Operational SLAs and maker-checker approval workflows"
+questions:
+  - "What daily cutoff times, batch reconciliation windows, and settlement cycles apply?"
+  - "What is the standard operating procedure for handling failed or ambiguous transactions?"
+  - "Are maker-checker dual controls required for manual overrides, refunds, or adjustments?"
+  - "What reporting dashboards do operations teams require for daily ledger reconciliation?"

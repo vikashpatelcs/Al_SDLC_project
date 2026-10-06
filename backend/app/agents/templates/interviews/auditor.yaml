@@ -1,0 +1,11 @@
+role: auditor
+title: "Internal / Statutory Auditor Interview Template"
+focus_areas:
+  - "Immutable audit trail and tamper-evident logging"
+  - "Statutory record retention policies (PMLA / Companies Act)"
+  - "Non-repudiation and cryptographic proof of events"
+questions:
+  - "What event attributes (user ID, timestamp, IP, before/after values) must every audit record capture?"
+  - "How is audit log immutability ensured (e.g. WORM storage, cryptographic hash chaining)?"
+  - "What is the statutory retention duration for transactional and audit ledgers?"
+  - "What automated audit extraction and export capabilities are required for statutory inspection?"

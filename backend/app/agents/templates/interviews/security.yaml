@@ -1,0 +1,11 @@
+role: security
+title: "Information Security Officer Interview Template"
+focus_areas:
+  - "Authentication, authorization, and session boundaries"
+  - "Cryptographic algorithms and key lifecycle management"
+  - "Penetration testing, vulnerability scanning, and threat model"
+questions:
+  - "What multi-factor authentication (MFA) mechanisms are required for customer and admin access?"
+  - "What encryption standards apply to sensitive data at rest, in transit, and during HSM signing?"
+  - "How are API tokens, secrets, and cryptographic keys generated, rotated, and protected?"
+  - "What automated rate limiting, WAF controls, and anti-tamper mechanisms must be deployed?"
