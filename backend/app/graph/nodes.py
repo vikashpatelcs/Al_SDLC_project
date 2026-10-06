@@ -11,6 +11,7 @@ from backend.app.schemas.message import ActionCard, ActionCardType
 from backend.app.agents.requirement_engineer import requirement_engineer_agent
 from backend.app.agents.analysis import analysis_engine
 from backend.app.agents.compliance_security_risk import compliance_security_risk_agent
+from backend.app.agents.sdlc import sdlc_agent
 from backend.app.db.models import RequirementModel
 
 
@@ -164,28 +165,28 @@ def compliance_security_risk_node(state: AgentState) -> Dict[str, Any]:
 
 
 def sdlc_node(state: AgentState) -> Dict[str, Any]:
-    """SDLC Agent (Phase 11 stub fixture): recommends and ranks development methodologies."""
+    """SDLC Agent: recommends and ranks development methodologies via deterministic MCDA."""
     progress_messages = list(state.get("progress_messages", []))
     progress_messages.append("Computing SDLC methodology recommendation based on compliance constraints and project risk...")
 
-    sdlc_recommendation = {
-        "recommended_model": "Hybrid Agile with Stage-Gate Compliance",
-        "score": 88,
-        "confidence": 0.92,
-        "factors": {
-            "regulatory_complexity": "High (Strict RBI/PMLA baselines)",
-            "team_distribution": "Distributed",
-            "speed_to_market": "High"
-        },
-        "runners_up": [
-            {"model": "Formal Waterfall", "score": 74},
-            {"model": "Pure Kanban", "score": 62}
-        ]
-    }
+    reqs = state.get("requirements", [])
+    project_id = state.get("project_id", "default_proj")
+    chat_id = state.get("chat_id")
+
+    rec = sdlc_agent.recommend_sdlc(
+        requirements=reqs,
+        project_id=project_id,
+        chat_id=chat_id
+    )
+
+    card = sdlc_agent.build_sdlc_ranking_card(rec)
+    action_cards = list(state.get("action_cards", []))
+    action_cards.append(card.model_dump(mode="json"))
 
     return {
         "phase": ConversationPhase.SDLC_ANALYSED.value,
-        "sdlc_recommendations": sdlc_recommendation,
+        "sdlc_recommendations": rec.model_dump(mode="json"),
+        "action_cards": action_cards,
         "progress_messages": progress_messages
     }
 

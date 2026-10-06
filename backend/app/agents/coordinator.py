@@ -20,6 +20,7 @@ from backend.app.db.models import (
     AgentExecutionModel,
     ComplianceMappingModel,
     RiskModel,
+    SDLCRecommendationModel,
 )
 from backend.app.graph.state import AgentState, ConversationPhase
 from backend.app.graph.workflow import build_orchestration_graph
@@ -242,6 +243,32 @@ class CoordinatorAgent:
                     )
                     db.add(r_model)
 
+        # Persist SDLC recommendation
+        sdlc_rec = final_state.get("sdlc_recommendations")
+        if sdlc_rec and isinstance(sdlc_rec, dict):
+            existing_rec = db.query(SDLCRecommendationModel).filter(
+                SDLCRecommendationModel.project_id == project.id
+            ).first()
+            if not existing_rec:
+                rec_model = SDLCRecommendationModel(
+                    id=str(uuid.uuid4()),
+                    project_id=project.id,
+                    chat_id=chat.id,
+                    selected_model=sdlc_rec.get("selected_model", "Agile + DevSecOps Hybrid"),
+                    rankings_json=json.dumps(sdlc_rec.get("rankings", [])),
+                    factors_json=json.dumps(sdlc_rec.get("factor_evaluations", {})),
+                    explanation=sdlc_rec.get("explanation", ""),
+                    workflow_json=json.dumps(sdlc_rec.get("workflow", [])),
+                    is_approved=sdlc_rec.get("is_approved", False)
+                )
+                db.add(rec_model)
+            else:
+                existing_rec.selected_model = sdlc_rec.get("selected_model", existing_rec.selected_model)
+                existing_rec.rankings_json = json.dumps(sdlc_rec.get("rankings", []))
+                existing_rec.factors_json = json.dumps(sdlc_rec.get("factor_evaluations", {}))
+                existing_rec.explanation = sdlc_rec.get("explanation", existing_rec.explanation)
+                existing_rec.workflow_json = json.dumps(sdlc_rec.get("workflow", []))
+
         db.commit()
 
         return {
@@ -252,7 +279,8 @@ class CoordinatorAgent:
             "requirements": new_reqs,
             "issues": new_issues,
             "compliance_mappings": new_mappings,
-            "risks": new_risks
+            "risks": new_risks,
+            "sdlc_recommendations": sdlc_rec
         }
 
 

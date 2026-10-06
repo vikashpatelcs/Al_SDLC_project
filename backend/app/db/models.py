@@ -29,6 +29,7 @@ class Chat(Base):
     messages = relationship("Message", back_populates="chat", cascade="all, delete-orphan", order_by="Message.created_at")
     files = relationship("UploadedFile", back_populates="chat", cascade="all, delete-orphan")
     project = relationship("Project", back_populates="chat", uselist=False, cascade="all, delete-orphan")
+    sdlc_recommendations = relationship("SDLCRecommendationModel", back_populates="chat", cascade="all, delete-orphan")
 
 
 class Message(Base):
@@ -77,6 +78,7 @@ class Project(Base):
     issues = relationship("RequirementIssueModel", back_populates="project", cascade="all, delete-orphan")
     compliance_mappings = relationship("ComplianceMappingModel", back_populates="project", cascade="all, delete-orphan")
     risks = relationship("RiskModel", back_populates="project", cascade="all, delete-orphan")
+    sdlc_recommendations = relationship("SDLCRecommendationModel", back_populates="project", cascade="all, delete-orphan")
 
 
 class Stakeholder(Base):
@@ -236,5 +238,24 @@ class RiskModel(Base):
 
     requirement = relationship("RequirementModel", back_populates="risks")
     project = relationship("Project", back_populates="risks")
+
+
+class SDLCRecommendationModel(Base):
+    __tablename__ = "sdlc_recommendations"
+
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    project_id = Column(String(36), ForeignKey("projects.id", ondelete="CASCADE"), nullable=False, index=True)
+    chat_id = Column(String(36), ForeignKey("chats.id", ondelete="CASCADE"), nullable=True, index=True)
+    selected_model = Column(String(64), nullable=False)
+    rankings_json = Column(Text, nullable=False)   # JSON array of ModelScoreRanking
+    factors_json = Column(Text, nullable=False)    # JSON dict of SDLCFactor
+    explanation = Column(Text, nullable=False)
+    workflow_json = Column(Text, nullable=False)   # JSON array of SDLCPhaseWorkflow
+    is_approved = Column(Boolean, default=False, nullable=False)
+    created_at = Column(DateTime, default=utcnow, nullable=False)
+    updated_at = Column(DateTime, default=utcnow, onupdate=utcnow, nullable=False)
+
+    project = relationship("Project", back_populates="sdlc_recommendations")
+    chat = relationship("Chat", back_populates="sdlc_recommendations")
 
 

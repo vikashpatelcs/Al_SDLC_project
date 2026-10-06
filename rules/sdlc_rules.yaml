@@ -1,0 +1,286 @@
+# Multi-Criteria Decision Analysis (MCDA) SDLC Rules and Weight Matrix per Problem Statement §13-§15 and Master Plan Phase 11
+version: "1.0.0"
+
+factors:
+  requirement_stability:
+    name: "Requirement Stability"
+    description: "Degree to which scope and requirements are fixed vs fluid."
+    scale_anchors:
+      1: "Highly volatile; evolving weekly with new market insights"
+      3: "Moderately stable; core scope defined, secondary features flexible"
+      5: "Completely frozen; statutory or contractually fixed baseline"
+
+  regulatory_criticality:
+    name: "Regulatory Criticality"
+    description: "Strictness of regulatory oversight, auditability, and statutory mandates."
+    scale_anchors:
+      1: "Unregulated or internal experimental utility"
+      3: "Standard industry compliance guidelines"
+      5: "Mission-critical financial regulation (strict RBI, PMLA, DPDP mandates)"
+
+  security_risk:
+    name: "Security Risk"
+    description: "Potential severity of cybersecurity attack or fraudulent financial breach."
+    scale_anchors:
+      1: "Low; non-sensitive public information"
+      3: "Moderate; authenticated user portal with encrypted data"
+      5: "Critical; monetary movement, customer credentials, HSM keys, high fraud target"
+
+  project_complexity:
+    name: "Project Complexity"
+    description: "Architectural, integration, and algorithmic intricacy."
+    scale_anchors:
+      1: "Simple standalone service with few integrations"
+      3: "Moderate multi-tier architecture with standard database and REST APIs"
+      5: "High distributed complexity; multi-rail payments, core banking ledger sync"
+
+  system_size:
+    name: "System Size"
+    description: "Scale of system in terms of codebase, modules, and user base."
+    scale_anchors:
+      1: "Small module or microservice (< 5k LOC)"
+      3: "Medium departmental banking platform (5k - 50k LOC)"
+      5: "Enterprise-scale core system (> 50k LOC, millions of transactions)"
+
+  legacy_system_dependence:
+    name: "Legacy System Dependence"
+    description: "Reliance on legacy mainframes, batch settlement, or monolithic databases."
+    scale_anchors:
+      1: "Greenfield modern cloud-native stack; zero legacy dependencies"
+      3: "Standard integration with legacy core banking SOAP/REST adapters"
+      5: "Deep bidirectional coupling with legacy mainframe and fixed-format flat files"
+
+  frequency_of_expected_changes:
+    name: "Frequency of Expected Changes"
+    description: "Expected cadence of feature updates and scope modifications."
+    scale_anchors:
+      1: "Rare; system remains unchanged for years after sign-off"
+      3: "Quarterly enhancements and scheduled maintenance releases"
+      5: "Continuous; bi-weekly sprints or daily continuous feature updates"
+
+  need_for_continuous_delivery:
+    name: "Need for Continuous Delivery"
+    description: "Requirement for automated deployment pipelines and rapid time-to-market."
+    scale_anchors:
+      1: "Scheduled manual release windows; no automated pipeline"
+      3: "Weekly automated builds to staging environments"
+      5: "Mandatory zero-downtime CI/CD continuous delivery to production"
+
+  availability_of_stakeholders:
+    name: "Availability of Stakeholders"
+    description: "Access to business and compliance owners for continuous feedback."
+    scale_anchors:
+      1: "Distant or external; feedback available only at major milestone gates"
+      3: "Regular review meetings bi-weekly"
+      5: "Fully embedded, co-located product owners and compliance partners"
+
+  testing_and_documentation_requirements:
+    name: "Testing and Documentation Requirements"
+    description: "Rigor of formal IEEE documentation, traceability, and test verification."
+    scale_anchors:
+      1: "Informal documentation; developer unit tests"
+      3: "Standard test suites and architecture documentation"
+      5: "Exhaustive formal verification, bidirectional RTM, statutory audit trail"
+
+  budget_and_schedule_constraints:
+    name: "Budget and Schedule Constraints"
+    description: "Flexibility of budget and delivery timelines."
+    scale_anchors:
+      1: "Flexible research and development budget and open timelines"
+      3: "Standard commercial project milestones and budget review"
+      5: "Rigid fixed-price, fixed-deadline statutory compliance delivery date"
+
+  need_for_formal_verification:
+    name: "Need for Formal Verification"
+    description: "Requirement for rigorous mathematical proofs and cryptographic verification."
+    scale_anchors:
+      1: "Standard functional quality assurance sufficient"
+      3: "Performance profiling and penetration testing required"
+      5: "Formal state-machine verification, HSM cryptographic validation, mathematical proofs"
+
+  consequences_of_system_failure:
+    name: "Consequences of System Failure"
+    description: "Impact if the software system experiences critical production failure."
+    scale_anchors:
+      1: "Minor user inconvenience; easily recoverable"
+      3: "Temporary localized business disruption; minor financial loss"
+      5: "Catastrophic; systemic bank failure, regulatory sanction, criminal liability"
+
+# Model Ideal Fit Matrix (1-5 targets for each factor)
+model_fit_profiles:
+  "Waterfall":
+    requirement_stability: 5
+    regulatory_criticality: 4
+    security_risk: 3
+    project_complexity: 2
+    system_size: 4
+    legacy_system_dependence: 4
+    frequency_of_expected_changes: 1
+    need_for_continuous_delivery: 1
+    availability_of_stakeholders: 1
+    testing_and_documentation_requirements: 5
+    budget_and_schedule_constraints: 5
+    need_for_formal_verification: 3
+    consequences_of_system_failure: 3
+
+  "V-Model":
+    requirement_stability: 5
+    regulatory_criticality: 5
+    security_risk: 5
+    project_complexity: 4
+    system_size: 4
+    legacy_system_dependence: 4
+    frequency_of_expected_changes: 1
+    need_for_continuous_delivery: 2
+    availability_of_stakeholders: 2
+    testing_and_documentation_requirements: 5
+    budget_and_schedule_constraints: 4
+    need_for_formal_verification: 5
+    consequences_of_system_failure: 5
+
+  "Spiral":
+    requirement_stability: 2
+    regulatory_criticality: 4
+    security_risk: 5
+    project_complexity: 5
+    system_size: 4
+    legacy_system_dependence: 3
+    frequency_of_expected_changes: 3
+    need_for_continuous_delivery: 2
+    availability_of_stakeholders: 3
+    testing_and_documentation_requirements: 4
+    budget_and_schedule_constraints: 2
+    need_for_formal_verification: 4
+    consequences_of_system_failure: 5
+
+  "Agile":
+    requirement_stability: 1
+    regulatory_criticality: 2
+    security_risk: 2
+    project_complexity: 3
+    system_size: 2
+    legacy_system_dependence: 1
+    frequency_of_expected_changes: 5
+    need_for_continuous_delivery: 5
+    availability_of_stakeholders: 5
+    testing_and_documentation_requirements: 2
+    budget_and_schedule_constraints: 2
+    need_for_formal_verification: 1
+    consequences_of_system_failure: 2
+
+  "DevSecOps":
+    requirement_stability: 2
+    regulatory_criticality: 4
+    security_risk: 5
+    project_complexity: 4
+    system_size: 3
+    legacy_system_dependence: 2
+    frequency_of_expected_changes: 5
+    need_for_continuous_delivery: 5
+    availability_of_stakeholders: 4
+    testing_and_documentation_requirements: 4
+    budget_and_schedule_constraints: 3
+    need_for_formal_verification: 3
+    consequences_of_system_failure: 4
+
+  "Agile + V-Model Hybrid":
+    requirement_stability: 3
+    regulatory_criticality: 5
+    security_risk: 4
+    project_complexity: 4
+    system_size: 4
+    legacy_system_dependence: 4
+    frequency_of_expected_changes: 3
+    need_for_continuous_delivery: 3
+    availability_of_stakeholders: 4
+    testing_and_documentation_requirements: 5
+    budget_and_schedule_constraints: 4
+    need_for_formal_verification: 4
+    consequences_of_system_failure: 5
+
+  "Agile + DevSecOps Hybrid":
+    requirement_stability: 3
+    regulatory_criticality: 5
+    security_risk: 5
+    project_complexity: 4
+    system_size: 4
+    legacy_system_dependence: 3
+    frequency_of_expected_changes: 4
+    need_for_continuous_delivery: 5
+    availability_of_stakeholders: 5
+    testing_and_documentation_requirements: 5
+    budget_and_schedule_constraints: 4
+    need_for_formal_verification: 4
+    consequences_of_system_failure: 5
+
+# Relative Importance Weights for Financial Applications (sum to 1.0)
+factor_weights:
+  regulatory_criticality: 0.12
+  security_risk: 0.12
+  consequences_of_system_failure: 0.10
+  testing_and_documentation_requirements: 0.10
+  requirement_stability: 0.08
+  frequency_of_expected_changes: 0.08
+  need_for_continuous_delivery: 0.08
+  need_for_formal_verification: 0.08
+  legacy_system_dependence: 0.06
+  project_complexity: 0.06
+  system_size: 0.04
+  availability_of_stakeholders: 0.04
+  budget_and_schedule_constraints: 0.04
+
+# Archetypal Case Studies for Unit Testing
+archetypal_cases:
+  - id: "CASE-DIGITAL-LENDING-FINTECH"
+    title: "Digital Personal Lending and Onboarding App"
+    expected_top_model: "Agile + DevSecOps Hybrid"
+    factors:
+      requirement_stability: 3
+      regulatory_criticality: 5
+      security_risk: 5
+      project_complexity: 4
+      system_size: 3
+      legacy_system_dependence: 2
+      frequency_of_expected_changes: 4
+      need_for_continuous_delivery: 5
+      availability_of_stakeholders: 5
+      testing_and_documentation_requirements: 4
+      budget_and_schedule_constraints: 4
+      need_for_formal_verification: 3
+      consequences_of_system_failure: 4
+
+  - id: "CASE-CORE-BANKING-REPLACEMENT"
+    title: "Mission-Critical Core Banking Ledger Replacement"
+    expected_top_model: "V-Model"
+    factors:
+      requirement_stability: 5
+      regulatory_criticality: 5
+      security_risk: 5
+      project_complexity: 5
+      system_size: 5
+      legacy_system_dependence: 5
+      frequency_of_expected_changes: 1
+      need_for_continuous_delivery: 1
+      availability_of_stakeholders: 2
+      testing_and_documentation_requirements: 5
+      budget_and_schedule_constraints: 5
+      need_for_formal_verification: 5
+      consequences_of_system_failure: 5
+
+  - id: "CASE-INTERNAL-RESEARCH-PORTAL"
+    title: "Internal Unregulated Analytics Dashboard"
+    expected_top_model: "Agile"
+    factors:
+      requirement_stability: 1
+      regulatory_criticality: 1
+      security_risk: 1
+      project_complexity: 2
+      system_size: 1
+      legacy_system_dependence: 1
+      frequency_of_expected_changes: 5
+      need_for_continuous_delivery: 5
+      availability_of_stakeholders: 5
+      testing_and_documentation_requirements: 1
+      budget_and_schedule_constraints: 2
+      need_for_formal_verification: 1
+      consequences_of_system_failure: 1
