@@ -1,0 +1,92 @@
+# Authoritative Deterministic Compliance Validation Rules per Master Plan Phase 10 & Problem Statement §11
+version: "1.0.0"
+rules:
+  - id: CMP-PII-CONSENT-001
+    title: Mandatory Explicit Consent for Personal Data Processing
+    trigger_patterns:
+      - "(personal data|customer information|aadhaar|pan|identity document|biometric)"
+    mandatory_terms:
+      - "(consent|explicit permission|notice|purpose specification)"
+    negative_patterns:
+      - "(without consent|implied consent|opt-out only)"
+    regulation: "Digital Personal Data Protection Act, 2023"
+    circular: "Act No. 22 of 2023"
+    doc_id: "DOC-GOI-DPDP-2023"
+    section: "Section 6(1)"
+    citation_quote: "The Data Fiduciary shall not process personal data without the prior explicit and informed consent of the Data Principal accompanied by a multilingual notice."
+    control_required: "Implement granular, verifiable, withdrawal-capable consent recording prior to collecting customer personal data."
+    gap_message: "Requirement processes sensitive personal identifiers or customer data but lacks an explicit consent collection mechanism required under DPDP Act 2023 Section 6(1)."
+
+  - id: CMP-PII-RETENTION-002
+    title: Data Retention Expiry and Automated Purging
+    trigger_patterns:
+      - "(store|retain|keep|database|repository|archive)"
+      - "(aadhaar|pan|customer data|pii|credentials)"
+    mandatory_terms:
+      - "(retention|purge|erase|delete after|expiry|statutory period|specified duration)"
+    regulation: "Digital Personal Data Protection Act, 2023"
+    circular: "Act No. 22 of 2023"
+    doc_id: "DOC-GOI-DPDP-2023"
+    section: "Section 8(7)"
+    citation_quote: "A Data Fiduciary must erase personal data upon specified time limits or when the specified purpose is fulfilled."
+    control_required: "Define an explicit retention limit and automated post-fulfillment erasure schedule for stored personal data."
+    gap_message: "Requirement specifies customer data storage without defining an explicit statutory retention period or automated erasure policy under DPDP Section 8(7)."
+
+  - id: CMP-CARD-TOKEN-003
+    title: Post-Authorization Card Security & CVV Storage Prohibition
+    trigger_patterns:
+      - "(card|debit card|credit card|cvv|pin|card verification value|expiry date)"
+    prohibited_patterns:
+      - "(store.*(cvv|pin|security code)|save.*(cvv|pin)|persist.*(cvv|pin)|cache.*(cvv|pin))"
+    mandatory_terms:
+      - "(token|tokenisation|coft|tokenize|mask|truncate)"
+    regulation: "RBI Master Direction - Credit Card and Debit Card Issuance and Conduct Directions, 2022"
+    circular: "RBI/2022-23/92 Master Direction DOR.AUT.REC.No.27/24.01.041/2022-23"
+    doc_id: "DOC-RBI-CARD-2022"
+    section: "Chapter VI Section 19"
+    citation_quote: "Entities shall not store card verification value (CVV/CVC) or PIN post-authorization under any circumstances. Storage of actual card credentials shall be replaced by authorized tokens."
+    control_required: "Enforce Card-on-File Tokenisation (CoFT) and immediately wipe CVV/PIN from runtime memory post-transaction."
+    gap_message: "Storage or un-tokenised handling of payment card credentials detected without CoFT tokenisation or CVV disposal policy."
+
+  - id: CMP-AML-AUDIT-004
+    title: Mandatory 5-Year WORM Audit Trail Retention
+    trigger_patterns:
+      - "(transaction|payment|fund transfer|settlement|loan disbursement|onboarding|kyc)"
+    mandatory_terms:
+      - "(audit|tamper-evident|worm|log|immutable|history)"
+    retention_years_minimum: 5
+    regulation: "Prevention of Money-Laundering Act, 2002"
+    circular: "Act No. 15 of 2003"
+    doc_id: "DOC-GOI-PMLA-2002"
+    section: "Section 12(1)(a)"
+    citation_quote: "Every reporting entity shall maintain a record of all transactions for a minimum period of five years from the date of transaction."
+    control_required: "Maintain an immutable, append-only, tamper-evident audit trail with a statutory 5-year retention lifecycle."
+    gap_message: "Financial transaction or KYC processing requirement lacks a verifiable 5-year immutable audit trail under PMLA 2002 Section 12."
+
+  - id: CMP-SEC-HSM-005
+    title: Cryptographic Hardware Security Module (HSM) Key Protection
+    trigger_patterns:
+      - "(encrypt|decrypt|key management|hsm|cryptographic|sign|tokenization)"
+    mandatory_terms:
+      - "(hsm|fips 140-2|hardware security module|secure enclave|kms)"
+    regulation: "RBI Cyber Security Framework in Banks"
+    circular: "RBI/2015-16/418 DBS.CO/CSITE/BC.11/33.01.001/2015-16"
+    doc_id: "DOC-RBI-CSIS-2016"
+    section: "Annex 1 Section 4"
+    citation_quote: "Encryption keys shall be generated, stored, and managed using dedicated Hardware Security Modules (HSMs) certified to FIPS 140-2 Level 3 or equivalent."
+    control_required: "All cryptographic master keys must reside within dedicated FIPS 140-2 Level 3 Hardware Security Modules."
+    gap_message: "Cryptographic operations specified without mandatory HSM key custody or hardware-backed root key management under RBI Cyber Security Framework."
+
+  - id: CMP-TXN-STEPUP-006
+    title: Multi-Factor Authentication & Velocity Limits on Funds Movement
+    trigger_patterns:
+      - "(transfer|payment|withdraw|disbursement|payout|debit|remittance)"
+    mandatory_terms:
+      - "(step-up|mfa|two-factor|2fa|otp|biometric|velocity|limit|threshold)"
+    regulation: "RBI Master Direction - Information Technology Framework for NBFCs and Banks"
+    circular: "RBI/DNBS/2016-17/45 Master Direction DNBS.PPD.01/66.15.001/2016-17"
+    doc_id: "DOC-RBI-ITFW-2016"
+    section: "Section 3.2.1"
+    citation_quote: "Dynamic two-factor authentication and transaction velocity caps are mandatory for all customer-originated electronic fund transfers."
+    control_required: "Enforce dynamic multi-factor authentication (2FA) and configurable velocity thresholds on electronic transactions."
+    gap_message: "Fund transfer operation lacks multi-factor step-up verification or velocity limits required by RBI IT Governance standards."

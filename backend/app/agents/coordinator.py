@@ -18,6 +18,8 @@ from backend.app.db.models import (
     Assumption,
     RequirementIssueModel,
     AgentExecutionModel,
+    ComplianceMappingModel,
+    RiskModel,
 )
 from backend.app.graph.state import AgentState, ConversationPhase
 from backend.app.graph.workflow import build_orchestration_graph
@@ -190,6 +192,56 @@ class CoordinatorAgent:
                     )
                     db.add(iss_model)
 
+        # Persist compliance mappings
+        new_mappings = final_state.get("compliance_mappings", [])
+        if new_mappings:
+            for m in new_mappings:
+                existing_map = db.query(ComplianceMappingModel).filter(
+                    ComplianceMappingModel.id == m["id"]
+                ).first()
+                if not existing_map:
+                    map_model = ComplianceMappingModel(
+                        id=m["id"],
+                        requirement_id=m["requirement_id"],
+                        project_id=project.id,
+                        regulation_name=m.get("regulation_name", "Regulation"),
+                        section_reference=m.get("section_reference", "General"),
+                        citation_quote=m.get("citation_quote", ""),
+                        citation_doc_id=m.get("citation_doc_id", "DOC-REG"),
+                        citation_verified=m.get("citation_verified", False),
+                        compliance_status=m.get("compliance_status", "compliant"),
+                        control_required=m.get("control_required", ""),
+                        gap_description=m.get("gap_description"),
+                        escalation_flag=m.get("escalation_flag", False),
+                        escalation_reason=m.get("escalation_reason"),
+                        confidence_score=m.get("confidence_score", 1.0)
+                    )
+                    db.add(map_model)
+
+        # Persist risks
+        new_risks = final_state.get("risks", [])
+        if new_risks:
+            for r in new_risks:
+                existing_r = db.query(RiskModel).filter(
+                    RiskModel.id == r["id"]
+                ).first()
+                if not existing_r:
+                    r_model = RiskModel(
+                        id=r["id"],
+                        project_id=project.id,
+                        requirement_id=r.get("requirement_id"),
+                        title=r.get("title", "Project Risk"),
+                        category=r.get("category", "compliance"),
+                        probability=r.get("probability", 1),
+                        impact=r.get("impact", 1),
+                        risk_score=r.get("risk_score", 1),
+                        severity=r.get("severity", "low"),
+                        mitigation=r.get("mitigation", "Implement operational controls"),
+                        owner=r.get("owner", "Compliance & Risk Team"),
+                        status=r.get("status", "identified")
+                    )
+                    db.add(r_model)
+
         db.commit()
 
         return {
@@ -198,7 +250,9 @@ class CoordinatorAgent:
             "action_cards": final_state.get("action_cards", []),
             "progress_messages": final_state.get("progress_messages", []),
             "requirements": new_reqs,
-            "issues": new_issues
+            "issues": new_issues,
+            "compliance_mappings": new_mappings,
+            "risks": new_risks
         }
 
 

@@ -1,0 +1,73 @@
+# 5x5 Financial Risk Model and Scoring Matrix per Problem Statement §11, §12 and Master Plan Phase 10
+version: "1.0.0"
+
+matrix:
+  dimensions: 5
+  probability_levels:
+    1: { name: "Rare", description: "May occur only in exceptional circumstances (< 5% annual probability)" }
+    2: { name: "Unlikely", description: "Could occur at some point (5-20% annual probability)" }
+    3: { name: "Moderate", description: "Might occur at some time (21-50% annual probability)" }
+    4: { name: "Likely", description: "Will probably occur in most circumstances (51-80% annual probability)" }
+    5: { name: "Almost Certain", description: "Expected to occur in most circumstances (> 80% annual probability)" }
+
+  impact_levels:
+    1: { name: "Negligible", description: "Minor operational inconvenience; negligible financial or regulatory impact" }
+    2: { name: "Minor", description: "Low financial loss; contained operational disruption; no regulatory violation" }
+    3: { name: "Moderate", description: "Noticeable financial loss; short customer disruption; minor reporting obligation" }
+    4: { name: "Major", description: "Substantial financial loss; core service downtime; statutory regulatory penalty" }
+    5: { name: "Catastrophic", description: "Severe financial loss; systemic service failure; regulatory license revocation" }
+
+  severity_tiers:
+    critical: { min_score: 16, max_score: 25, color: "#DC2626", action_sla_hours: 4 }
+    high:     { min_score: 10, max_score: 15, color: "#EA580C", action_sla_hours: 24 }
+    medium:   { min_score: 5,  max_score: 9,  color: "#D97706", action_sla_hours: 72 }
+    low:      { min_score: 1,  max_score: 4,  color: "#16A34A", action_sla_hours: 168 }
+
+risk_templates:
+  - id: TPL-RSK-AML-01
+    title: PMLA Audit Record Truncation or Premature Deletion
+    category: compliance
+    default_probability: 2
+    default_impact: 5
+    mitigation: "Deploy immutable WORM object storage with automated 5-year legal hold retention enforcement."
+    owner: "Compliance & Audit Team"
+
+  - id: TPL-RSK-PII-02
+    title: Unconsented Personal Data Processing under DPDP Act
+    category: compliance
+    default_probability: 3
+    default_impact: 4
+    mitigation: "Integrate automated Consent Management Platform with tamper-evident digital consent artifact signing."
+    owner: "Data Privacy Officer"
+
+  - id: TPL-RSK-KEY-03
+    title: Cryptographic Root Key Compromise outside HSM
+    category: security
+    default_probability: 2
+    default_impact: 5
+    mitigation: "Enforce strict FIPS 140-2 Level 3 HSM hardware boundary for all encryption and signing keys."
+    owner: "Information Security Officer"
+
+  - id: TPL-RSK-TXN-04
+    title: Account Takeover & Fraudulent Fund Siphoning
+    category: security
+    default_probability: 3
+    default_impact: 4
+    mitigation: "Implement real-time behavioral velocity rules and mandatory out-of-band step-up authentication."
+    owner: "Fraud Operations"
+
+  - id: TPL-RSK-AVL-05
+    title: Banking Switch or Partner Gateway Downtime
+    category: availability
+    default_probability: 3
+    default_impact: 3
+    mitigation: "Architect multi-AZ active-active failover with circuit breakers and fallback payment rails."
+    owner: "DevOps & Infrastructure"
+
+  - id: TPL-RSK-LEG-06
+    title: Core Banking Legacy Mainframe Sync Latency
+    category: legacy
+    default_probability: 4
+    default_impact: 3
+    mitigation: "Deploy an asynchronous event-driven transactional inbox/outbox messaging bus with idempotent replay."
+    owner: "Core Banking Architecture"

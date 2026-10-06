@@ -29,6 +29,8 @@ class ActionCardType(str, Enum):
     APPROVAL_REQUEST = "approval_request"
     SDLC_RANKING = "sdlc_ranking"
     DOWNLOAD_PDF = "download_pdf"
+    COMPLIANCE_CARD = "compliance_card"
+    RISK_CARD = "risk_card"
 
 
 class ActionCard(BaseModel):

@@ -1,0 +1,38 @@
+# Financial Data Privacy Controls per DPDP Act 2023 & ISO 27701
+version: "1.0.0"
+principles:
+  - id: PRIV-PRIN-01
+    title: Purpose Limitation & Data Minimization
+    description: Only collect and process personal data strictly required to deliver the specific financial service.
+    standards_ref: "DPDP Act 2023 §6(1)"
+    mandatory: true
+
+  - id: PRIV-PRIN-02
+    title: Granular Notice and Multilingual Consent
+    description: Present explicit, unbundled consent notices specifying items collected, purpose, and withdrawal mechanism.
+    standards_ref: "DPDP Act 2023 §5, §6"
+    mandatory: true
+
+  - id: PRIV-PRIN-03
+    title: Data Principal Rights (Access, Correction, Erasure)
+    description: Provide self-service endpoints enabling customers to review, rectify, or request erasure of personal data.
+    standards_ref: "DPDP Act 2023 §11, §12"
+    mandatory: true
+
+  - id: PRIV-PRIN-04
+    title: Automated Expiry & Purge Lifecycle
+    description: Schedule automated data purging upon expiration of the statutory or contractual retention window.
+    standards_ref: "DPDP Act 2023 §8(7)"
+    mandatory: true
+
+  - id: PRIV-PRIN-05
+    title: Redaction and LLM Isolation
+    description: Ensure raw customer PII is never transmitted to LLM inference endpoints or written to transient vector caches.
+    standards_ref: "DPDP Act 2023 §8(5)"
+    mandatory: true
+
+  - id: PRIV-PRIN-06
+    title: Data Breach Notification within 6 hours
+    description: Automated alerting and CERT-In/Data Protection Board incident notification within statutory timelines.
+    standards_ref: "DPDP Act 2023 §8(6), CERT-In Directions 2022"
+    mandatory: true

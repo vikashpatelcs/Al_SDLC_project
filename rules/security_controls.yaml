@@ -1,0 +1,65 @@
+# Financial System Security Baseline Controls per Problem Statement §17 and Master Plan Phase 10
+version: "1.0.0"
+categories:
+  - name: Authentication & Authorization
+    controls:
+      - id: SEC-AUTH-01
+        title: Adaptive Multi-Factor Authentication
+        description: Enforce step-up MFA (SMS/TOTP/FIDO2) for high-value or unusual transactions.
+        mandatory_for: ["payment", "transfer", "onboarding", "admin"]
+      - id: SEC-AUTH-02
+        title: Granular Role-Based Access Control (RBAC)
+        description: Restrict operations based on verified least-privilege role assignment and tenant isolation.
+        mandatory_for: ["all"]
+      - id: SEC-AUTH-03
+        title: Cryptographic Session Invalidation
+        description: Enforce absolute session timeouts (15 minutes idle) and immediate token revocation on logout.
+        mandatory_for: ["session", "api"]
+
+  - name: Data Protection in Transit and at Rest
+    controls:
+      - id: SEC-DATA-01
+        title: AES-256-GCM Envelope Encryption at Rest
+        description: Encrypt all database tables and sensitive blobs using AES-256 with envelope key rotation.
+        mandatory_for: ["pii", "database", "storage"]
+      - id: SEC-DATA-02
+        title: TLS 1.3 with Perfect Forward Secrecy in Transit
+        description: Terminate external and inter-service communications using modern cipher suites and TLS 1.3.
+        mandatory_for: ["network", "api"]
+      - id: SEC-DATA-03
+        title: Masking of Personal and Sensitive Identifiers
+        description: Truncate and mask Aadhaar (first 8 digits masked) and PAN in application logs and displays.
+        mandatory_for: ["pii", "display", "logging"]
+
+  - name: Transaction Security and Fraud Defense
+    controls:
+      - id: SEC-TXN-01
+        title: Real-Time Velocity Checks & Anomaly Detection
+        description: Compute rolling velocity thresholds across 1-hour and 24-hour windows to detect account takeover.
+        mandatory_for: ["payment", "transfer"]
+      - id: SEC-TXN-02
+        title: Idempotency Key Enforced Settlement
+        description: Prevent double-debit and race conditions using cryptographically random idempotency keys.
+        mandatory_for: ["payment", "settlement"]
+
+  - name: Auditability and Non-Repudiation
+    controls:
+      - id: SEC-AUDIT-01
+        title: Append-Only Immutable Audit Log (WORM)
+        description: Stream transaction events to tamper-evident WORM storage with cryptographically hashed blocks.
+        mandatory_for: ["all"]
+      - id: SEC-AUDIT-02
+        title: Microsecond Timestamp Synchronization
+        description: Maintain NTP network time synchronization to UTC within 50ms across distributed microservices.
+        mandatory_for: ["logging", "audit"]
+
+  - name: Application & API Security
+    controls:
+      - id: SEC-APP-01
+        title: Strict Input Validation & Injection Filtering
+        description: Validate all parameters against strict schemas and filter prompt injection payloads.
+        mandatory_for: ["api", "llm"]
+      - id: SEC-APP-02
+        title: Mutual TLS (mTLS) Partner Gateway Interconnect
+        description: Require client certificate authentication for all external banking rails and bureau connections.
+        mandatory_for: ["integration", "gateway"]

@@ -10,6 +10,7 @@ from backend.app.graph.state import AgentState, ConversationPhase
 from backend.app.schemas.message import ActionCard, ActionCardType
 from backend.app.agents.requirement_engineer import requirement_engineer_agent
 from backend.app.agents.analysis import analysis_engine
+from backend.app.agents.compliance_security_risk import compliance_security_risk_agent
 from backend.app.db.models import RequirementModel
 
 
@@ -138,41 +139,26 @@ def analysis_node(state: AgentState) -> Dict[str, Any]:
 
 
 def compliance_security_risk_node(state: AgentState) -> Dict[str, Any]:
-    """Compliance + Security + Risk Agent (Phase 10 stub fixture)."""
+    """Compliance + Security + Risk Agent: executes RAG grounding, citation validation, and 5x5 risk scoring."""
     progress_messages = list(state.get("progress_messages", []))
     progress_messages.append("Verifying regulatory compliance against authoritative RBI/DPDP guidelines and generating risk register...")
 
-    compliance_mappings = [
-        {
-            "standard": "RBI Master Direction on KYC",
-            "section": "Section 24",
-            "citation": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16",
-            "status": "compliant"
-        },
-        {
-            "standard": "Digital Personal Data Protection Act 2023",
-            "section": "Section 6(1)",
-            "citation": "DPDP Act 2023 Section 6(1)",
-            "status": "compliant"
-        }
-    ]
+    reqs = state.get("requirements", [])
+    project_id = state.get("project_id", "default_proj")
 
-    risks = [
-        {
-            "risk_id": "RSK-001",
-            "category": "Compliance",
-            "description": "Failure to maintain audit trail for 5 years violates PMLA 2002.",
-            "probability": 2,
-            "impact": 5,
-            "score": 10,
-            "mitigation": "Enforce immutable WORM audit storage."
-        }
-    ]
+    result = compliance_security_risk_agent.analyze_compliance_and_risk(
+        requirements=reqs,
+        project_id=project_id
+    )
+
+    action_cards = list(state.get("action_cards", []))
+    action_cards.extend(result.get("action_cards", []))
 
     return {
         "phase": ConversationPhase.ENRICH.value,
-        "compliance_mappings": compliance_mappings,
-        "risks": risks,
+        "compliance_mappings": result.get("compliance_mappings", []),
+        "risks": result.get("risks", []),
+        "action_cards": action_cards,
         "progress_messages": progress_messages
     }
 

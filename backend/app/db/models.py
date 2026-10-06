@@ -5,7 +5,7 @@ immutable requirement versions, and the assumptions register per Phase 6.
 """
 import uuid
 from datetime import datetime, timezone
-from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, Text
+from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, Text, Boolean, Float
 from sqlalchemy.orm import relationship
 
 from backend.app.db.session import Base
@@ -75,6 +75,8 @@ class Project(Base):
     stakeholders = relationship("Stakeholder", back_populates="project", cascade="all, delete-orphan")
     assumptions = relationship("Assumption", back_populates="project", cascade="all, delete-orphan")
     issues = relationship("RequirementIssueModel", back_populates="project", cascade="all, delete-orphan")
+    compliance_mappings = relationship("ComplianceMappingModel", back_populates="project", cascade="all, delete-orphan")
+    risks = relationship("RiskModel", back_populates="project", cascade="all, delete-orphan")
 
 
 class Stakeholder(Base):
@@ -111,6 +113,8 @@ class RequirementModel(Base):
     project = relationship("Project", back_populates="requirements")
     versions = relationship("RequirementVersion", back_populates="requirement", cascade="all, delete-orphan", order_by="RequirementVersion.version")
     issues = relationship("RequirementIssueModel", back_populates="requirement", cascade="all, delete-orphan")
+    compliance_mappings = relationship("ComplianceMappingModel", back_populates="requirement", cascade="all, delete-orphan")
+    risks = relationship("RiskModel", back_populates="requirement")
 
 
 class RequirementVersion(Base):
@@ -188,5 +192,49 @@ class AgentExecutionModel(Base):
     created_at = Column(DateTime, default=utcnow, nullable=False)
 
     chat = relationship("Chat", backref="executions")
+
+
+class ComplianceMappingModel(Base):
+    __tablename__ = "compliance_mappings"
+
+    id = Column(String(64), primary_key=True)
+    requirement_id = Column(String(64), ForeignKey("requirements.id", ondelete="CASCADE"), nullable=False, index=True)
+    project_id = Column(String(36), ForeignKey("projects.id", ondelete="CASCADE"), nullable=False, index=True)
+    regulation_name = Column(String(128), nullable=False)
+    section_reference = Column(String(128), nullable=False)
+    citation_quote = Column(Text, nullable=False)
+    citation_doc_id = Column(String(64), nullable=False)
+    citation_verified = Column(Boolean, default=False, nullable=False)
+    compliance_status = Column(String(32), default="compliant", nullable=False)  # compliant, gap, needs_review
+    control_required = Column(Text, nullable=False)
+    gap_description = Column(Text, nullable=True)
+    escalation_flag = Column(Boolean, default=False, nullable=False)
+    escalation_reason = Column(Text, nullable=True)
+    confidence_score = Column(Float, default=1.0, nullable=False)
+    created_at = Column(DateTime, default=utcnow, nullable=False)
+
+    requirement = relationship("RequirementModel", back_populates="compliance_mappings")
+    project = relationship("Project", back_populates="compliance_mappings")
+
+
+class RiskModel(Base):
+    __tablename__ = "risks"
+
+    id = Column(String(64), primary_key=True)  # e.g. RSK-001
+    project_id = Column(String(36), ForeignKey("projects.id", ondelete="CASCADE"), nullable=False, index=True)
+    requirement_id = Column(String(64), ForeignKey("requirements.id", ondelete="SET NULL"), nullable=True, index=True)
+    title = Column(String(256), nullable=False)
+    category = Column(String(64), nullable=False)  # business, technical, security, compliance, operational, availability, legacy
+    probability = Column(Integer, nullable=False)   # 1 to 5
+    impact = Column(Integer, nullable=False)        # 1 to 5
+    risk_score = Column(Integer, nullable=False)    # probability * impact
+    severity = Column(String(32), nullable=False)   # low, medium, high, critical
+    mitigation = Column(Text, nullable=False)
+    owner = Column(String(128), default="Compliance & Risk Team", nullable=False)
+    status = Column(String(32), default="identified", nullable=False)
+    created_at = Column(DateTime, default=utcnow, nullable=False)
+
+    requirement = relationship("RequirementModel", back_populates="risks")
+    project = relationship("Project", back_populates="risks")
 
 
