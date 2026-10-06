@@ -1,0 +1,72 @@
+{
+  "case_id": "GOLD-CASE-004",
+  "domain": "Fraud Detection & AML Monitoring",
+  "title": "Real-Time Transaction Risk Engine & Suspicious Transaction Reporting",
+  "narrative": "A scheduled commercial bank requires an enterprise AML monitoring and fraud detection engine. The system continuously ingests incoming transactions across RTGS, NEFT, IMPS, and card networks. Transactions must be scored against risk rules and machine-learning anomaly models within 50ms. Flag all anomalous operations instantly without dropping any transaction. High-risk hits exceeding threshold 80 must trigger automated temporary holds and alert the MLRO desk. Retain raw unmasked card PANs in fraud evidence logs for forensic analysis vs mask card data in compliance with RBI guidelines. The system must generate Suspicious Transaction Reports (STR) in XML format compatible with the Financial Intelligence Unit - India (FIU-IND) portal.",
+  "seeded_defects": [
+    {
+      "type": "ambiguity",
+      "text": "Flag all anomalous operations instantly without dropping any transaction",
+      "expected_flag": "non_measurable",
+      "severity": "medium"
+    },
+    {
+      "type": "conflict",
+      "text": "Retain raw unmasked card PANs in fraud evidence logs for forensic analysis vs mask card data in compliance with RBI guidelines",
+      "expected_flag": "conflict",
+      "severity": "critical"
+    }
+  ],
+  "gold_requirements": [
+    {
+      "id": "FR-AML-001",
+      "category": "Compliance",
+      "statement": "The system shall evaluate real-time transaction streams against AML sanctions watchlists before settlement.",
+      "priority": "High"
+    },
+    {
+      "id": "FR-AML-002",
+      "category": "Functional",
+      "statement": "The system shall generate regulatory Suspicious Transaction Reports (STR) formatted per FIU-IND XML schema.",
+      "priority": "High"
+    },
+    {
+      "id": "SR-SEC-001",
+      "category": "Security",
+      "statement": "The system shall redact primary account numbers (PAN) in forensic audit traces in accordance with PCI-DSS guidelines.",
+      "priority": "High"
+    },
+    {
+      "id": "NFR-PERF-001",
+      "category": "Performance",
+      "statement": "The system shall complete fraud risk evaluation within 50ms at 2000 transactions per second throughput.",
+      "priority": "High"
+    }
+  ],
+  "gold_controls": [
+    "CMP-AML-STR-001",
+    "CMP-SANCTIONS-CHECK-002",
+    "SEC-CARD-REDACT-001",
+    "SEC-AUDIT-CHAIN-001"
+  ],
+  "gold_sdlc_factors": {
+    "requirement_stability": 4,
+    "regulatory_criticality": 5,
+    "security_risk": 5,
+    "project_complexity": 5,
+    "system_size": 4,
+    "legacy_system_dependence": 4,
+    "change_frequency": 3,
+    "continuous_delivery_need": 4,
+    "stakeholder_availability": 4,
+    "testing_rigor": 5,
+    "budget_schedule_constraints": 3,
+    "formal_verification_need": 4,
+    "failure_consequence": 5
+  },
+  "expert_sdlc_labels": {
+    "expert_1_architect": {"top_model": "DevSecOps", "second_model": "Agile + DevSecOps Hybrid"},
+    "expert_2_security": {"top_model": "DevSecOps", "second_model": "V-Model"},
+    "expert_3_compliance": {"top_model": "Agile + DevSecOps Hybrid", "second_model": "DevSecOps"}
+  }
+}

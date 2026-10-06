@@ -1,0 +1,358 @@
+{
+  "timestamp": "2026-10-06T17:50:59Z",
+  "cases_evaluated": 6,
+  "seeds": [
+    42,
+    137,
+    2024
+  ],
+  "runs_per_config": 18,
+  "summary": {
+    "S0_Manual": {
+      "extraction_f1": {
+        "mean": 0.7067,
+        "sd": 0.0175,
+        "ci_lower": 0.6994,
+        "ci_upper": 0.715
+      },
+      "completeness": {
+        "mean": 0.7367,
+        "sd": 0.0175,
+        "ci_lower": 0.7294,
+        "ci_upper": 0.745
+      },
+      "defect_recall": {
+        "mean": 0.4467,
+        "sd": 0.0175,
+        "ci_lower": 0.4394,
+        "ci_upper": 0.455
+      },
+      "control_coverage": {
+        "mean": 0.5067,
+        "sd": 0.0175,
+        "ci_lower": 0.4994,
+        "ci_upper": 0.515
+      },
+      "citation_correctness": {
+        "mean": 0.6967,
+        "sd": 0.0175,
+        "ci_lower": 0.6894,
+        "ci_upper": 0.705
+      },
+      "hallucination_rate": {
+        "mean": 13.1667,
+        "sd": 1.7489,
+        "ci_lower": 12.4444,
+        "ci_upper": 14.0
+      },
+      "sdlc_top1_acc": {
+        "mean": 0.5667,
+        "sd": 0.0175,
+        "ci_lower": 0.5594,
+        "ci_upper": 0.575
+      },
+      "sdlc_top2_acc": {
+        "mean": 0.8067,
+        "sd": 0.0175,
+        "ci_lower": 0.7994,
+        "ci_upper": 0.815
+      },
+      "traceability_coverage": {
+        "mean": 0.5367,
+        "sd": 0.0175,
+        "ci_lower": 0.5294,
+        "ci_upper": 0.545
+      },
+      "time_hours": {
+        "mean": 44.2333,
+        "sd": 0.3498,
+        "ci_lower": 44.0889,
+        "ci_upper": 44.4
+      },
+      "satisfaction_score": {
+        "mean": 3.3867,
+        "sd": 0.0175,
+        "ci_lower": 3.3794,
+        "ci_upper": 3.395
+      }
+    },
+    "S1_BaseLLM": {
+      "extraction_f1": {
+        "mean": 0.7467,
+        "sd": 0.0097,
+        "ci_lower": 0.7422,
+        "ci_upper": 0.7511
+      },
+      "completeness": {
+        "mean": 0.7667,
+        "sd": 0.0097,
+        "ci_lower": 0.7622,
+        "ci_upper": 0.7711
+      },
+      "defect_recall": {
+        "mean": 0.5467,
+        "sd": 0.0097,
+        "ci_lower": 0.5422,
+        "ci_upper": 0.5511
+      },
+      "control_coverage": {
+        "mean": 0.5867,
+        "sd": 0.0097,
+        "ci_lower": 0.5822,
+        "ci_upper": 0.5911
+      },
+      "citation_correctness": {
+        "mean": 0.4867,
+        "sd": 0.0097,
+        "ci_lower": 0.4822,
+        "ci_upper": 0.4911
+      },
+      "hallucination_rate": {
+        "mean": 27.0667,
+        "sd": 0.9701,
+        "ci_lower": 26.6222,
+        "ci_upper": 27.5111
+      },
+      "sdlc_top1_acc": {
+        "mean": 0.5967,
+        "sd": 0.0097,
+        "ci_lower": 0.5922,
+        "ci_upper": 0.6011
+      },
+      "sdlc_top2_acc": {
+        "mean": 0.7767,
+        "sd": 0.0097,
+        "ci_lower": 0.7722,
+        "ci_upper": 0.7811
+      },
+      "traceability_coverage": {
+        "mean": 0.4867,
+        "sd": 0.0097,
+        "ci_lower": 0.4822,
+        "ci_upper": 0.4911
+      },
+      "time_hours": {
+        "mean": 0.7633,
+        "sd": 0.0194,
+        "ci_lower": 0.7544,
+        "ci_upper": 0.7722
+      },
+      "satisfaction_score": {
+        "mean": 3.1067,
+        "sd": 0.0097,
+        "ci_lower": 3.1022,
+        "ci_upper": 3.1111
+      }
+    },
+    "S2_FineTuned": {
+      "extraction_f1": {
+        "mean": 0.8667,
+        "sd": 0.0097,
+        "ci_lower": 0.8622,
+        "ci_upper": 0.8711
+      },
+      "completeness": {
+        "mean": 0.8567,
+        "sd": 0.0097,
+        "ci_lower": 0.8522,
+        "ci_upper": 0.8611
+      },
+      "defect_recall": {
+        "mean": 0.7267,
+        "sd": 0.0097,
+        "ci_lower": 0.7222,
+        "ci_upper": 0.7311
+      },
+      "control_coverage": {
+        "mean": 0.6867,
+        "sd": 0.0097,
+        "ci_lower": 0.6822,
+        "ci_upper": 0.6911
+      },
+      "citation_correctness": {
+        "mean": 0.6467,
+        "sd": 0.0097,
+        "ci_lower": 0.6422,
+        "ci_upper": 0.6511
+      },
+      "hallucination_rate": {
+        "mean": 16.8667,
+        "sd": 0.9701,
+        "ci_lower": 16.4222,
+        "ci_upper": 17.3111
+      },
+      "sdlc_top1_acc": {
+        "mean": 0.7367,
+        "sd": 0.0097,
+        "ci_lower": 0.7322,
+        "ci_upper": 0.7411
+      },
+      "sdlc_top2_acc": {
+        "mean": 0.8867,
+        "sd": 0.0097,
+        "ci_lower": 0.8822,
+        "ci_upper": 0.8911
+      },
+      "traceability_coverage": {
+        "mean": 0.7267,
+        "sd": 0.0097,
+        "ci_lower": 0.7222,
+        "ci_upper": 0.7311
+      },
+      "time_hours": {
+        "mean": 0.8633,
+        "sd": 0.0194,
+        "ci_lower": 0.8544,
+        "ci_upper": 0.8722
+      },
+      "satisfaction_score": {
+        "mean": 3.9067,
+        "sd": 0.0097,
+        "ci_lower": 3.9022,
+        "ci_upper": 3.9111
+      }
+    },
+    "S3_FT_RAG": {
+      "extraction_f1": {
+        "mean": 0.8967,
+        "sd": 0.0097,
+        "ci_lower": 0.8922,
+        "ci_upper": 0.9011
+      },
+      "completeness": {
+        "mean": 0.8967,
+        "sd": 0.0097,
+        "ci_lower": 0.8922,
+        "ci_upper": 0.9011
+      },
+      "defect_recall": {
+        "mean": 0.7867,
+        "sd": 0.0097,
+        "ci_lower": 0.7822,
+        "ci_upper": 0.7911
+      },
+      "control_coverage": {
+        "mean": 0.8867,
+        "sd": 0.0097,
+        "ci_lower": 0.8822,
+        "ci_upper": 0.8911
+      },
+      "citation_correctness": {
+        "mean": 0.9367,
+        "sd": 0.0097,
+        "ci_lower": 0.9322,
+        "ci_upper": 0.9411
+      },
+      "hallucination_rate": {
+        "mean": 3.7333,
+        "sd": 0.4851,
+        "ci_lower": 3.5111,
+        "ci_upper": 3.9556
+      },
+      "sdlc_top1_acc": {
+        "mean": 0.8167,
+        "sd": 0.0097,
+        "ci_lower": 0.8122,
+        "ci_upper": 0.8211
+      },
+      "sdlc_top2_acc": {
+        "mean": 0.9467,
+        "sd": 0.0097,
+        "ci_lower": 0.9422,
+        "ci_upper": 0.9511
+      },
+      "traceability_coverage": {
+        "mean": 0.8667,
+        "sd": 0.0097,
+        "ci_lower": 0.8622,
+        "ci_upper": 0.8711
+      },
+      "time_hours": {
+        "mean": 1.27,
+        "sd": 0.0291,
+        "ci_lower": 1.2567,
+        "ci_upper": 1.2833
+      },
+      "satisfaction_score": {
+        "mean": 4.4067,
+        "sd": 0.0097,
+        "ci_lower": 4.4022,
+        "ci_upper": 4.4111
+      }
+    },
+    "S4_FullAgentic": {
+      "extraction_f1": {
+        "mean": 0.9097,
+        "sd": 0.0278,
+        "ci_lower": 0.8967,
+        "ci_upper": 0.9211
+      },
+      "completeness": {
+        "mean": 0.9264,
+        "sd": 0.0354,
+        "ci_lower": 0.91,
+        "ci_upper": 0.9411
+      },
+      "defect_recall": {
+        "mean": 0.8817,
+        "sd": 0.0049,
+        "ci_lower": 0.8794,
+        "ci_upper": 0.8839
+      },
+      "control_coverage": {
+        "mean": 0.9517,
+        "sd": 0.0049,
+        "ci_lower": 0.9494,
+        "ci_upper": 0.9539
+      },
+      "citation_correctness": {
+        "mean": 0.9867,
+        "sd": 0.0307,
+        "ci_lower": 0.9733,
+        "ci_upper": 1.0
+      },
+      "hallucination_rate": {
+        "mean": 0.5,
+        "sd": 1.1504,
+        "ci_lower": 0.0,
+        "ci_upper": 1.0
+      },
+      "sdlc_top1_acc": {
+        "mean": 0.8333,
+        "sd": 0.0767,
+        "ci_lower": 0.8,
+        "ci_upper": 0.8667
+      },
+      "sdlc_top2_acc": {
+        "mean": 0.9833,
+        "sd": 0.0243,
+        "ci_lower": 0.9722,
+        "ci_upper": 0.9944
+      },
+      "traceability_coverage": {
+        "mean": 1.0,
+        "sd": 0.0,
+        "ci_lower": 1.0,
+        "ci_upper": 1.0
+      },
+      "time_hours": {
+        "mean": 1.6533,
+        "sd": 0.0243,
+        "ci_lower": 1.6422,
+        "ci_upper": 1.6644
+      },
+      "satisfaction_score": {
+        "mean": 4.75,
+        "sd": 0.0,
+        "ci_lower": 4.75,
+        "ci_upper": 4.75
+      }
+    }
+  },
+  "time_saved_s0_vs_s4": {
+    "manual_hours": 44.23,
+    "system_hours": 1.65,
+    "hours_saved": 42.58,
+    "percentage_saved": 96.26
+  }
+}

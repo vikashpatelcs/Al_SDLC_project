@@ -1,0 +1,69 @@
+{
+  "experts": [
+    {"id": "EXP-01", "role": "Chief Enterprise Architect", "org": "Tier-1 Scheduled Commercial Bank"},
+    {"id": "EXP-02", "role": "Chief Information Security Officer (CISO)", "org": "Fintech / Payment Aggregator"},
+    {"id": "EXP-03", "role": "Head of Regulatory Compliance & Quality", "org": "Banking Regulatory Advisory"}
+  ],
+  "cases": {
+    "GOLD-CASE-001": {
+      "domain": "Customer Onboarding & KYC",
+      "consensus_top": "Agile + DevSecOps Hybrid",
+      "consensus_second": "V-Model",
+      "expert_votes": {
+        "EXP-01": {"top": "Agile + DevSecOps Hybrid", "second": "V-Model"},
+        "EXP-02": {"top": "Agile + DevSecOps Hybrid", "second": "DevSecOps"},
+        "EXP-03": {"top": "Agile + DevSecOps Hybrid", "second": "V-Model"}
+      }
+    },
+    "GOLD-CASE-002": {
+      "domain": "Loan Origination & Credit Assessment",
+      "consensus_top": "Agile + DevSecOps Hybrid",
+      "consensus_second": "V-Model",
+      "expert_votes": {
+        "EXP-01": {"top": "Agile + DevSecOps Hybrid", "second": "V-Model"},
+        "EXP-02": {"top": "Agile + DevSecOps Hybrid", "second": "DevSecOps"},
+        "EXP-03": {"top": "V-Model", "second": "Agile + DevSecOps Hybrid"}
+      }
+    },
+    "GOLD-CASE-003": {
+      "domain": "Payment Systems & Transaction Limits",
+      "consensus_top": "DevSecOps",
+      "consensus_second": "Agile + DevSecOps Hybrid",
+      "expert_votes": {
+        "EXP-01": {"top": "DevSecOps", "second": "Agile + DevSecOps Hybrid"},
+        "EXP-02": {"top": "DevSecOps", "second": "Agile + DevSecOps Hybrid"},
+        "EXP-03": {"top": "Agile + DevSecOps Hybrid", "second": "DevSecOps"}
+      }
+    },
+    "GOLD-CASE-004": {
+      "domain": "Fraud Detection & AML Monitoring",
+      "consensus_top": "DevSecOps",
+      "consensus_second": "Agile + DevSecOps Hybrid",
+      "expert_votes": {
+        "EXP-01": {"top": "DevSecOps", "second": "Agile + DevSecOps Hybrid"},
+        "EXP-02": {"top": "DevSecOps", "second": "V-Model"},
+        "EXP-03": {"top": "Agile + DevSecOps Hybrid", "second": "DevSecOps"}
+      }
+    },
+    "GOLD-CASE-005": {
+      "domain": "Insurance & Claims Management",
+      "consensus_top": "Agile + DevSecOps Hybrid",
+      "consensus_second": "V-Model",
+      "expert_votes": {
+        "EXP-01": {"top": "Agile + DevSecOps Hybrid", "second": "V-Model"},
+        "EXP-02": {"top": "Agile + DevSecOps Hybrid", "second": "DevSecOps"},
+        "EXP-03": {"top": "Agile + DevSecOps Hybrid", "second": "V-Model"}
+      }
+    },
+    "GOLD-CASE-006": {
+      "domain": "Regulatory Reporting & Compliance Analytics",
+      "consensus_top": "V-Model",
+      "consensus_second": "Waterfall",
+      "expert_votes": {
+        "EXP-01": {"top": "V-Model", "second": "Waterfall"},
+        "EXP-02": {"top": "V-Model", "second": "DevSecOps"},
+        "EXP-03": {"top": "V-Model", "second": "Waterfall"}
+      }
+    }
+  }
+}

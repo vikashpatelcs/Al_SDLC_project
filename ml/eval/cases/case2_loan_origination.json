@@ -2,7 +2,7 @@
   "case_id": "GOLD-CASE-002",
   "domain": "Loan Origination & Credit Assessment",
   "title": "Automated Retail Personal Loan Origination System",
-  "narrative": "A non-banking financial company (NBFC) seeks an automated personal loan processing platform. Retail applicants input desired loan amounts up to Rs 500,000 and select repayment tenures between 6 and 36 months. The system connects to CIBIL / Experian credit bureaus to pull credit history. Applications with credit scores above 750 and debt-to-income ratio below 40% are automatically approved. Loans above Rs 200,000 or with scores between 650 and 749 require manual underwriting sign-off by a credit officer. Sanction letters must be generated with transparent Key Fact Statements (KFS) detailing Annual Percentage Rate (APR) in compliance with RBI Digital Lending Directions 2022.",
+  "narrative": "A non-banking financial company (NBFC) seeks an automated personal loan processing platform. Retail applicants input desired loan amounts up to Rs 500,000 and select repayment tenures between 6 and 36 months. The system must process credit score seamlessly and instantly. The system connects to CIBIL / Experian credit bureaus to pull credit history. Applications with credit scores above 750 and debt-to-income ratio below 40% are automatically approved. Loans above Rs 200,000 or with scores between 650 and 749 require manual underwriting sign-off by a credit officer. Auto-approve all loan requests immediately vs require credit committee sign-off on any exception. Sanction letters must be generated with transparent Key Fact Statements (KFS) detailing Annual Percentage Rate (APR) in compliance with RBI Digital Lending Directions 2022.",
   "seeded_defects": [
     {
       "type": "ambiguity",
@@ -35,5 +35,31 @@
       "statement": "The system shall generate a Key Fact Statement (KFS) stating all-inclusive APR prior to loan agreement execution per RBI Digital Lending Guidelines.",
       "priority": "High"
     }
-  ]
+  ],
+  "gold_controls": [
+    "CMP-LEND-KFS-001",
+    "CMP-CREDIT-CONSENT-002",
+    "SEC-API-AUTH-001",
+    "SEC-AUDIT-CHAIN-001"
+  ],
+  "gold_sdlc_factors": {
+    "requirement_stability": 4,
+    "regulatory_criticality": 4,
+    "security_risk": 4,
+    "project_complexity": 3,
+    "system_size": 3,
+    "legacy_system_dependence": 4,
+    "change_frequency": 2,
+    "continuous_delivery_need": 3,
+    "stakeholder_availability": 4,
+    "testing_rigor": 4,
+    "budget_schedule_constraints": 3,
+    "formal_verification_need": 3,
+    "failure_consequence": 4
+  },
+  "expert_sdlc_labels": {
+    "expert_1_architect": {"top_model": "Agile + DevSecOps Hybrid", "second_model": "V-Model"},
+    "expert_2_security": {"top_model": "Agile + DevSecOps Hybrid", "second_model": "DevSecOps"},
+    "expert_3_compliance": {"top_model": "V-Model", "second_model": "Agile + DevSecOps Hybrid"}
+  }
 }

@@ -1,0 +1,72 @@
+{
+  "case_id": "GOLD-CASE-005",
+  "domain": "Insurance & Claims Management",
+  "title": "Digital Health Insurance Claims Adjudication Platform",
+  "narrative": "A general insurance provider is digitizing cashless health insurance claims processing across networked hospitals. Hospitals submit pre-authorization requests via an API portal. The platform must validate policy active status, remaining sum insured, waiting periods for specific ailments, and co-payment clauses. Settle hospital pre-authorizations ultra quickly without delays. Cashless approvals under Rs 50,000 without pre-existing disease flags can be auto-approved by rule engines. All other claims must route to a medical adjudicator. Automatically settle all hospital claims upon submission vs require medical adjudicator review on all inpatient requests. Patient medical records and diagnostic PDFs must be processed with patient consent under the DPDP Act 2023 and IRDAI health insurance regulations.",
+  "seeded_defects": [
+    {
+      "type": "ambiguity",
+      "text": "Settle hospital pre-authorizations ultra quickly without delays",
+      "expected_flag": "non_measurable",
+      "severity": "medium"
+    },
+    {
+      "type": "conflict",
+      "text": "Automatically settle all hospital claims upon submission vs require medical adjudicator review on all inpatient requests",
+      "expected_flag": "conflict",
+      "severity": "critical"
+    }
+  ],
+  "gold_requirements": [
+    {
+      "id": "FR-INS-001",
+      "category": "Functional",
+      "statement": "The system shall verify active policy coverage and sum insured balance before issuing cashless pre-authorization.",
+      "priority": "High"
+    },
+    {
+      "id": "FR-INS-002",
+      "category": "Compliance",
+      "statement": "The system shall obtain explicit patient consent prior to accessing diagnostic medical records in accordance with the DPDP Act 2023.",
+      "priority": "High"
+    },
+    {
+      "id": "SR-SEC-001",
+      "category": "Security",
+      "statement": "The system shall encrypt all electronic health records and diagnostic PDFs at rest using AES-256.",
+      "priority": "High"
+    },
+    {
+      "id": "NFR-PERF-001",
+      "category": "Performance",
+      "statement": "The system shall return automated pre-authorization decisions within 15 minutes of hospital submission.",
+      "priority": "Medium"
+    }
+  ],
+  "gold_controls": [
+    "CMP-HEALTH-CONSENT-001",
+    "CMP-IRDAI-SLA-002",
+    "SEC-HEALTH-CRYPTO-001",
+    "SEC-AUDIT-CHAIN-001"
+  ],
+  "gold_sdlc_factors": {
+    "requirement_stability": 3,
+    "regulatory_criticality": 4,
+    "security_risk": 4,
+    "project_complexity": 4,
+    "system_size": 3,
+    "legacy_system_dependence": 4,
+    "change_frequency": 3,
+    "continuous_delivery_need": 3,
+    "stakeholder_availability": 3,
+    "testing_rigor": 4,
+    "budget_schedule_constraints": 3,
+    "formal_verification_need": 3,
+    "failure_consequence": 4
+  },
+  "expert_sdlc_labels": {
+    "expert_1_architect": {"top_model": "Agile + DevSecOps Hybrid", "second_model": "V-Model"},
+    "expert_2_security": {"top_model": "Agile + DevSecOps Hybrid", "second_model": "DevSecOps"},
+    "expert_3_compliance": {"top_model": "Agile + DevSecOps Hybrid", "second_model": "V-Model"}
+  }
+}

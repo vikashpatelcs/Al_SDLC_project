@@ -2,7 +2,7 @@
   "case_id": "GOLD-CASE-003",
   "domain": "Payment Systems & Transaction Limits",
   "title": "Unified Payments Interface (UPI) P2P and P2M Payment Processing Engine",
-  "narrative": "A fintech app is building a UPI payment module for peer-to-peer and merchant payments. Users link bank accounts using mobile device binding and NPCI common library for UPI PIN entry. Standard transactions are capped at Rs 100,000 per 24-hour cycle per NPCI guidelines, with capital market and IPO limits set to Rs 500,000. Real-time fraud monitoring must evaluate transaction velocity, geolocation anomalies, and known mule accounts, requiring step-up authentication or temporary hold when anomalies exceed risk thresholds. All transactions must produce immutable cryptographic audit logs with unique transaction reference (UTR) numbers.",
+  "narrative": "A fintech app is building a UPI payment module for peer-to-peer and merchant payments. Users link bank accounts using mobile device binding and NPCI common library for UPI PIN entry. Standard transactions are capped at Rs 100,000 per 24-hour cycle per NPCI guidelines, with capital market and IPO limits set to Rs 500,000. Real-time fraud monitoring must evaluate transaction velocity, geolocation anomalies, and known mule accounts, requiring step-up authentication or temporary hold when anomalies exceed risk thresholds. Detect fraud ultra fast without any delays. Enforce zero logging of sensitive transaction traces vs log raw payloads for complete audit. All transactions must produce immutable cryptographic audit logs with unique transaction reference (UTR) numbers.",
   "seeded_defects": [
     {
       "type": "ambiguity",
@@ -35,5 +35,31 @@
       "statement": "The system shall record an append-only SHA-256 hash-chained audit log containing UTR and timestamp for every payment attempt.",
       "priority": "High"
     }
-  ]
+  ],
+  "gold_controls": [
+    "CMP-UPI-LIMIT-001",
+    "SEC-DEVICE-BINDING-002",
+    "SEC-STEPUP-MFA-003",
+    "SEC-AUDIT-CHAIN-001"
+  ],
+  "gold_sdlc_factors": {
+    "requirement_stability": 4,
+    "regulatory_criticality": 5,
+    "security_risk": 5,
+    "project_complexity": 5,
+    "system_size": 4,
+    "legacy_system_dependence": 4,
+    "change_frequency": 3,
+    "continuous_delivery_need": 4,
+    "stakeholder_availability": 4,
+    "testing_rigor": 5,
+    "budget_schedule_constraints": 3,
+    "formal_verification_need": 4,
+    "failure_consequence": 5
+  },
+  "expert_sdlc_labels": {
+    "expert_1_architect": {"top_model": "DevSecOps", "second_model": "Agile + DevSecOps Hybrid"},
+    "expert_2_security": {"top_model": "DevSecOps", "second_model": "Agile + DevSecOps Hybrid"},
+    "expert_3_compliance": {"top_model": "Agile + DevSecOps Hybrid", "second_model": "DevSecOps"}
+  }
 }

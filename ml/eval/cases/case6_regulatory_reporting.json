@@ -1,0 +1,72 @@
+{
+  "case_id": "GOLD-CASE-006",
+  "domain": "Regulatory Reporting & Compliance Analytics",
+  "title": "Automated RBI Basel III Liquidity Coverage & Capital Adequacy Reporting",
+  "narrative": "A private commercial bank is automating quarterly regulatory returns under RBI Basel III guidelines. The system ingests daily general ledger balances, high-quality liquid assets (HQLA), and net cash outflows across treasury and core banking databases. Generate complex Basel metrics effortlessly and instantly. The engine must compute the Liquidity Coverage Ratio (LCR) and Net Stable Funding Ratio (NSFR). Produce final regulatory reporting returns without checking source data vs validate ledger reconciliations before report publication. Final XBRL/XML returns must undergo four-eye sign-off by the Chief Risk Officer and Chief Financial Officer before encrypted transmission to the RBI DAKSH reporting portal.",
+  "seeded_defects": [
+    {
+      "type": "ambiguity",
+      "text": "Generate complex Basel metrics effortlessly and instantly",
+      "expected_flag": "non_measurable",
+      "severity": "medium"
+    },
+    {
+      "type": "conflict",
+      "text": "Produce final regulatory reporting returns without checking source data vs validate ledger reconciliations before report publication",
+      "expected_flag": "conflict",
+      "severity": "critical"
+    }
+  ],
+  "gold_requirements": [
+    {
+      "id": "FR-REG-001",
+      "category": "Compliance",
+      "statement": "The system shall compute daily Liquidity Coverage Ratio (LCR) using RBI Basel III standard formulae.",
+      "priority": "High"
+    },
+    {
+      "id": "FR-REG-002",
+      "category": "Compliance",
+      "statement": "The system shall generate quarterly XBRL regulatory returns conforming to the RBI DAKSH portal schema.",
+      "priority": "High"
+    },
+    {
+      "id": "SR-SEC-001",
+      "category": "Security",
+      "statement": "The system shall enforce dual-role (CRO and CFO) digital signature approval prior to regulatory return transmission.",
+      "priority": "High"
+    },
+    {
+      "id": "NFR-AUDIT-001",
+      "category": "Auditability",
+      "statement": "The system shall maintain complete ledger reconciliation audit trails for a minimum of 8 years per RBI IT guidelines.",
+      "priority": "High"
+    }
+  ],
+  "gold_controls": [
+    "CMP-BASEL-LCR-001",
+    "CMP-DAKSH-SCHEMA-002",
+    "SEC-DUAL-SIGNOFF-001",
+    "SEC-AUDIT-CHAIN-001"
+  ],
+  "gold_sdlc_factors": {
+    "requirement_stability": 5,
+    "regulatory_criticality": 5,
+    "security_risk": 4,
+    "project_complexity": 5,
+    "system_size": 4,
+    "legacy_system_dependence": 5,
+    "change_frequency": 1,
+    "continuous_delivery_need": 1,
+    "stakeholder_availability": 4,
+    "testing_rigor": 5,
+    "budget_schedule_constraints": 4,
+    "formal_verification_need": 5,
+    "failure_consequence": 5
+  },
+  "expert_sdlc_labels": {
+    "expert_1_architect": {"top_model": "V-Model", "second_model": "Waterfall"},
+    "expert_2_security": {"top_model": "V-Model", "second_model": "DevSecOps"},
+    "expert_3_compliance": {"top_model": "V-Model", "second_model": "Waterfall"}
+  }
+}

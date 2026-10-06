@@ -2,7 +2,7 @@
   "case_id": "GOLD-CASE-001",
   "domain": "Customer Onboarding & KYC",
   "title": "Digital Customer Onboarding with Video KYC and Aadhaar Verification",
-  "narrative": "A digital-first bank requires a frictionless onboarding process for savings accounts. Customers initiate onboarding via a mobile application. The system must verify their identity using UIDAI Aadhaar offline XML verification with OTP consent and cross-reference their PAN with the Income Tax NSDL database. In cases where biometrics fail or high-risk thresholds apply, an agent-assisted Video-based Customer Identification Process (V-CIP) must be conducted. The entire onboarding record including audio-visual recordings, photo geotags, and KYC documents must be securely stored for a minimum statutory period of 5 years in compliance with PMLA 2002 and RBI KYC Master Direction Section 24.",
+  "narrative": "A digital-first bank requires a frictionless onboarding process for savings accounts. Customers initiate onboarding via a mobile application. The system must verify identity quickly and seamlessly. The system must verify their identity using UIDAI Aadhaar offline XML verification with OTP consent and cross-reference their PAN with the Income Tax NSDL database. In cases where biometrics fail or high-risk thresholds apply, an agent-assisted Video-based Customer Identification Process (V-CIP) must be conducted. Store video recording on cloud without encryption vs enforce local HSM encryption. The entire onboarding record including audio-visual recordings, photo geotags, and KYC documents must be securely stored for a minimum statutory period of 5 years in compliance with PMLA 2002 and RBI KYC Master Direction Section 24.",
   "seeded_defects": [
     {
       "type": "ambiguity",
@@ -37,7 +37,7 @@
     {
       "id": "NFR-PERF-001",
       "category": "Performance",
-      "statement": "The system shall complete UIDAI XML identity verification within 3 seconds under 95th percentile load.",
+      "statement": "The system shall complete UIDAI XML identity verification within 3000ms under 95th percentile load.",
       "priority": "Medium"
     },
     {
@@ -46,5 +46,32 @@
       "statement": "The system shall retain all customer identification records and V-CIP recordings for at least five years from date of account closure in accordance with PMLA 2002.",
       "priority": "High"
     }
-  ]
+  ],
+  "gold_controls": [
+    "CMP-KYC-VERIFY-001",
+    "CMP-PII-CONSENT-001",
+    "CMP-PII-RETENTION-002",
+    "SEC-CRYPTO-REST-001",
+    "SEC-AUDIT-CHAIN-001"
+  ],
+  "gold_sdlc_factors": {
+    "requirement_stability": 4,
+    "regulatory_criticality": 5,
+    "security_risk": 5,
+    "project_complexity": 4,
+    "system_size": 3,
+    "legacy_system_dependence": 3,
+    "change_frequency": 2,
+    "continuous_delivery_need": 3,
+    "stakeholder_availability": 4,
+    "testing_rigor": 5,
+    "budget_schedule_constraints": 3,
+    "formal_verification_need": 4,
+    "failure_consequence": 5
+  },
+  "expert_sdlc_labels": {
+    "expert_1_architect": {"top_model": "Agile + DevSecOps Hybrid", "second_model": "V-Model"},
+    "expert_2_security": {"top_model": "Agile + DevSecOps Hybrid", "second_model": "DevSecOps"},
+    "expert_3_compliance": {"top_model": "Agile + DevSecOps Hybrid", "second_model": "V-Model"}
+  }
 }
