@@ -25,6 +25,7 @@ from backend.app.db.models import (
 from backend.app.graph.state import AgentState, ConversationPhase
 from backend.app.graph.workflow import build_orchestration_graph
 from backend.app.graph.checkpointer import SqliteCheckpointer
+from backend.app.core.audit import record_audit_event, AuditEventType
 
 
 class CoordinatorAgent:
@@ -268,6 +269,29 @@ class CoordinatorAgent:
                 existing_rec.factors_json = json.dumps(sdlc_rec.get("factor_evaluations", {}))
                 existing_rec.explanation = sdlc_rec.get("explanation", existing_rec.explanation)
                 existing_rec.workflow_json = json.dumps(sdlc_rec.get("workflow", []))
+
+        # Record workflow execution in tamper-evident audit chain
+        evt_type = (
+            AuditEventType.INTAKE.value
+            if final_state.get("phase") == ConversationPhase.QUESTIONS_SENT.value
+            else AuditEventType.EXTRACTION.value
+        )
+        record_audit_event(
+            db=db,
+            event=evt_type,
+            actor="coordinator",
+            payload={
+                "chat_id": chat.id,
+                "project_id": project.id,
+                "phase": final_state.get("phase"),
+                "requirements_count": len(new_reqs),
+                "issues_count": len(new_issues),
+                "mappings_count": len(new_mappings),
+                "risks_count": len(new_risks),
+                "has_sdlc": bool(sdlc_rec)
+            },
+            chat_id=chat.id
+        )
 
         db.commit()
 

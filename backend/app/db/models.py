@@ -4,11 +4,12 @@ Supports chats, messages, uploaded files, projects, stakeholders, requirements,
 immutable requirement versions, and the assumptions register per Phase 6.
 """
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, Text, Boolean, Float
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Session
 
 from backend.app.db.session import Base
+from backend.app.core.crypto import EncryptedText
 
 
 def utcnow() -> datetime:
@@ -31,6 +32,9 @@ class Chat(Base):
     project = relationship("Project", back_populates="chat", uselist=False, cascade="all, delete-orphan")
     sdlc_recommendations = relationship("SDLCRecommendationModel", back_populates="chat", cascade="all, delete-orphan")
     approvals = relationship("ApprovalModel", back_populates="chat", cascade="all, delete-orphan")
+    generated_documents = relationship("GeneratedDocumentModel", back_populates="chat", cascade="all, delete-orphan")
+    audit_logs = relationship("AuditLogModel", back_populates="chat", cascade="all, delete-orphan")
+    agent_executions = relationship("AgentExecutionModel", back_populates="chat", cascade="all, delete-orphan")
 
 
 class Message(Base):
@@ -40,7 +44,7 @@ class Message(Base):
     chat_id = Column(String(36), ForeignKey("chats.id", ondelete="CASCADE"), nullable=False, index=True)
     role = Column(String(32), nullable=False)  # user, assistant, system
     sender_agent = Column(String(64), nullable=True)
-    content_masked = Column(Text, nullable=False)
+    content_masked = Column(EncryptedText, nullable=False)
     action_cards_json = Column(Text, nullable=True)  # JSON-encoded array of ActionCard objects
     created_at = Column(DateTime, default=utcnow, nullable=False)
 
@@ -81,6 +85,8 @@ class Project(Base):
     risks = relationship("RiskModel", back_populates="project", cascade="all, delete-orphan")
     sdlc_recommendations = relationship("SDLCRecommendationModel", back_populates="project", cascade="all, delete-orphan")
     approvals = relationship("ApprovalModel", back_populates="project", cascade="all, delete-orphan")
+    traceability = relationship("TraceabilityModel", back_populates="project", cascade="all, delete-orphan")
+    generated_documents = relationship("GeneratedDocumentModel", back_populates="project", cascade="all, delete-orphan")
 
 
 class Stakeholder(Base):
@@ -101,7 +107,7 @@ class RequirementModel(Base):
 
     id = Column(String(64), primary_key=True)  # e.g. "REQ-ONB-001" or "FR-001"
     project_id = Column(String(36), ForeignKey("projects.id", ondelete="CASCADE"), nullable=False, index=True)
-    statement = Column(Text, nullable=False)
+    statement = Column(EncryptedText, nullable=False)
     category = Column(String(64), nullable=False)  # 13 PS canonical categories
     sub_category = Column(String(128), nullable=True)
     priority = Column(String(32), nullable=False, default="Medium")
@@ -127,7 +133,7 @@ class RequirementVersion(Base):
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     requirement_id = Column(String(64), ForeignKey("requirements.id", ondelete="CASCADE"), nullable=False, index=True)
     version = Column(Integer, nullable=False)
-    statement = Column(Text, nullable=False)
+    statement = Column(EncryptedText, nullable=False)
     category = Column(String(64), nullable=False)
     priority = Column(String(32), nullable=False)
     status = Column(String(64), nullable=False)
@@ -187,15 +193,18 @@ class AgentExecutionModel(Base):
 
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     chat_id = Column(String(36), ForeignKey("chats.id", ondelete="CASCADE"), nullable=False, index=True)
-    agent_name = Column(String(64), nullable=False)
+    agent_name = Column(String(64), nullable=False, index=True)
     phase = Column(String(64), nullable=False)
     input_payload = Column(Text, nullable=True)
     output_payload = Column(Text, nullable=True)
     duration_ms = Column(Integer, nullable=False, default=0)
     status = Column(String(32), nullable=False, default="success")  # success, error
+    model_version = Column(String(64), nullable=True)
+    kb_version = Column(String(64), nullable=True)
+    prompt_version = Column(String(64), nullable=True)
     created_at = Column(DateTime, default=utcnow, nullable=False)
 
-    chat = relationship("Chat", backref="executions")
+    chat = relationship("Chat", back_populates="agent_executions")
 
 
 class ComplianceMappingModel(Base):
@@ -285,5 +294,82 @@ class ApprovalModel(Base):
 
     chat = relationship("Chat", back_populates="approvals")
     project = relationship("Project", back_populates="approvals")
+
+
+class TraceabilityModel(Base):
+    __tablename__ = "traceability"
+
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    project_id = Column(String(36), ForeignKey("projects.id", ondelete="CASCADE"), nullable=False, index=True)
+    source_statement_id = Column(String(128), nullable=True)
+    requirement_id = Column(String(64), ForeignKey("requirements.id", ondelete="CASCADE"), nullable=False, index=True)
+    regulation_chunk = Column(String(128), nullable=True)
+    control = Column(String(128), nullable=True)
+    acceptance_criteria_id = Column(String(128), nullable=True)
+    risk_id = Column(String(64), nullable=True)
+    created_at = Column(DateTime, default=utcnow, nullable=False)
+
+    project = relationship("Project", back_populates="traceability")
+    requirement = relationship("RequirementModel")
+
+
+class GeneratedDocumentModel(Base):
+    __tablename__ = "generated_documents"
+
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    chat_id = Column(String(36), ForeignKey("chats.id", ondelete="CASCADE"), nullable=False, index=True)
+    project_id = Column(String(36), ForeignKey("projects.id", ondelete="CASCADE"), nullable=True, index=True)
+    doc_type = Column(String(64), nullable=False)  # srs, rtm, risk_register, compliance_matrix
+    version = Column(Integer, default=1, nullable=False)
+    file_path = Column(String(512), nullable=False)
+    sha256 = Column(String(64), nullable=False)
+    status = Column(String(32), default="generated", nullable=False)  # generated, signed_off, archived
+    created_at = Column(DateTime, default=utcnow, nullable=False)
+
+    chat = relationship("Chat", back_populates="generated_documents")
+    project = relationship("Project", back_populates="generated_documents")
+
+
+class AuditLogModel(Base):
+    __tablename__ = "audit_logs"
+
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    chat_id = Column(String(36), ForeignKey("chats.id", ondelete="CASCADE"), nullable=True, index=True)
+    event = Column(String(64), nullable=False, index=True)
+    actor = Column(String(128), nullable=False)
+    payload_json = Column(Text, nullable=False)
+    prev_hash = Column(String(64), nullable=False)
+    hash = Column(String(64), nullable=False, unique=True, index=True)
+    created_at = Column(DateTime, default=utcnow, nullable=False, index=True)
+
+    chat = relationship("Chat", back_populates="audit_logs")
+
+
+class ModelVersionModel(Base):
+    __tablename__ = "model_versions"
+
+    id = Column(String(64), primary_key=True)  # e.g. "qwen2.5:7b-instruct" or "req-engineer-ft:v1"
+    name = Column(String(128), nullable=False)
+    base_model = Column(String(128), nullable=False)
+    parameters = Column(String(32), nullable=True)  # 7B, 3B, 14B
+    context_len = Column(Integer, default=4096, nullable=False)
+    checksum = Column(String(64), nullable=True)
+    is_active = Column(Boolean, default=True, nullable=False)
+    created_at = Column(DateTime, default=utcnow, nullable=False)
+
+
+def purge_expired_chats(db: Session, retention_days: int = 30) -> int:
+    """
+    Purges soft-deleted chats whose deleted_at is older than retention_days.
+    Returns the number of purged chats.
+    """
+    cutoff = datetime.now(timezone.utc) - timedelta(days=retention_days)
+    expired = db.query(Chat).filter(Chat.deleted_at.isnot(None), Chat.deleted_at < cutoff).all()
+    count = len(expired)
+    for c in expired:
+        db.delete(c)
+    db.commit()
+    return count
+
 
 
