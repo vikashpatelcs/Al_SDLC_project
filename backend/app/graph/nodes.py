@@ -12,7 +12,10 @@ from backend.app.agents.requirement_engineer import requirement_engineer_agent
 from backend.app.agents.analysis import analysis_engine
 from backend.app.agents.compliance_security_risk import compliance_security_risk_agent
 from backend.app.agents.sdlc import sdlc_agent
+from backend.app.agents.documentation import DocumentationAgent
 from backend.app.db.models import RequirementModel
+
+documentation_agent = DocumentationAgent()
 
 
 def requirement_engineer_node(state: AgentState) -> Dict[str, Any]:
@@ -192,14 +195,57 @@ def sdlc_node(state: AgentState) -> Dict[str, Any]:
 
 
 def documentation_validation_node(state: AgentState) -> Dict[str, Any]:
-    """Documentation & Validation Agent (Phase 12 stub fixture): prepares final engineering baseline."""
+    """Documentation & Validation Agent (Phase 14): synthesizes artefacts, builds RTM, compiles SRS PDF."""
     progress_messages = list(state.get("progress_messages", []))
-    progress_messages.append("Generating requirements traceability matrix (RTM) and validating final specification package...")
+    progress_messages.append("Validating specification package, building RTM, and compiling IEEE 29148 SRS...")
+
+    chat_id = state.get("chat_id", str(uuid.uuid4()))
+    project_id = state.get("project_id", "default_proj")
+    requirements = state.get("requirements", [])
+    compliance_mappings = state.get("compliance_mappings", [])
+    risks = state.get("risks", [])
+    sdlc_recommendation = state.get("sdlc_recommendations", {})
+    issues = state.get("issues", [])
+    approval_status = dict(state.get("approval_status", {}))
+    is_approved = approval_status.get("requirement_baseline") == "approved"
+
+    project_data = {
+        "id": project_id,
+        "title": "Digital Customer Onboarding & KYC",
+        "version": 1
+    }
+
+    # Synthesize artefacts and compile SRS PDF (DB session is None in node since nodes do not write to DB)
+    result = documentation_agent.compile_srs(
+        db=None,
+        chat_id=chat_id,
+        project_data=project_data,
+        requirements=requirements,
+        compliance_mappings=compliance_mappings,
+        risks=risks,
+        sdlc_recommendation=sdlc_recommendation,
+        issues=issues,
+        is_approved=is_approved
+    )
+
+    action_cards = list(state.get("action_cards", []))
+    action_cards.append(result["action_card"].model_dump(mode="json"))
+
+    pdf_meta = result["pdf_meta"]
+    progress_messages.append(
+        f"IEEE 29148 SRS compiled. RTM coverage: {int(result['coverage_score'] * 100)}%."
+    )
 
     return {
         "phase": ConversationPhase.DONE.value,
+        "action_cards": action_cards,
         "progress_messages": progress_messages,
-        "response_text": "Engineering requirements baseline complete, validated, and ready for development."
+        "response_text": (
+            f"Requirements engineering cycle complete! {len(result['active_requirements'])} specifications validated "
+            f"with {int(result['coverage_score'] * 100)}% RTM coverage.\n\n"
+            f"Your IEEE 29148 Software Requirements Specification (SRS) has been compiled. "
+            f"Download and inspect the package via the card below."
+        )
     }
 
 

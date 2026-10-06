@@ -10,6 +10,7 @@ from backend.app.db.session import engine, Base
 import backend.app.db.models  # Register models with Base
 from backend.app.api.chats import router as chats_router
 from backend.app.api.approvals import router as approvals_router
+from backend.app.api.documents import router as documents_router
 
 from sqlalchemy import text
 
@@ -61,6 +62,7 @@ app.add_middleware(
 # Mount API routers
 app.include_router(chats_router, prefix=settings.API_V1_PREFIX)
 app.include_router(approvals_router, prefix=settings.API_V1_PREFIX)
+app.include_router(documents_router, prefix=settings.API_V1_PREFIX)
 
 
 @app.get("/health")

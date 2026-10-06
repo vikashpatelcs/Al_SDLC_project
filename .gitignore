@@ -29,6 +29,8 @@ storage/uploads/*
 !storage/uploads/.gitkeep
 storage/generated/*
 !storage/generated/.gitkeep
+storage/documents/*
+!storage/documents/.gitkeep
 
 # Knowledge Base raw files and Chroma index
 kb/raw/*

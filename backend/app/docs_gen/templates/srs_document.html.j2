@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Software Requirements Specification — {{ project.title }}</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1e293b; line-height: 1.5; margin: 40px; }
+        h1 { color: #1e3a8a; border-bottom: 2px solid #1e3a8a; padding-bottom: 6px; }
+        h2 { color: #0f172a; margin-top: 24px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 16px; font-size: 13px; }
+        th, td { border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left; }
+        th { background-color: #1e3a8a; color: white; }
+        .watermark { position: fixed; top: 40%; left: 20%; font-size: 64px; color: rgba(220, 38, 38, 0.15); transform: rotate(-35deg); pointer-events: none; }
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; background: #e2e8f0; }
+        .approved { background: #dcfce7; color: #166534; }
+        .draft { background: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body>
+    {% if not is_approved %}
+    <div class="watermark">DRAFT - FOR REVIEW ONLY</div>
+    {% endif %}
+
+    <h1>Software Requirements Specification (SRS)</h1>
+    <p><strong>System:</strong> {{ project.title }} | <strong>Standard:</strong> ISO/IEC/IEEE 29148:2018</p>
+    <p><strong>Status:</strong> <span class="badge {% if is_approved %}approved{% else %}draft{% endif %}">{{ "APPROVED" if is_approved else "DRAFT" }}</span> | <strong>Version:</strong> v{{ project.version }}.0</p>
+
+    <h2>1. Document Control & Stakeholder Sign-Off Block</h2>
+    <table>
+        <tr><th>Document ID</th><th>Version</th><th>Status</th><th>Date</th></tr>
+        <tr><td>{{ project.id }}</td><td>v{{ project.version }}.0</td><td>{{ "APPROVED" if is_approved else "DRAFT" }}</td><td>{{ created_at }}</td></tr>
+    </table>
+
+    <h2>2. Executive Summary & System Overview</h2>
+    <p>{{ artefacts.executive_summary }}</p>
+
+    <h2>3. Purpose & Objectives</h2>
+    <p>Defines the rigorous specifications for statutory financial digital platforms.</p>
+
+    <h2>4. Scope & Financial Domain Context</h2>
+    <p>Digital onboarding, KYC, sanctions screening, and biometric authentication under RBI/PMLA/DPDP.</p>
+
+    <h2>5. Definitions, Acronyms & Abbreviations</h2>
+    <table>
+        <tr><th>Term</th><th>Definition</th></tr>
+        <tr><td>KYC</td><td>Know Your Customer verification</td></tr>
+        <tr><td>CKYC</td><td>Central KYC Registry (CERSAI)</td></tr>
+        <tr><td>V-CIP</td><td>Video-based Customer Identification Process</td></tr>
+        <tr><td>PMLA</td><td>Prevention of Money Laundering Act, 2002</td></tr>
+        <tr><td>DPDP Act</td><td>Digital Personal Data Protection Act, 2023</td></tr>
+    </table>
+
+    <h2>6. References, Statutory Laws & Regulatory Framework</h2>
+    <ul>
+        <li>RBI Master Direction on KYC (2023)</li>
+        <li>PMLA 2002 & Maintenance of Records Rules</li>
+        <li>DPDP Act 2023</li>
+    </ul>
+
+    <h2>7. Product Perspective & System Context</h2>
+    <p>Customer engagement tier interfacing with Core Banking, UIDAI, and AML engines.</p>
+
+    <h2>8. Product Functions Overview</h2>
+    <p>Identity redaction, Aadhaar verification, Video-CIP orchestration, PEP screening, and immutable audit logs.</p>
+
+    <h2>9. User Classes & Stakeholder Characteristics</h2>
+    <p>Retail Customer, Bank KYC Officer, Compliance MLRO, System Administrator.</p>
+
+    <h2>10. Operating Environment & Target Architecture</h2>
+    <p>Containerized high-availability on-premise / sovereign cloud within Indian territory.</p>
+
+    <h2>11. Design, Implementation & Statutory Constraints</h2>
+    <p>No raw Aadhaar/CVV storage; AES-256 field encryption at rest; TLS 1.3 in transit.</p>
+
+    <h2>12. Assumptions & Dependency Register</h2>
+    <ul>
+        {% for a in artefacts.assumptions %}
+        <li>{{ a }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>13. External Interface Requirements</h2>
+    <table>
+        <tr><th>Interface</th><th>Protocol</th><th>SLA / Security</th></tr>
+        {% for iface in artefacts.interfaces %}
+        <tr><td>{{ iface[0] }}</td><td>{{ iface[1] }}</td><td>{{ iface[2] }}</td></tr>
+        {% endfor %}
+    </table>
+
+    <h2>14. System Functional Requirements Catalog</h2>
+    <table>
+        <tr><th>ID</th><th>Category</th><th>Priority</th><th>Statement (RFC 2119)</th></tr>
+        {% for r in requirements %}
+        <tr><td>{{ r.id }}</td><td>{{ r.category }}</td><td>{{ r.priority }}</td><td>{{ r.statement }}</td></tr>
+        {% endfor %}
+    </table>
+
+    <h2>15. User Stories & Acceptance Criteria</h2>
+    {% for us in artefacts.user_stories %}
+    <h3>{{ us.id }}: {{ us.narrative }}</h3>
+    <ul>
+        {% for ac in us.criteria %}
+        <li><em>Given</em> {{ ac.given }} | <em>When</em> {{ ac.when }} | <em>Then</em> {{ ac.then }}</li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+
+    <h2>16. Use Case Specifications</h2>
+    {% for uc in artefacts.use_cases %}
+    <h3>{{ uc.id }}: {{ uc.name }}</h3>
+    <p><strong>Actor:</strong> {{ uc.actor }}</p>
+    <p><strong>Flow:</strong> {{ uc.flow }}</p>
+    {% endfor %}
+
+    <h2>17. Process Workflows & Sequence Diagrams</h2>
+    <p>Mermaid process workflow sequence: Customer -> MobileApp -> FinReqBackend -> UIDAI.</p>
+
+    <h2>18. Data Requirements & Information Architecture</h2>
+    <table>
+        <tr><th>Field</th><th>Sensitivity</th><th>Protection</th><th>Retention</th></tr>
+        {% for d in artefacts.data_reqs %}
+        <tr><td>{{ d[0] }}</td><td>{{ d[1] }}</td><td>{{ d[2] }}</td><td>{{ d[3] }}</td></tr>
+        {% endfor %}
+    </table>
+
+    <h2>19. Non-Functional Quality Requirements</h2>
+    <p>p99 latency < 800ms; 99.95% availability; SHA-256 audit chain logging.</p>
+
+    <h2>20. Statutory & Regulatory Compliance Matrix</h2>
+    <table>
+        <tr><th>Req ID</th><th>Regulation</th><th>Section</th><th>Control Required</th><th>Status</th></tr>
+        {% for m in compliance_mappings %}
+        <tr><td>{{ m.requirement_id }}</td><td>{{ m.regulation_name }}</td><td>{{ m.section_reference }}</td><td>{{ m.control_required }}</td><td>{{ "VERIFIED" if m.citation_verified else "PENDING REVIEW" }}</td></tr>
+        {% endfor %}
+    </table>
+
+    <h2>21. Threat & Risk Register</h2>
+    <table>
+        <tr><th>Risk ID</th><th>Category</th><th>Severity</th><th>Score</th><th>Mitigation</th></tr>
+        {% for rk in risks %}
+        <tr><td>{{ rk.id }}</td><td>{{ rk.category }}</td><td>{{ rk.severity }}</td><td>{{ rk.risk_score }}</td><td>{{ rk.mitigation }}</td></tr>
+        {% endfor %}
+    </table>
+
+    <h2>22. Tailored SDLC Methodology & Life-Cycle Governance</h2>
+    <p><strong>Selected Model:</strong> {{ sdlc_recommendation.selected_model }}</p>
+    <p>{{ sdlc_recommendation.explanation }}</p>
+
+    <h2>23. Requirements Traceability Matrix (RTM) & Open Issues</h2>
+    <table>
+        <tr><th>Source ID</th><th>Req ID</th><th>Regulation / Standard</th><th>Acceptance Criteria</th><th>Risk ID</th></tr>
+        {% for r in rtm_rows %}
+        <tr><td>{{ r.source_statement_id }}</td><td>{{ r.requirement_id }}</td><td>{{ r.regulation_chunk }}</td><td>{{ r.acceptance_criteria_id }}</td><td>{{ r.risk_id }}</td></tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

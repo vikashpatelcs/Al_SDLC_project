@@ -21,6 +21,8 @@ from backend.app.db.models import (
     ComplianceMappingModel,
     RiskModel,
     SDLCRecommendationModel,
+    GeneratedDocumentModel,
+    TraceabilityModel,
 )
 from backend.app.graph.state import AgentState, ConversationPhase
 from backend.app.graph.workflow import build_orchestration_graph
@@ -269,6 +271,37 @@ class CoordinatorAgent:
                 existing_rec.factors_json = json.dumps(sdlc_rec.get("factor_evaluations", {}))
                 existing_rec.explanation = sdlc_rec.get("explanation", existing_rec.explanation)
                 existing_rec.workflow_json = json.dumps(sdlc_rec.get("workflow", []))
+
+        # Persist traceability matrix & generated documents if documentation completed
+        doc_cards = [
+            c for c in final_state.get("action_cards", [])
+            if isinstance(c, dict) and str(c.get("card_type", "")).lower() in ("download_pdf", "actioncardtype.download_pdf", "document_export")
+        ]
+        if doc_cards:
+            for dc in doc_cards:
+                pl = dc.get("payload", {})
+                sha = pl.get("sha256")
+                if sha:
+                    existing_doc = db.query(GeneratedDocumentModel).filter(
+                        GeneratedDocumentModel.chat_id == chat.id,
+                        GeneratedDocumentModel.sha256 == sha
+                    ).first()
+                    if not existing_doc:
+                        doc_record = GeneratedDocumentModel(
+                            id=str(uuid.uuid4()),
+                            chat_id=chat.id,
+                            project_id=project.id,
+                            doc_type=pl.get("doc_type", "srs"),
+                            version=pl.get("version", 1),
+                            file_path=pl.get("file_path", ""),
+                            sha256=sha,
+                            status="signed_off" if pl.get("is_approved") else "generated"
+                        )
+                        db.add(doc_record)
+
+            from backend.app.docs_gen.traceability import TraceabilityEngine
+            rtm_rows = TraceabilityEngine.build_matrix(new_reqs, new_mappings, new_risks)
+            TraceabilityEngine.persist_traceability(db, project.id, rtm_rows)
 
         # Record workflow execution in tamper-evident audit chain
         evt_type = (
