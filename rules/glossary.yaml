@@ -1,0 +1,144 @@
+# Canonical glossary of financial, technical, and regulatory acronyms per Problem Statement §10.
+# Any uppercase acronyms not listed here will be flagged as undefined acronyms.
+
+acronyms:
+  KYC:
+    full_name: "Know Your Customer"
+    domain: "Compliance"
+    authority: "RBI / PMLA"
+  AML:
+    full_name: "Anti-Money Laundering"
+    domain: "Compliance"
+    authority: "PMLA / FIU-IND"
+  V-CIP:
+    full_name: "Video-based Customer Identification Process"
+    domain: "Compliance"
+    authority: "RBI KYC Directions"
+  VCIP:
+    full_name: "Video-based Customer Identification Process"
+    domain: "Compliance"
+    authority: "RBI KYC Directions"
+  CKYC:
+    full_name: "Central KYC Records Registry"
+    domain: "Compliance"
+    authority: "CERSAI"
+  UIDAI:
+    full_name: "Unique Identification Authority of India"
+    domain: "Identity"
+    authority: "Aadhaar Act"
+  NSDL:
+    full_name: "National Securities Depository Limited"
+    domain: "Tax & Identity"
+    authority: "Income Tax Department"
+  PAN:
+    full_name: "Permanent Account Number"
+    domain: "Tax & Identity"
+    authority: "Income Tax Department"
+  UPI:
+    full_name: "Unified Payments Interface"
+    domain: "Payments"
+    authority: "NPCI"
+  NPCI:
+    full_name: "National Payments Corporation of India"
+    domain: "Payments"
+    authority: "RBI / NPCI"
+  PMLA:
+    full_name: "Prevention of Money Laundering Act, 2002"
+    domain: "Statutory Law"
+    authority: "Government of India"
+  DPDP:
+    full_name: "Digital Personal Data Protection Act, 2023"
+    domain: "Privacy Law"
+    authority: "Government of India"
+  KFS:
+    full_name: "Key Fact Statement"
+    domain: "Credit / Lending"
+    authority: "RBI Digital Lending Directions"
+  APR:
+    full_name: "Annual Percentage Rate"
+    domain: "Credit / Lending"
+    authority: "RBI"
+  UTR:
+    full_name: "Unique Transaction Reference"
+    domain: "Payments"
+    authority: "RBI / NPCI"
+  HSM:
+    full_name: "Hardware Security Module"
+    domain: "Security"
+    authority: "FIPS 140-2"
+  MFA:
+    full_name: "Multi-Factor Authentication"
+    domain: "Security"
+    authority: "RBI Cyber Security Framework"
+  2FA:
+    full_name: "Two-Factor Authentication"
+    domain: "Security"
+    authority: "RBI Cyber Security Framework"
+  AES:
+    full_name: "Advanced Encryption Standard"
+    domain: "Cryptography"
+    authority: "NIST"
+  TLS:
+    full_name: "Transport Layer Security"
+    domain: "Cryptography"
+    authority: "IETF"
+  CDD:
+    full_name: "Customer Due Diligence"
+    domain: "Compliance"
+    authority: "RBI / FATF"
+  NBFC:
+    full_name: "Non-Banking Financial Company"
+    domain: "Banking"
+    authority: "RBI"
+  RE:
+    full_name: "Regulated Entity"
+    domain: "Banking"
+    authority: "RBI"
+  SLA:
+    full_name: "Service Level Agreement"
+    domain: "Operations"
+    authority: "IT Governance"
+  TPS:
+    full_name: "Transactions Per Second"
+    domain: "Performance"
+    authority: "Architecture"
+  RPO:
+    full_name: "Recovery Point Objective"
+    domain: "Disaster Recovery"
+    authority: "RBI Cyber Security Framework"
+  RTO:
+    full_name: "Recovery Time Objective"
+    domain: "Disaster Recovery"
+    authority: "RBI Cyber Security Framework"
+  PIN:
+    full_name: "Personal Identification Number"
+    domain: "Payments"
+    authority: "NPCI"
+  OTP:
+    full_name: "One-Time Password"
+    domain: "Authentication"
+    authority: "RBI"
+  CVV:
+    full_name: "Card Verification Value"
+    domain: "Cards"
+    authority: "RBI Card Directions"
+  CIBIL:
+    full_name: "Credit Information Bureau (India) Limited"
+    domain: "Credit Bureau"
+    authority: "CICRA"
+  RBI:
+    full_name: "Reserve Bank of India"
+    domain: "Regulatory Body"
+    authority: "RBI Act 1934"
+  SEBI:
+    full_name: "Securities and Exchange Board of India"
+    domain: "Regulatory Body"
+    authority: "SEBI Act 1992"
+  SOC:
+    full_name: "Security Operations Centre"
+    domain: "Security"
+    authority: "RBI Cyber Security Framework"
+  SIEM:
+    full_name: "Security Information and Event Management"
+    domain: "Security"
+    authority: "RBI Cyber Security Framework"

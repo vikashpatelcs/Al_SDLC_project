@@ -1,0 +1,106 @@
+# Quality rules definition covering all 10 Problem Statement §10 dimensions and Master Plan Phase 8.
+
+dimensions:
+  - id: "ambiguity"
+    name: "Ambiguity & Non-Measurability"
+    description: "Detects subjective language, vague modifiers, and missing quantitative criteria."
+    severity: "medium"
+
+  - id: "conflict"
+    name: "Conflict & Contradiction"
+    description: "Detects opposing directives between requirements in the same project."
+    severity: "critical"
+    antagonistic_patterns:
+      - pair: ["without encryption", "hsm encryption"]
+        description: "Contradiction regarding data encryption and hardware security module usage."
+        rationale: "One requirement mandates storing data without encryption while another mandates HSM encryption."
+      - pair: ["unencrypted", "encrypted"]
+        description: "Direct contradiction between unencrypted and encrypted data handling."
+        rationale: "Conflicting data protection mandates will cause architecture failure."
+      - pair: ["no authentication", "multi-factor authentication"]
+        description: "Contradiction in authentication policy."
+        rationale: "Conflicting security posture regarding user identity verification."
+      - pair: ["retain for 90 days", "retain for 5 years"]
+        description: "Contradiction in data retention periods."
+        rationale: "Conflicting retention periods prevent consistent lifecycle purge policies."
+      - pair: ["store on cloud", "on-premises only"]
+        description: "Conflicting deployment and data residency boundaries."
+        rationale: "Deployment architecture cannot simultaneously satisfy opposing residency constraints."
+
+  - id: "incompleteness"
+    name: "Incompleteness & Missing Slots"
+    description: "Detects missing operational parameters, error-handling paths, or acceptance criteria."
+    severity: "high"
+    slot_checks:
+      - condition: "payment or transfer without transaction limit"
+        keywords: ["payment", "transfer", "disburse", "p2p"]
+        missing_check: ["limit", "threshold", "cap", "inr", "rs"]
+        suggestion: "Specify minimum and maximum per-transaction and daily cumulative velocity limits."
+      - condition: "authentication or login without fallback or lock-out"
+        keywords: ["login", "authenticate", "otp", "pin"]
+        missing_check: ["attempt", "lock", "expiry", "timeout", "retry"]
+        suggestion: "Specify maximum retry attempts (e.g. 3 attempts) and temporary account lock-out duration."
+
+  - id: "untestable"
+    name: "Untestable & Infeasible Claims"
+    description: "Detects assertions that cannot be validated through objective automated or manual testing."
+    severity: "high"
+    unverifiable_phrases:
+      - phrase: "bug-free"
+        suggestion: "achieve >= 95% automated test coverage with zero unresolved blocker or critical defects"
+      - phrase: "zero latency"
+        suggestion: "achieve 99th percentile end-to-end response latency under 50 milliseconds"
+      - phrase: "unhackable"
+        suggestion: "undergo annual external penetration testing with zero critical OWASP Top 10 vulnerabilities"
+      - phrase: "infinitely scalable"
+        suggestion: "demonstrate linear horizontal scalability up to 10,000 requests per second under benchmark testing"
+
+  - id: "duplicate"
+    name: "Duplication & Overlap"
+    description: "Detects duplicate or redundant requirements with >= 85% token overlap."
+    severity: "medium"
+    similarity_threshold: 0.85
+
+  - id: "regulatory_gap"
+    name: "Regulatory & Compliance Violation"
+    description: "Detects violations of statutory mandates (RBI, PMLA, DPDP, NPCI)."
+    severity: "critical"
+    violations:
+      - pattern: "store.*cvv|store.*pin"
+        citation: "RBI Master Direction on Credit/Debit Card Issuance Section 17.2"
+        violation: "Storing sensitive card verification value (CVV) or customer PIN post-authorization is strictly prohibited."
+        suggestion: "The system shall never persist CVV, CVV2, or customer authentication PINs following transaction authorization."
+      - pattern: "retain.*less than 5 years|purge after 90 days.*kyc|retain.*30 days.*kyc"
+        citation: "PMLA 2002 Section 12 & RBI KYC Master Direction Section 24"
+        violation: "KYC records and customer identification data must be maintained for at least 5 years from account closure."
+        suggestion: "The system shall retain all customer identification records and KYC documents for at least 5 years from date of account closure."
+      - pattern: "without.*consent|share.*data without.*consent"
+        citation: "DPDP Act 2023 Section 6(1)"
+        violation: "Processing or sharing personal data without prior explicit, verifiable consent is unlawful."
+        suggestion: "The system shall obtain explicit, verifiable digital consent from the Data Principal prior to processing personal data."
+      - pattern: "upi.*limit.*(exceeding|above).*100,?000|upi.*limit.*200,?000|upi.*limit.*500,?000"
+        citation: "NPCI UPI Procedural Guidelines & RBI KYC Master Direction"
+        violation: "Standard UPI P2P transaction limit is capped at INR 100,000 per 24 hours (unless verified capital market/IPO category)."
+        suggestion: "The system shall enforce standard UPI peer-to-peer transaction cap of INR 100,000 per 24-hour cycle per NPCI guidelines."
+
+  - id: "weak_word"
+    name: "Weak & Vague Modals"
+    description: "Detects weak verbs, conversational adverbs, and unquantified speed terms."
+    severity: "medium"
+
+  - id: "missing_actor"
+    name: "Missing Actor or Imperative"
+    description: "Enforces IEEE-830 standard stating an explicit actor and mandatory imperative ('shall')."
+    severity: "medium"
+    required_imperatives: ["shall", "must"]
+    required_actors: ["system", "user", "admin", "agent", "service", "application", "platform", "component"]
+
+  - id: "undefined_acronym"
+    name: "Undefined Acronym"
+    description: "Flags uppercase acronyms of 2+ characters not defined in glossary.yaml."
+    severity: "low"
+
+  - id: "missing_source"
+    name: "Missing Traceability Source"
+    description: "Flags requirements lacking an origin document or message reference."
+    severity: "high"

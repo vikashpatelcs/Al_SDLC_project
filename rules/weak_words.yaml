@@ -1,0 +1,123 @@
+# Weak and ambiguous word dictionary per Problem Statement §10 and Master Plan Phase 8.
+# Maps subjective, unquantified, or vague terms to remediation guidance and measurable templates.
+
+weak_words:
+  - word: "quickly"
+    category: "non_measurable"
+    severity: "medium"
+    reason: "Subjective speed descriptor lacking measurable SLA or millisecond latency bound."
+    suggestion_template: "within <N> milliseconds under 95th percentile load"
+
+  - word: "fast"
+    category: "non_measurable"
+    severity: "medium"
+    reason: "Unquantified performance expectation."
+    suggestion_template: "within <N> seconds"
+
+  - word: "ultra fast"
+    category: "non_measurable"
+    severity: "high"
+    reason: "Hyperbolic performance adjective without verifiable metric."
+    suggestion_template: "within <N> milliseconds"
+
+  - word: "seamlessly"
+    category: "non_measurable"
+    severity: "medium"
+    reason: "Subjective user experience descriptor lacking verifiable acceptance criteria."
+    suggestion_template: "without requiring manual re-entry of data across workflow stages"
+
+  - word: "instantly"
+    category: "non_measurable"
+    severity: "high"
+    reason: "Technically infeasible absolute claim; every network and database operation has non-zero latency."
+    suggestion_template: "within a maximum response SLA of <N> milliseconds"
+
+  - word: "user-friendly"
+    category: "ambiguity"
+    severity: "medium"
+    reason: "Subjective usability attribute without testable usability metric (e.g., SUS score, task completion time)."
+    suggestion_template: "requiring fewer than <N> user interactions to complete"
+
+  - word: "robust"
+    category: "ambiguity"
+    severity: "medium"
+    reason: "Vague resiliency descriptor lacking MTBF, fault tolerance, or disaster recovery SLA."
+    suggestion_template: "with 99.99% availability and RPO < 15 minutes, RTO < 1 hour"
+
+  - word: "secure enough"
+    category: "ambiguity"
+    severity: "high"
+    reason: "Underspecified security posture failing to reference specific cryptographic standards."
+    suggestion_template: "compliant with AES-256 encryption at rest and TLS 1.3 in transit"
+
+  - word: "state-of-the-art"
+    category: "ambiguity"
+    severity: "low"
+    reason: "Marketing buzzword with no engineering verification threshold."
+    suggestion_template: "utilizing industry-standard <specification_name>"
+
+  - word: "flexible"
+    category: "ambiguity"
+    severity: "low"
+    reason: "Undefined extensibility requirement lacking architectural boundaries."
+    suggestion_template: "supporting pluggable configuration via <module/API>"
+
+  - word: "scalable"
+    category: "ambiguity"
+    severity: "medium"
+    reason: "Unbounded scalability expectation lacking concurrent users or TPS benchmarks."
+    suggestion_template: "capable of scaling horizontally to support <N> concurrent transactions per second"
+
+  - word: "minimal"
+    category: "ambiguity"
+    severity: "medium"
+    reason: "Subjective minimum bound without upper limit or percentage."
+    suggestion_template: "not exceeding <N>% of baseline overhead"
+
+  - word: "optimal"
+    category: "ambiguity"
+    severity: "medium"
+    reason: "Mathematical or engineering optimization without objective function."
+    suggestion_template: "achieving <metric> greater than or equal to <threshold>"
+
+  - word: "as appropriate"
+    category: "incompleteness"
+    severity: "high"
+    reason: "Underspecified conditional branch lacking deterministic trigger criteria."
+    suggestion_template: "upon occurrence of <specific_trigger_condition>"
+
+  - word: "if necessary"
+    category: "incompleteness"
+    severity: "high"
+    reason: "Unspecified branch condition creating ambiguity in execution paths."
+    suggestion_template: "when <conditional_predicate> evaluates to true"
+
+  - word: "etc"
+    category: "incompleteness"
+    severity: "high"
+    reason: "Open-ended truncation leaving requirement scope unbounded."
+    suggestion_template: "explicitly enumerate all supported options: <option_1>, <option_2>, and <option_3>"
+
+  - word: "etc."
+    category: "incompleteness"
+    severity: "high"
+    reason: "Open-ended truncation leaving requirement scope unbounded."
+    suggestion_template: "explicitly enumerate all supported options: <option_1>, <option_2>, and <option_3>"
+
+  - word: "approximately"
+    category: "non_measurable"
+    severity: "medium"
+    reason: "Imprecise numerical boundary lacking tolerance margin."
+    suggestion_template: "within a tolerance margin of +/- <N>%"
+
+  - word: "bug-free"
+    category: "untestable"
+    severity: "critical"
+    reason: "Theoretically unprovable and untestable perfection claim."
+    suggestion_template: "passing 100% of automated regression test suites with zero critical severity defects"
+
+  - word: "zero latency"
+    category: "untestable"
+    severity: "critical"
+    reason: "Physically impossible in distributed computing environments."
+    suggestion_template: "with network round-trip time under <N> milliseconds"

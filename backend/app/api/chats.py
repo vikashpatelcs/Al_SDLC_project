@@ -14,11 +14,12 @@ from sqlalchemy.orm import Session
 
 from backend.app.config import settings
 from backend.app.core.session import get_current_owner_hash
-from backend.app.db.models import Chat, Message, UploadedFile
+from backend.app.db.models import Chat, Message, UploadedFile, Project, RequirementModel
 from backend.app.db.session import get_db
 from backend.app.core.security.masking import pii_masker
 from backend.app.core.parsers.factory import parse_and_mask_document
 from backend.app.agents.requirement_engineer import requirement_engineer_agent
+from backend.app.agents.analysis import analysis_engine
 
 router = APIRouter(prefix="/chats", tags=["chats"])
 
@@ -265,6 +266,14 @@ async def send_message(
     resp_text = result["text"]
     action_cards = result["action_cards"]
 
+    # 5. Phase 8 Analysis Engine: If project requirements exist, perform quality analysis
+    project = db.query(Project).filter(Project.chat_id == chat.id).first()
+    if project and project.requirements:
+        issues = analysis_engine.analyze_project(project.id, project.requirements, db=db)
+        db.commit()
+        summary_card = analysis_engine.build_issue_summary_card(project.requirements, issues)
+        action_cards.append(summary_card.model_dump(mode="json"))
+
     asst_msg_id = str(uuid.uuid4())
 
     async def event_generator():
@@ -351,3 +360,52 @@ async def upload_file(
     db.refresh(record)
 
     return record
+
+
+class RequirementUpdateRequest(BaseModel):
+    statement: str
+
+
+@router.patch("/{chat_id}/requirements/{requirement_id}")
+async def update_and_reanalyze_requirement(
+    chat_id: str,
+    requirement_id: str,
+    payload: RequirementUpdateRequest,
+    db: Session = Depends(get_db),
+    owner_hash: str = Depends(get_current_owner_hash),
+):
+    """Update requirement statement and trigger Phase 8 re-analysis loop."""
+    chat = (
+        db.query(Chat)
+        .filter(Chat.id == chat_id, Chat.owner_token_hash == owner_hash, Chat.deleted_at.is_(None))
+        .first()
+    )
+    if not chat:
+        raise HTTPException(status_code=404, detail="Chat session not found")
+
+    project = db.query(Project).filter(Project.chat_id == chat.id).first()
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+
+    req = (
+        db.query(RequirementModel)
+        .filter(RequirementModel.id == requirement_id, RequirementModel.project_id == project.id)
+        .first()
+    )
+    if not req:
+        raise HTTPException(status_code=404, detail="Requirement not found")
+
+    updated_req, resolved_count, remaining_issues = analysis_engine.reanalyze_requirement(
+        requirement=req,
+        new_statement=payload.statement,
+        db=db
+    )
+    db.commit()
+
+    return {
+        "requirement_id": updated_req.id,
+        "statement": updated_req.statement,
+        "version": updated_req.version,
+        "resolved_issues_count": resolved_count,
+        "remaining_issues_count": len(remaining_issues)
+    }

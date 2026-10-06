@@ -74,6 +74,7 @@ class Project(Base):
     requirements = relationship("RequirementModel", back_populates="project", cascade="all, delete-orphan")
     stakeholders = relationship("Stakeholder", back_populates="project", cascade="all, delete-orphan")
     assumptions = relationship("Assumption", back_populates="project", cascade="all, delete-orphan")
+    issues = relationship("RequirementIssueModel", back_populates="project", cascade="all, delete-orphan")
 
 
 class Stakeholder(Base):
@@ -109,6 +110,7 @@ class RequirementModel(Base):
 
     project = relationship("Project", back_populates="requirements")
     versions = relationship("RequirementVersion", back_populates="requirement", cascade="all, delete-orphan", order_by="RequirementVersion.version")
+    issues = relationship("RequirementIssueModel", back_populates="requirement", cascade="all, delete-orphan")
 
 
 class RequirementVersion(Base):
@@ -151,4 +153,23 @@ class KnowledgeBaseVersion(Base):
     total_chunks = Column(Integer, nullable=False)
     collection_name = Column(String(128), nullable=False, default="financial_kb_authoritative")
     created_at = Column(DateTime, default=utcnow, nullable=False)
+
+
+class RequirementIssueModel(Base):
+    __tablename__ = "requirement_issues"
+
+    id = Column(String(64), primary_key=True)  # e.g. "ISS-001" or uuid
+    requirement_id = Column(String(64), ForeignKey("requirements.id", ondelete="CASCADE"), nullable=True, index=True)
+    project_id = Column(String(36), ForeignKey("projects.id", ondelete="CASCADE"), nullable=False, index=True)
+    issue_type = Column(String(64), nullable=False)  # ambiguity, conflict, duplicate, incompleteness, etc.
+    severity = Column(String(32), nullable=False, default="medium")
+    detail = Column(Text, nullable=False)
+    suggestion = Column(Text, nullable=False)
+    rationale = Column(Text, nullable=False)
+    status = Column(String(64), nullable=False, default="open")  # open, resolved, dismissed
+    created_at = Column(DateTime, default=utcnow, nullable=False)
+    updated_at = Column(DateTime, default=utcnow, onupdate=utcnow, nullable=False)
+
+    requirement = relationship("RequirementModel", back_populates="issues")
+    project = relationship("Project", back_populates="issues")
 
