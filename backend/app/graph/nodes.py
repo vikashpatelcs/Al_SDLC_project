@@ -204,15 +204,43 @@ def documentation_validation_node(state: AgentState) -> Dict[str, Any]:
 
 
 def approval_gate_node(state: AgentState) -> Dict[str, Any]:
-    """Human-in-the-loop approval gate node: records baseline approval decisions."""
+    """Human-in-the-loop approval gate node: manages approval decisions, halts, and rejection loops."""
     progress_messages = list(state.get("progress_messages", []))
-    progress_messages.append("Awaiting stakeholder sign-off on baseline specifications...")
+    approval_status = dict(state.get("approval_status", {}))
+    action_cards = list(state.get("action_cards", []))
 
-    approval_status = state.get("approval_status", {})
-    approval_status["requirement_baseline"] = "approved"
+    current_decision = approval_status.get("requirement_baseline")
+
+    # Halt pipeline only if explicit human approval is required (auto_approve is False) and not yet decided
+    if approval_status.get("auto_approve") is False and current_decision not in ("approved", "rejected"):
+        progress_messages.append("Halting pipeline: Awaiting mandatory human stakeholder approval on requirement baseline...")
+        approval_card = ActionCard(
+            id=f"card-apr-{uuid.uuid4().hex[:8]}",
+            card_type=ActionCardType.APPROVAL_REQUEST,
+            title="Mandatory Baseline Approval Gate (PS §16)",
+            payload={
+                "gate_type": "baseline",
+                "required_role": "product_owner",
+                "summary": "Review extracted requirements baseline and statutory compliance mappings before enrichment.",
+                "total_requirements": len(state.get("requirements", []))
+            },
+            actions=["Accept", "Reject", "Edit", "Regenerate", "Explain"]
+        )
+        action_cards.append(approval_card.model_dump(mode="json"))
+        return {
+            "approval_status": approval_status,
+            "action_cards": action_cards,
+            "progress_messages": progress_messages,
+            "response_text": "Execution paused at Human Approval Gate: Please review and sign off on the baseline specifications to proceed."
+        }
+
+    # Otherwise mark approved (if not rejected)
+    if current_decision != "rejected":
+        approval_status["requirement_baseline"] = "approved"
+        progress_messages.append("Requirement baseline signed off/approved.")
 
     return {
         "approval_status": approval_status,
-        "phase": ConversationPhase.ENRICH.value,
+        "phase": ConversationPhase.ENRICH.value if approval_status.get("requirement_baseline") == "approved" else ConversationPhase.ANALYSED.value,
         "progress_messages": progress_messages
     }

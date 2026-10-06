@@ -26,10 +26,18 @@ def route_after_requirement_engineer(state: AgentState) -> str:
 
 
 def route_after_analysis(state: AgentState) -> str:
-    """Route after analysis: go to approval gate or directly to enrichment if auto-approved."""
-    if state.get("approval_status", {}).get("auto_approve", False):
-        return "compliance_security_risk"
+    """Route after analysis to approval gate."""
     return "approval_gate"
+
+
+def route_after_approval_gate(state: AgentState) -> str:
+    """Route after approval gate: proceed if approved, re-analyze if rejected, halt if pending."""
+    status = state.get("approval_status", {}).get("requirement_baseline")
+    if status == "approved":
+        return "compliance_security_risk"
+    elif status == "rejected":
+        return "analysis"
+    return END
 
 
 def build_orchestration_graph(
@@ -71,7 +79,16 @@ def build_orchestration_graph(
         }
     )
 
-    workflow.add_edge("approval_gate", "compliance_security_risk")
+    workflow.add_conditional_edges(
+        "approval_gate",
+        route_after_approval_gate,
+        {
+            "compliance_security_risk": "compliance_security_risk",
+            "analysis": "analysis",
+            END: END
+        }
+    )
+
     workflow.add_edge("compliance_security_risk", "sdlc")
     workflow.add_edge("sdlc", "documentation_validation")
     workflow.add_edge("documentation_validation", END)

@@ -30,6 +30,7 @@ class Chat(Base):
     files = relationship("UploadedFile", back_populates="chat", cascade="all, delete-orphan")
     project = relationship("Project", back_populates="chat", uselist=False, cascade="all, delete-orphan")
     sdlc_recommendations = relationship("SDLCRecommendationModel", back_populates="chat", cascade="all, delete-orphan")
+    approvals = relationship("ApprovalModel", back_populates="chat", cascade="all, delete-orphan")
 
 
 class Message(Base):
@@ -79,6 +80,7 @@ class Project(Base):
     compliance_mappings = relationship("ComplianceMappingModel", back_populates="project", cascade="all, delete-orphan")
     risks = relationship("RiskModel", back_populates="project", cascade="all, delete-orphan")
     sdlc_recommendations = relationship("SDLCRecommendationModel", back_populates="project", cascade="all, delete-orphan")
+    approvals = relationship("ApprovalModel", back_populates="project", cascade="all, delete-orphan")
 
 
 class Stakeholder(Base):
@@ -257,5 +259,31 @@ class SDLCRecommendationModel(Base):
 
     project = relationship("Project", back_populates="sdlc_recommendations")
     chat = relationship("Chat", back_populates="sdlc_recommendations")
+
+
+class ApprovalModel(Base):
+    __tablename__ = "approvals"
+
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    chat_id = Column(String(36), ForeignKey("chats.id", ondelete="CASCADE"), nullable=False, index=True)
+    project_id = Column(String(36), ForeignKey("projects.id", ondelete="CASCADE"), nullable=False, index=True)
+    gate_type = Column(String(64), nullable=False)   # baseline, requirement_change, sdlc_selection, etc.
+    subject_id = Column(String(64), nullable=False)  # REQ-001, SDLC-001, etc.
+    title = Column(String(256), nullable=False)
+    description = Column(Text, nullable=False)
+    required_role = Column(String(64), nullable=False)
+    status = Column(String(32), default="pending", nullable=False)  # pending, approved, rejected, revised
+    action_taken = Column(String(32), nullable=True)  # accept, reject, edit, regenerate, explain
+    acting_role = Column(String(64), nullable=True)
+    reviewer_comment = Column(Text, nullable=True)
+    modified_payload = Column(Text, nullable=True)
+    sdlc_signoffs_json = Column(Text, nullable=True)  # JSON dict of signed roles
+    evidence_data_json = Column(Text, nullable=True)
+    confidence_score = Column(Float, default=1.0, nullable=False)
+    created_at = Column(DateTime, default=utcnow, nullable=False)
+    decided_at = Column(DateTime, nullable=True)
+
+    chat = relationship("Chat", back_populates="approvals")
+    project = relationship("Project", back_populates="approvals")
 
 
