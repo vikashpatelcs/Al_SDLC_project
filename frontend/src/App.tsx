@@ -167,11 +167,18 @@ export const App: React.FC = () => {
   };
 
   const handleActionClick = (action: string, payload?: any) => {
+    if (action.toLowerCase().includes('download pdf')) {
+      const url = payload?.download_url || (activeChatId ? `/api/chats/${activeChatId}/documents/export` : null);
+      if (url) {
+        window.open(url, '_blank');
+        return;
+      }
+    }
     handleSendMessage(`[Action Selected: ${action}]`);
   };
 
   return (
-    <div className="flex h-screen bg-[#090d16] text-slate-100 overflow-hidden font-sans">
+    <div className="flex h-screen bg-black text-white overflow-hidden font-sans">
       {/* Sidebar with Chat History */}
       <Sidebar
         chats={chats}
@@ -183,21 +190,21 @@ export const App: React.FC = () => {
       />
 
       {/* Main Chat Interface */}
-      <main className="flex-1 flex flex-col h-screen relative bg-gradient-to-b from-slate-950/80 via-slate-950 to-slate-900">
+      <main className="flex-1 flex flex-col h-screen relative bg-black">
         {/* Top Header Bar */}
-        <header className="h-14 border-b border-slate-800/80 px-6 flex items-center justify-between glass-panel z-10">
+        <header className="h-14 border-b border-neutral-800 px-6 flex items-center justify-between bg-neutral-950/80 backdrop-blur z-10">
           <div className="flex items-center gap-2">
-            <h2 className="text-sm font-semibold text-slate-200">
+            <h2 className="text-sm font-semibold text-white">
               {chats.find((c) => c.id === activeChatId)?.title || 'Financial Requirement System'}
             </h2>
-            <span className="text-[10px] bg-slate-800/80 text-sky-400 font-mono px-2 py-0.5 rounded border border-slate-700/60">
+            <span className="text-[10px] bg-neutral-900 text-neutral-300 font-mono px-2 py-0.5 rounded border border-neutral-800">
               {chats.find((c) => c.id === activeChatId)?.state || 'INTAKE'}
             </span>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>Phase 2 Verified</span>
+          <div className="flex items-center gap-2 text-xs font-mono text-neutral-400">
+            <ShieldCheck className="w-4 h-4 text-white" />
+            <span>AI Verified</span>
           </div>
         </header>
 

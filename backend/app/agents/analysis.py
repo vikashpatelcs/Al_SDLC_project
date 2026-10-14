@@ -490,10 +490,16 @@ class AnalysisEngine:
         existing_types = {i.issue_type for i in existing_issues if i.status == IssueStatus.OPEN.value}
         remaining_issues = [i for i in existing_issues if i.status == IssueStatus.OPEN.value]
 
-        seq = len(existing_issues) + 1
+        existing_count = db.query(RequirementIssueModel).filter(
+            RequirementIssueModel.project_id == requirement.project_id
+        ).count()
+        seq = existing_count + 1
         for raw in new_raw_issues:
             if raw["issue_type"] not in existing_types:
                 new_id = f"ISS-{requirement.project_id[:6].upper()}-{seq:03d}"
+                while db.query(RequirementIssueModel).filter(RequirementIssueModel.id == new_id).first():
+                    seq += 1
+                    new_id = f"ISS-{requirement.project_id[:6].upper()}-{seq:03d}"
                 seq += 1
                 new_issue_model = RequirementIssueModel(
                     id=new_id,

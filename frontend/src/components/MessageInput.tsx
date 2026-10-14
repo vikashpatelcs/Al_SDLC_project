@@ -66,13 +66,13 @@ export const MessageInput: React.FC<MessageInputProps> = ({
     <div className="w-full max-w-4xl mx-auto px-4 pb-4">
       {/* Attached file chip preview */}
       {attachedFile && (
-        <div className="mb-2 flex items-center gap-2 bg-slate-800/80 border border-slate-700/60 px-3 py-1.5 rounded-lg w-fit text-xs text-slate-200">
-          <File className="w-3.5 h-3.5 text-sky-400" />
+        <div className="mb-2 flex items-center gap-2 bg-neutral-900 border border-neutral-700 px-3 py-1.5 rounded-lg w-fit text-xs text-white">
+          <File className="w-3.5 h-3.5 text-white" />
           <span className="truncate max-w-xs">{attachedFile.name}</span>
-          <span className="text-slate-400 font-mono text-[10px]">({(attachedFile.size / 1024).toFixed(1)} KB)</span>
+          <span className="text-neutral-400 font-mono text-[10px]">({(attachedFile.size / 1024).toFixed(1)} KB)</span>
           <button
             onClick={() => setAttachedFile(null)}
-            className="text-slate-400 hover:text-rose-400 ml-1"
+            className="text-neutral-400 hover:text-white ml-1"
           >
             <X className="w-3.5 h-3.5" />
           </button>
@@ -82,7 +82,7 @@ export const MessageInput: React.FC<MessageInputProps> = ({
       {/* Main input container */}
       <form
         onSubmit={handleSubmit}
-        className="glass-panel rounded-2xl p-2 flex items-end gap-2 border border-slate-700/60 focus-within:border-sky-500/50 shadow-2xl transition-all"
+        className="bg-[#0e0e0e] rounded-2xl p-2 flex items-end gap-2 border border-neutral-800 focus-within:border-white shadow-2xl transition-all"
       >
         <input
           type="file"
@@ -96,7 +96,7 @@ export const MessageInput: React.FC<MessageInputProps> = ({
           type="button"
           onClick={() => fileInputRef.current?.click()}
           disabled={disabled || isUploading}
-          className="p-2.5 text-slate-400 hover:text-sky-400 hover:bg-slate-800/60 rounded-xl transition-colors disabled:opacity-50"
+          className="p-2.5 text-neutral-400 hover:text-white hover:bg-neutral-900 rounded-xl transition-colors disabled:opacity-50"
           title="Upload specification, transcript, or policy document"
         >
           <Paperclip className="w-4 h-4" />
@@ -107,29 +107,29 @@ export const MessageInput: React.FC<MessageInputProps> = ({
           value={content}
           onChange={adjustTextareaHeight}
           onKeyDown={handleKeyDown}
-          placeholder="Describe your financial requirement, answering questions, or paste specifications..."
+          placeholder="Describe your financial project, answer questions, or ask to change SDLC..."
           rows={1}
           disabled={disabled}
-          className="flex-1 bg-transparent border-0 text-slate-100 placeholder:text-slate-500 text-sm focus:outline-none resize-none py-2 px-1 max-h-44 leading-relaxed"
+          className="flex-1 bg-transparent border-0 text-white placeholder:text-neutral-500 text-sm focus:outline-none resize-none py-2 px-1 max-h-44 leading-relaxed"
         />
 
         <button
           type="submit"
           disabled={disabled || (!content.trim() && !attachedFile) || isUploading}
-          className="p-2.5 bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 disabled:opacity-30 disabled:hover:from-sky-500 disabled:hover:to-indigo-600 text-white rounded-xl shadow-md transition-all active:scale-95"
+          className="p-2.5 bg-white hover:bg-neutral-200 disabled:opacity-20 text-black rounded-xl shadow-md transition-all active:scale-95"
           title="Send message"
         >
           {isUploading ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
+            <Loader2 className="w-4 h-4 animate-spin text-black" />
           ) : (
-            <Send className="w-4 h-4" />
+            <Send className="w-4 h-4 text-black" />
           )}
         </button>
       </form>
 
       <div className="text-center mt-2">
-        <span className="text-[11px] text-slate-500 font-mono">
-          Strict Offline Guardrails • PII Masked • Verified Regulatory Citations Only
+        <span className="text-[11px] text-neutral-500 font-mono">
+          Strict Offline Guardrails • PII Masked • Local Inference
         </span>
       </div>
     </div>

@@ -18,6 +18,11 @@ class NonLocalURLError(ValueError):
     pass
 
 
+class ModelServiceUnavailableError(RuntimeError):
+    """Raised when local Ollama model server is offline or unreachable."""
+    pass
+
+
 def is_local_url(url: str) -> bool:
     """
     Validate that base URL targets localhost or loopback address only.
@@ -124,12 +129,12 @@ class LLMGateway:
         # Step 3: Dispatch request
         start_time = time.time()
         try:
-            with httpx.Client(timeout=self.timeout_seconds) as client:
+            with httpx.Client(timeout=httpx.Timeout(self.timeout_seconds, connect=2.0)) as client:
                 res = client.post(endpoint, json=payload)
                 res.raise_for_status()
                 data = res.json()
         except httpx.HTTPError as e:
-            raise RuntimeError(f"Ollama local inference failed at {endpoint}: {e}")
+            raise ModelServiceUnavailableError(f"Ollama local inference failed at {endpoint}: {e}")
 
         latency_ms = (time.time() - start_time) * 1000.0
 
@@ -161,6 +166,27 @@ class LLMGateway:
             messages.append({"role": "system", "content": system_instruction})
         messages.append({"role": "user", "content": prompt})
         return self.chat_complete(messages=messages, vault=vault, temperature=temperature)
+
+    def generate(
+        self,
+        prompt: str,
+        system_prompt: Optional[str] = None,
+        vault: Optional[ReversibleVault] = None,
+        temperature: float = 0.1,
+    ) -> Dict[str, Any]:
+        """Backward-compatible generation dictionary output."""
+        res = self.complete_prompt(
+            prompt=prompt,
+            system_instruction=system_prompt,
+            vault=vault,
+            temperature=temperature
+        )
+        return {
+            "response": res.content,
+            "model": res.model_version,
+            "tokens": res.total_tokens,
+            "latency_ms": res.latency_ms,
+        }
 
 
 llm_gateway = LLMGateway()

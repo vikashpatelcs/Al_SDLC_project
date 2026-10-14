@@ -35,8 +35,16 @@ class SDLCAgent:
         Extracts ratings (1-5) for all 13 PS §13 factors based on requirement statements and domain.
         Pairs each factor with a verbatim evidence quote.
         """
-        all_stmts = " ".join([getattr(r, "statement", None) or r.get("statement", "") for r in requirements])
+        all_stmts = " ".join([getattr(r, "statement", None) or (r.get("statement") if isinstance(r, dict) else "") for r in requirements])
         full_text = f"{project_domain} {all_stmts} {chat_context or ''}".lower()
+
+        def find_req_quote(keywords: List[str], fallback: str) -> str:
+            for r in requirements:
+                stmt = getattr(r, "statement", None) or (r.get("statement") if isinstance(r, dict) else "")
+                rid = getattr(r, "id", None) or (r.get("id") if isinstance(r, dict) else "")
+                if stmt and any(k.lower() in stmt.lower() for k in keywords):
+                    return f'"{stmt}" [{rid}]' if rid else f'"{stmt}"'
+            return fallback
 
         factors: Dict[str, SDLCFactor] = {}
 
@@ -44,70 +52,70 @@ class SDLCAgent:
         req_count = len(requirements)
         if any(w in full_text for w in ["frozen", "mandatory statutory baseline", "fixed scope", "immutable"]):
             stab = 5
-            quote = "Statutory and regulatory requirements baseline is fixed and mandated by policy."
+            quote = find_req_quote(["frozen", "statutory", "mandatory", "pmla", "compliance"], "Statutory baseline is mandated by financial policy.")
         elif req_count >= 10:
             stab = 4
-            quote = f"Established baseline of {req_count} structured requirements with specified acceptance criteria."
+            quote = f"Established baseline of {req_count} structured requirements with verified acceptance criteria."
         elif any(w in full_text for w in ["mvp", "prototype", "agile", "evolving", "flexible"]):
             stab = 2
             quote = "Early project stage with expected iterative stakeholder feedback."
         else:
             stab = 3
-            quote = "Core functional scope identified; secondary workflow specifications remain open."
+            quote = find_req_quote(["shall", "verify", "system"], "Core functional scope identified; secondary workflows remain open.")
         factors["requirement_stability"] = SDLCFactor(name="requirement_stability", score=stab, evidence_quote=quote)
 
         # 2. regulatory_criticality
         if any(w in full_text for w in ["rbi", "dpdp", "pmla", "statutory", "kyc", "aadhaar", "pan"]):
             reg = 5
-            quote = "Subject to strict statutory oversight under RBI Master Directions, DPDP Act 2023, and PMLA 2002."
+            quote = find_req_quote(["aadhaar", "pan", "kyc", "pmla", "dpdp", "rbi"], "Subject to strict statutory oversight under RBI Master Directions and PMLA 2002.")
         elif any(w in full_text for w in ["compliance", "audit", "sebi", "npci"]):
             reg = 4
-            quote = "Operational financial compliance and industry standard security checks required."
+            quote = find_req_quote(["compliance", "audit", "npci"], "Operational financial compliance and industry standard security checks required.")
         else:
             reg = 2
-            quote = "Standard internal enterprise guidelines with minimal direct regulatory sanction exposure."
+            quote = "Standard enterprise guidelines with minimal direct regulatory sanction exposure."
         factors["regulatory_criticality"] = SDLCFactor(name="regulatory_criticality", score=reg, evidence_quote=quote)
 
         # 3. security_risk
-        if any(w in full_text for w in ["cvv", "card", "fund transfer", "disbursement", "hsm", "aes-256", "payment"]):
+        if any(w in full_text for w in ["cvv", "card", "fund transfer", "disbursement", "hsm", "aes-256", "payment", "upi"]):
             sec = 5
-            quote = "Processes live financial transactions, customer cryptographic keys, and monetary movement."
-        elif any(w in full_text for w in ["authentication", "mfa", "personal data", "pii", "credentials"]):
+            quote = find_req_quote(["aes-256", "encrypt", "upi", "payment", "card", "fund transfer"], "Processes live financial transactions and customer cryptographic credentials.")
+        elif any(w in full_text for w in ["authentication", "mfa", "personal data", "pii", "credentials", "otp"]):
             sec = 4
-            quote = "Handles customer personal identifiers and requires multi-factor authentication controls."
+            quote = find_req_quote(["otp", "mfa", "pii", "authentication", "identity"], "Handles customer personal identifiers and requires multi-factor authentication controls.")
         else:
             sec = 2
             quote = "Standard operational workflows without direct payment settlement or credential storage."
         factors["security_risk"] = SDLCFactor(name="security_risk", score=sec, evidence_quote=quote)
 
         # 4. project_complexity
-        if any(w in full_text for w in ["switch", "ledger", "mainframe", "distributed", "biometric", "reconciliation"]):
+        if any(w in full_text for w in ["switch", "ledger", "mainframe", "distributed", "biometric", "reconciliation", "v-cip"]):
             comp = 4
-            quote = "Multi-rail banking integrations with distributed reconciliation and biometric verification."
+            quote = find_req_quote(["biometric", "v-cip", "ledger", "switch", "reconciliation"], "Multi-rail banking integrations with distributed reconciliation and biometric verification.")
         else:
             comp = 3
-            quote = "Multi-tier web application integrating standard database and REST microservices."
+            quote = find_req_quote(["verify", "system", "api"], "Multi-tier web application integrating standard database and REST microservices.")
         factors["project_complexity"] = SDLCFactor(name="project_complexity", score=comp, evidence_quote=quote)
 
         # 5. system_size
         if req_count > 15 or any(w in full_text for w in ["enterprise", "core banking", "high volume"]):
             size = 4
-            quote = "Enterprise scale supporting high transaction concurrency and departmental user groups."
+            quote = f"Enterprise scale supporting high transaction concurrency across {req_count} requirements."
         elif req_count > 5:
             size = 3
             quote = f"Mid-tier financial microservice component with {req_count} baseline requirements."
         else:
             size = 2
-            quote = "Focused specialized customer onboarding module."
+            quote = f"Focused specialized financial module with {max(req_count, 1)} requirements."
         factors["system_size"] = SDLCFactor(name="system_size", score=size, evidence_quote=quote)
 
         # 6. legacy_system_dependence
         if any(w in full_text for w in ["mainframe", "cbs", "core banking ledger", "soap", "flat file", "iso 8583"]):
             leg = 4
-            quote = "Bidirectional coupling with core banking ledger and legacy host systems."
-        elif any(w in full_text for w in ["nsdl", "uidai", "ckyc", "bureau", "cibil"]):
+            quote = find_req_quote(["mainframe", "cbs", "ledger"], "Coupling with core banking ledger and legacy host systems.")
+        elif any(w in full_text for w in ["nsdl", "uidai", "ckyc", "bureau", "cibil", "npci"]):
             leg = 3
-            quote = "External integration dependencies on sovereign partner rails (UIDAI, NSDL, CKYC)."
+            quote = find_req_quote(["uidai", "nsdl", "ckyc", "npci", "cibil"], "External integration dependencies on sovereign partner rails (UIDAI, NSDL, NPCI).")
         else:
             leg = 1
             quote = "Greenfield cloud-native deployment with zero legacy host dependencies."
@@ -119,7 +127,7 @@ class SDLCAgent:
             quote = "Controlled change management cadence governed by formal stage-gate approval boards."
         else:
             freq = 4
-            quote = "Dynamic consumer fintech product expected to deliver continuous feature refinements."
+            quote = "Dynamic consumer fintech product delivering continuous feature refinements."
         factors["frequency_of_expected_changes"] = SDLCFactor(name="frequency_of_expected_changes", score=freq, evidence_quote=quote)
 
         # 8. need_for_continuous_delivery
@@ -128,7 +136,7 @@ class SDLCAgent:
             quote = "Automated continuous delivery pipeline required for rapid security patching and zero downtime."
         else:
             cd = 4
-            quote = "Modern automated pipeline required to deploy tested increments to staging and production."
+            quote = "Modern automated pipeline required to deploy tested increments with automated security scans."
         factors["need_for_continuous_delivery"] = SDLCFactor(name="need_for_continuous_delivery", score=cd, evidence_quote=quote)
 
         # 9. availability_of_stakeholders
@@ -141,7 +149,7 @@ class SDLCAgent:
         # 10. testing_and_documentation_requirements
         if reg >= 4 or sec >= 4:
             test_doc = 5
-            quote = "Statutory IEEE requirements specification, bidirectional RTM, and immutable audit trails mandated."
+            quote = find_req_quote(["retain", "audit", "pmla", "encrypt"], "Statutory requirements specification, bidirectional RTM, and immutable audit trails mandated.")
         else:
             test_doc = 3
             quote = "Standard functional test specifications and technical documentation."
@@ -155,13 +163,13 @@ class SDLCAgent:
         factors["budget_and_schedule_constraints"] = SDLCFactor(
             name="budget_and_schedule_constraints",
             score=4,
-            evidence_quote="Defined go-live timeline aligned with regulatory audit inspection deadlines."
+            evidence_quote="Defined go-live timeline aligned with regulatory inspection deadlines."
         )
 
         # 12. need_for_formal_verification
         if any(w in full_text for w in ["cryptographic", "hsm", "tokenization", "settlement"]):
             formal = 4
-            quote = "Cryptographic HSM key boundary verification and payment tokenization validation required."
+            quote = find_req_quote(["hsm", "encrypt", "settlement"], "Cryptographic HSM key boundary verification and payment tokenization validation required.")
         else:
             formal = 3
             quote = "State machine transition validation and transaction integrity testing required."
@@ -174,7 +182,7 @@ class SDLCAgent:
         # 13. consequences_of_system_failure
         if sec >= 4 or reg >= 4:
             fail = 5
-            quote = "Severe; potential financial fraud, customer PII exposure, and statutory regulatory penalties."
+            quote = find_req_quote(["encrypt", "verify", "pmla", "pan"], "Severe; potential financial fraud, customer PII exposure, and statutory regulatory penalties.")
         else:
             fail = 3
             quote = "Localized operational disruption and temporary customer support escalation."

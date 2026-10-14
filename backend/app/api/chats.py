@@ -317,6 +317,10 @@ async def send_message(
     )
 
 
+ALLOWED_EXTENSIONS = {".txt", ".md", ".csv", ".docx", ".pdf", ".eml", ".msg", ".json"}
+MAX_UPLOAD_SIZE = 10 * 1024 * 1024  # 10 MB
+
+
 @router.post("/{chat_id}/upload", response_model=UploadedFileResponse)
 async def upload_file(
     chat_id: str,
@@ -326,6 +330,7 @@ async def upload_file(
 ):
     """
     Handle paperclip file upload (stores file only in storage/uploads/, records metadata).
+    Rejects disallowed executable/script extensions and oversized payloads.
     """
     chat = (
         db.query(Chat)
@@ -335,12 +340,24 @@ async def upload_file(
     if not chat:
         raise HTTPException(status_code=404, detail="Chat session not found")
 
-    file_id = str(uuid.uuid4())
-    safe_filename = f"{file_id}_{file.filename}"
-    file_path = os.path.join(settings.STORAGE_UPLOADS_DIR, safe_filename)
+    ext = os.path.splitext(file.filename or "")[1].lower()
+    if ext not in ALLOWED_EXTENSIONS:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Disallowed file extension '{ext}'. Only documentation formats (.txt, .md, .csv, .docx, .pdf, .eml, .msg, .json) are allowed."
+        )
 
     contents = await file.read()
     file_size = len(contents)
+    if file_size > MAX_UPLOAD_SIZE:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="File size exceeds the 10 MB limit."
+        )
+
+    file_id = str(uuid.uuid4())
+    safe_filename = f"{file_id}_{file.filename}"
+    file_path = os.path.join(settings.STORAGE_UPLOADS_DIR, safe_filename)
 
     with open(file_path, "wb") as f:
         f.write(contents)

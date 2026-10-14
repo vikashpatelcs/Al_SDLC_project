@@ -38,9 +38,9 @@ class SqliteCheckpointer(MemorySaver):
     def _save(self) -> None:
         """Serialize in-memory storage, writes, and blobs into SQLite."""
         try:
-            clean_storage = {k: {nk: dict(nv) for nk, nv in v.items()} for k, v in self.storage.items()}
-            clean_writes = {k: dict(v) for k, v in self.writes.items()}
-            clean_blobs = dict(self.blobs)
+            clean_storage = {k: {nk: dict(list(nv.items())) for nk, nv in list(v.items())} for k, v in list(self.storage.items())}
+            clean_writes = {k: dict(list(v.items())) for k, v in list(self.writes.items())}
+            clean_blobs = dict(list(self.blobs.items()))
             payload = pickle.dumps((clean_storage, clean_writes, clean_blobs))
             with self._get_connection() as conn:
                 conn.execute(

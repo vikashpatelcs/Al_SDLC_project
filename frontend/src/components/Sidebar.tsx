@@ -77,24 +77,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   if (collapsed) {
     return (
-      <div className="w-16 h-screen bg-slate-900/90 border-r border-slate-800 flex flex-col items-center py-4 justify-between transition-all duration-200 z-20">
+      <div className="w-16 h-screen bg-[#0a0a0a] border-r border-neutral-800 flex flex-col items-center py-4 justify-between transition-all duration-200 z-20">
         <div className="flex flex-col items-center gap-4">
           <button
             onClick={() => setCollapsed(false)}
-            className="p-2 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-slate-200"
+            className="p-2 hover:bg-neutral-800 rounded-lg text-neutral-400 hover:text-white"
             title="Expand Sidebar"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
           <button
             onClick={onNewChat}
-            className="p-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl shadow-lg transition-transform active:scale-95"
+            className="p-2.5 bg-white text-black hover:bg-neutral-200 rounded-xl shadow-lg transition-transform active:scale-95"
             title="New Financial Project"
           >
             <Plus className="w-5 h-5" />
           </button>
         </div>
-        <div className="text-slate-600">
+        <div className="text-neutral-500">
           <Shield className="w-5 h-5" />
         </div>
       </div>
@@ -102,22 +102,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
   }
 
   return (
-    <aside className="w-72 h-screen bg-slate-900/95 border-r border-slate-800/80 flex flex-col transition-all duration-200 z-20 select-none">
+    <aside className="w-72 h-screen bg-[#0a0a0a] border-r border-neutral-800 flex flex-col transition-all duration-200 z-20 select-none">
       {/* Brand & New Chat */}
-      <div className="p-4 border-b border-slate-800/60">
+      <div className="p-4 border-b border-neutral-800">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center shadow-md shadow-sky-500/20">
-              <Shield className="w-4 h-4 text-white" />
+            <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center shadow-md">
+              <Shield className="w-4 h-4 text-black" />
             </div>
             <div>
-              <h1 className="text-sm font-bold tracking-tight text-slate-100">FinReq AI</h1>
-              <span className="text-[10px] text-sky-400 font-mono tracking-wider uppercase font-semibold">Requirement Engineer</span>
+              <h1 className="text-sm font-bold tracking-tight text-white">FinReq AI</h1>
+              <span className="text-[10px] text-neutral-400 font-mono tracking-wider uppercase font-semibold">Requirement Engineer</span>
             </div>
           </div>
           <button
             onClick={() => setCollapsed(true)}
-            className="p-1.5 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-slate-200"
+            className="p-1.5 hover:bg-neutral-800 rounded-lg text-neutral-400 hover:text-white"
             title="Collapse Sidebar"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -126,7 +126,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         <button
           onClick={onNewChat}
-          className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-500 hover:to-sky-600 text-white rounded-xl text-xs font-semibold shadow-md shadow-sky-950 transition-all active:scale-[0.98]"
+          className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-white hover:bg-neutral-200 text-black rounded-xl text-xs font-semibold shadow-md transition-all active:scale-[0.98]"
         >
           <Plus className="w-4 h-4" />
           New Requirement Chat
@@ -134,13 +134,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         {/* Search */}
         <div className="mt-3 relative">
-          <Search className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-2.5" />
+          <Search className="w-3.5 h-3.5 text-neutral-500 absolute left-3 top-2.5" />
           <input
             type="text"
             placeholder="Search projects..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-slate-950/60 border border-slate-800 text-slate-200 text-xs rounded-lg pl-8 pr-3 py-1.5 focus:outline-none focus:border-sky-500/60 transition-colors"
+            className="w-full bg-[#121212] border border-neutral-800 text-neutral-200 text-xs rounded-lg pl-8 pr-3 py-1.5 focus:outline-none focus:border-white transition-colors"
           />
         </div>
       </div>
@@ -151,7 +151,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           if (chatItems.length === 0) return null;
           return (
             <div key={groupTitle}>
-              <div className="px-2 mb-1.5 text-[10px] font-semibold text-slate-500 tracking-wider uppercase">
+              <div className="px-2 mb-1.5 text-[10px] font-semibold text-neutral-500 tracking-wider uppercase">
                 {groupTitle}
               </div>
               <div className="space-y-1">
@@ -161,22 +161,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
                   if (isEditing) {
                     return (
-                      <div key={c.id} className="p-1.5 bg-slate-800 rounded-lg flex items-center gap-1.5 border border-sky-500/50">
+                      <div key={c.id} className="p-1.5 bg-neutral-900 rounded-lg flex items-center gap-1.5 border border-white">
                         <input
                           type="text"
                           value={editTitle}
                           onChange={(e) => setEditTitle(e.target.value)}
-                          className="flex-1 bg-slate-900 text-xs px-2 py-1 rounded text-slate-100 focus:outline-none"
+                          className="flex-1 bg-black text-xs px-2 py-1 rounded text-white focus:outline-none"
                           autoFocus
                           onKeyDown={(e) => {
                             if (e.key === 'Enter') saveEditing(c.id, e);
                             if (e.key === 'Escape') setEditingChatId(null);
                           }}
                         />
-                        <button onClick={(e) => saveEditing(c.id, e)} className="text-emerald-400 hover:text-emerald-300 p-1">
+                        <button onClick={(e) => saveEditing(c.id, e)} className="text-white hover:text-neutral-300 p-1">
                           <Check className="w-3.5 h-3.5" />
                         </button>
-                        <button onClick={cancelEditing} className="text-rose-400 hover:text-rose-300 p-1">
+                        <button onClick={cancelEditing} className="text-neutral-400 hover:text-white p-1">
                           <X className="w-3.5 h-3.5" />
                         </button>
                       </div>
@@ -189,27 +189,27 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       onClick={() => onSelectChat(c.id)}
                       className={`group relative flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer text-xs transition-all ${
                         isActive
-                          ? 'bg-slate-800/90 text-sky-300 font-medium border border-slate-700/60 shadow-sm'
-                          : 'text-slate-400 hover:bg-slate-800/40 hover:text-slate-200'
+                          ? 'bg-neutral-900 text-white font-medium border border-neutral-700 shadow-sm'
+                          : 'text-neutral-400 hover:bg-neutral-900/60 hover:text-white'
                       }`}
                     >
                       <div className="flex items-center gap-2 truncate pr-6">
-                        <MessageSquare className={`w-3.5 h-3.5 shrink-0 ${isActive ? 'text-sky-400' : 'text-slate-500'}`} />
+                        <MessageSquare className={`w-3.5 h-3.5 shrink-0 ${isActive ? 'text-white' : 'text-neutral-500'}`} />
                         <span className="truncate">{c.title}</span>
                       </div>
 
                       {/* Hover action icons: Rename & Delete */}
-                      <div className="hidden group-hover:flex items-center gap-1 absolute right-2 bg-slate-800/90 px-1 py-0.5 rounded shadow">
+                      <div className="hidden group-hover:flex items-center gap-1 absolute right-2 bg-neutral-900 px-1 py-0.5 rounded shadow border border-neutral-800">
                         <button
                           onClick={(e) => startEditing(c, e)}
-                          className="p-1 text-slate-400 hover:text-slate-200 rounded"
+                          className="p-1 text-neutral-400 hover:text-white rounded"
                           title="Rename"
                         >
                           <Edit2 className="w-3 h-3" />
                         </button>
                         <button
                           onClick={(e) => handleDelete(c.id, e)}
-                          className="p-1 text-slate-400 hover:text-rose-400 rounded"
+                          className="p-1 text-neutral-400 hover:text-white rounded"
                           title="Delete"
                         >
                           <Trash2 className="w-3 h-3" />
@@ -224,17 +224,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
         })}
 
         {filteredChats.length === 0 && (
-          <div className="text-center py-8 text-xs text-slate-600">
+          <div className="text-center py-8 text-xs text-neutral-600">
             No projects found
           </div>
         )}
       </div>
 
       {/* Footer Info (Offline Guardrail Notice) */}
-      <div className="p-3 border-t border-slate-800/60 bg-slate-950/40">
+      <div className="p-3 border-t border-neutral-800 bg-black">
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-[11px] text-slate-400 font-mono">Offline Local Inference</span>
+          <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+          <span className="text-[11px] text-neutral-400 font-mono">Offline Local Inference</span>
         </div>
       </div>
     </aside>

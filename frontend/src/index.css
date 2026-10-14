@@ -10,40 +10,40 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #090d16;
-  color: #f1f5f9;
+  background-color: #000000;
+  color: #ffffff;
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar in Monochrome */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #000000;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #262626;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #404040;
 }
 
-/* Glassmorphism and highlights */
+/* Glassmorphism and highlights in Monochrome */
 .glass-panel {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(51, 65, 85, 0.4);
+  background: rgba(14, 14, 14, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .card-glow:hover {
-  box-shadow: 0 0 20px -5px rgba(56, 189, 248, 0.15);
-  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 0 25px -5px rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Pulse animation for active AI streaming cursor */
+/* Pulse animation for active AI streaming cursor in White */
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
@@ -51,9 +51,9 @@ body {
 
 .cursor-blink {
   display: inline-block;
-  width: 7px;
-  height: 15px;
-  background-color: #38bdf8;
+  width: 6px;
+  height: 14px;
+  background-color: #ffffff;
   margin-left: 3px;
   vertical-align: middle;
   animation: blink 0.9s infinite;
